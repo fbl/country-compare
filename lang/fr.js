@@ -297,6 +297,13 @@
       "Salaires : 35 % de cotisations salariales (pension + santé), 10 % d'impôt sur le revenu, 2,25 % de cotisation patronale.",
       "Dividendes à 16 % (à partir de 2026) plus une cotisation santé plafonnée à 10 % de 24 salaires minimums.",
       "ETF : 3 % sur les plus-values pour les titres détenus plus d'un an via un courtier roumain (6 % en dessous d'un an, non modélisé), plus la cotisation santé plafonnée si les dividendes n'ont pas déjà atteint le plafond. Via un courtier étranger, le taux est de 16 %."
-    ]
+    ],
+    GR: [
+      "Impôt des sociétés de 22 %, dividendes imposés à 5 %.",
+      "Le dirigeant est rémunéré comme gérant de sa propre société et imposé comme un salarié. Il est assuré au régime des indépendants dans la catégorie de cotisation la plus basse : environ 3 000 € par an, quel que soit le salaire. Une catégorie plus élevée coûte plus cher et constitue une pension plus importante.",
+      "Impôt sur le revenu selon le barème 2026 (9 % à 44 %), avec des taux réduits sur les premiers 30 000 € et une réduction d'impôt plus élevée par enfant à charge. On suppose que les deux parents bénéficient des taux pour enfants. Les taux pour enfants et les montants de la réduction n'ont pas pu être vérifiés dans le texte de loi.",
+      "Les allocations familiales dépendent des revenus et sont supposées nulles à ces niveaux de revenus.",
+      "ETF : les plus-values sur les fonds UCITS domiciliés dans l'UE sont exonérées pour les particuliers. Les fonds hors UE/EEE sont imposés à 15 %.",
+    ],
   } };
 })(typeof window !== 'undefined' ? window : globalThis);

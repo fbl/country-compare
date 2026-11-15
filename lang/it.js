@@ -297,6 +297,13 @@
       "Stipendi: 35 % di contributi a carico del lavoratore (pensione + sanità), 10 % di imposta sul reddito, 2,25 % di contributo a carico del datore di lavoro.",
       "Dividendi al 16 % (dal 2026) più un contributo sanitario con tetto pari al 10 % di 24 salari minimi.",
       "ETF: 3 % sulle plusvalenze per i titoli detenuti da più di un anno tramite un broker rumeno (6 % sotto l'anno, non considerato nel modello), più il contributo sanitario con tetto se i dividendi non hanno già raggiunto il tetto. Tramite un broker estero l'aliquota è del 16 %."
-    ]
+    ],
+    GR: [
+      "Imposta sulle società al 22 %, dividendi tassati al 5 %.",
+      "Il titolare è pagato come amministratore della propria società e tassato come lavoratore dipendente. È assicurato nel regime dei lavoratori autonomi nella categoria contributiva più bassa: circa 3.000 € l'anno, qualunque sia lo stipendio. Una categoria più alta costa di più e matura una pensione maggiore.",
+      "Imposta sul reddito secondo la scala 2026 (dal 9 % al 44 %), con aliquote più basse sui primi 30.000 € e una riduzione d'imposta più alta per ogni figlio a carico. Si assume che entrambi i genitori abbiano diritto alle aliquote per i figli. Le aliquote per i figli e gli importi della riduzione non sono stati verificati sul testo di legge.",
+      "L'assegno per i figli dipende dal reddito e si assume pari a zero a questi livelli di reddito.",
+      "ETF: le plusvalenze sui fondi UCITS domiciliati nell'UE sono esenti per le persone fisiche. I fondi di paesi extra UE/SEE sono tassati al 15 %.",
+    ],
   } };
 })(typeof window !== 'undefined' ? window : globalThis);

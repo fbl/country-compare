@@ -740,6 +740,37 @@
     });
   }
 
+  /* ───────────── Greece ───────────── */
+  {
+    const CAP = 7761.94 * 14; // monthly ceiling, 14 salaries a year
+    const OWNER_EFKA = 250.77 * 12; // self-employed scheme, lowest category
+    // 2026 scale (law 5246/2025); the rates on the first €30k fall with the number of dependent children
+    const LOW = [[.09, .20, .26], [.09, .18, .24], [.09, .16, .22], [.09, .09, .20], [0, 0, .18]];
+    const scale = k => { const r = LOW[Math.min(k, 4)]; return [[10000, r[0]], [20000, r[1]], [30000, r[2]], [40000, .34], [60000, .39], [INF, .44]]; };
+    // tax reduction for employment income, shrinking by €20 per €1,000 of income above €12,000 (not with 5+ children)
+    const credit = (b, k) => pos([777, 900, 1120, 1340, 1580][Math.min(k, 4)] + 220 * pos(k - 4) - (k >= 5 ? 0 : .02 * pos(b - 12000)));
+    const person = (g, ee, k) => { const b = pos(g - ee); return g > 0 ? pos(BR(b, scale(k)) - credit(b, k)) : 0; };
+    C.push({
+      code: 'GR', name: 'Greece', flag: '🇬🇷',
+      corpTax: p => .22 * p,
+      employeeSS: g => ({ ee: .1337 * Math.min(g, CAP), er: .2179 * Math.min(g, CAP) }),
+      ownerSS: () => ({ ee: OWNER_EFKA, er: 0 }),
+      personalTax: h => ({
+        incomeTax: person(h.salaryA, h.eeA, h.kids) + person(h.salaryB, h.eeB, h.kids),
+        dividendTax: .05 * (h.divA + h.divB),
+        childBenefit: 0,
+      }),
+      invest: { cgt: null },
+      notes: [
+        'Corporate tax 22 %, dividends taxed at 5 %.',
+        'Owner paid as the manager of their own company, taxed as employment income. Insured in the self-employed scheme at the lowest contribution category, about €3,000 a year whatever the salary; a higher category costs more and builds a larger pension.',
+        'Income tax uses the 2026 scale (9 % to 44 %), with lower rates on the first €30k and a larger tax reduction for each dependent child. Both parents are assumed to get the child rates. The child rates and reduction amounts could not be confirmed against the law text.',
+        'Child benefit is means-tested and assumed to be zero at these incomes.',
+        'ETF: gains on EU-domiciled UCITS funds are tax-free for individuals. Funds from outside the EU/EEA are taxed at 15 %.',
+      ],
+    });
+  }
+
   /* ───────────── Romania ───────────── */
   {
     const MW = 4050; // gross minimum monthly wage, RON
@@ -795,7 +826,7 @@
 
   // Eurostat price level index 2024, household final consumption expenditure (EU27 = 100). National averages.
   const PLI = { BE: 116.5, NL: 116.0, DE: 108.6, FR: 111.2, LU: 132.8, ES: 90.9, PT: 87.0, IT: 97.5, IE: 138.1, UK: 124.7,
-    CH: 174.4, AT: 112.8, DK: 143.1, SE: 115.1, PL: 72.2, CZ: 88.4, EE: 100.0, BG: 59.7, CY: 92.8, RO: 63.7 };
+    CH: 174.4, AT: 112.8, DK: 143.1, SE: 115.1, PL: 72.2, CZ: 88.4, EE: 100.0, BG: 59.7, CY: 92.8, RO: 63.7, GR: 86.0 };
   for (const c of C) c.priceLevel = PLI[c.code];
 
   const COUNTRIES = C.map(localize);

@@ -297,6 +297,13 @@
       'Gehälter: 35 % Arbeitnehmerbeiträge (Rente + Gesundheit), 10 % Einkommensteuer, 2,25 % Arbeitgeberbeitrag.',
       'Dividenden zu 16 % (ab 2026) plus ein Krankenversicherungsbeitrag, gedeckelt bei 10 % von 24 Mindestlöhnen.',
       'ETF: 3 % auf Gewinne bei einer Haltedauer von über einem Jahr über einen rumänischen Broker (6 % unter einem Jahr, nicht modelliert), dazu der gedeckelte Krankenversicherungsbeitrag, falls Dividenden die Obergrenze nicht schon erreicht haben. Über einen ausländischen Broker beträgt der Satz 16 %.'
-    ]
+    ],
+    GR: [
+      "Körperschaftsteuer 22 %, Dividenden werden mit 5 % besteuert.",
+      "Der Inhaber wird als Geschäftsführer der eigenen Gesellschaft bezahlt und wie ein Arbeitnehmer besteuert. Versichert im System für Selbständige in der niedrigsten Beitragsklasse: rund 3.000 € pro Jahr, unabhängig vom Gehalt. Eine höhere Klasse kostet mehr und führt zu einer höheren Rente.",
+      "Einkommensteuer nach dem Tarif 2026 (9 % bis 44 %), mit niedrigeren Sätzen auf die ersten 30.000 € und einer höheren Steuerermäßigung je unterhaltsberechtigtem Kind. Es wird angenommen, dass beide Elternteile die Kindersätze erhalten. Die Kindersätze und die Beträge der Ermäßigung konnten nicht am Gesetzestext überprüft werden.",
+      "Das Kindergeld ist einkommensabhängig und wird bei diesen Einkommen mit null angesetzt.",
+      "ETF: Gewinne aus in der EU aufgelegten UCITS-Fonds sind für Privatanleger steuerfrei. Fonds von außerhalb der EU/des EWR werden mit 15 % besteuert.",
+    ],
   } };
 })(typeof window !== 'undefined' ? window : globalThis);

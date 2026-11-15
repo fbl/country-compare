@@ -298,5 +298,12 @@
       'Dividenden tegen 16 % (vanaf 2026) plus een ziektebijdrage begrensd op 10 % van 24 minimumlonen.',
       'ETF: 3 % op meerwaarden voor beleggingen die langer dan een jaar worden aangehouden via een Roemeense broker (6 % bij minder dan een jaar, niet gemodelleerd), plus de begrensde ziektebijdrage als dividenden het plafond nog niet hebben bereikt. Via een buitenlandse broker is het tarief 16 %.',
     ],
+    GR: [
+      "Vennootschapsbelasting 22 %, dividenden belast aan 5 %.",
+      "De eigenaar wordt betaald als zaakvoerder van de eigen vennootschap en belast als werknemer. Verzekerd in het stelsel voor zelfstandigen in de laagste bijdragecategorie: ongeveer € 3.000 per jaar, ongeacht het loon. Een hogere categorie kost meer en bouwt een hoger pensioen op.",
+      "Inkomstenbelasting volgens de schaal van 2026 (9 % tot 44 %), met lagere tarieven op de eerste € 30.000 en een grotere belastingvermindering per kind ten laste. Er wordt aangenomen dat beide ouders de kindtarieven krijgen. De kindtarieven en de bedragen van de vermindering konden niet worden nagekeken in de wettekst.",
+      "De kinderbijslag is inkomensafhankelijk en wordt bij deze inkomens op nul gezet.",
+      "ETF: meerwaarden op UCITS-fondsen gevestigd in de EU zijn belastingvrij voor particulieren. Fondsen van buiten de EU/EER worden belast aan 15 %.",
+    ],
   } };
 })(typeof window !== 'undefined' ? window : globalThis);

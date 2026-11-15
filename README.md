@@ -1,6 +1,6 @@
 # Country Wealth Compare
 
-Where in Europe would your family build the most wealth? This tool takes one household, with the same income and the same savings plan, and shows what is left after tax in 20 European countries, today and after years of investing.
+Where in Europe would your family build the most wealth? This tool takes one household, with the same income and the same savings plan, and shows what is left after tax in 21 European countries, today and after years of investing.
 
 **[Open the tool](https://fbl.github.io/country-compare/)** — nothing to install, and your numbers never leave your browser.
 
