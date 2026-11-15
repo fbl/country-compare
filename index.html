@@ -34,6 +34,13 @@
   fieldset { border: 0; padding: 0; margin: 0 0 14px; }
   legend { font-weight: 600; padding: 0; margin-bottom: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-2); }
   label.f { display: grid; grid-template-columns: 1fr 112px; align-items: center; gap: 8px; margin: 6px 0; }
+  label.f:has(select) { grid-template-columns: 1fr 170px; }
+  .head { display: flex; flex-direction: column-reverse; }
+  .langs { display: flex; gap: 2px; justify-content: flex-end; margin: -8px -6px 0 0; }
+  .langs button { all: unset; cursor: pointer; font-size: 17px; line-height: 1; padding: 4px 3px; border-radius: 5px; opacity: .45; }
+  .langs button:hover { opacity: .8; }
+  .langs button[aria-pressed=true] { opacity: 1; background: var(--bar-track); }
+  .langs button:focus-visible { outline: 2px solid var(--accent); }
   label.f span small { display: block; color: var(--text-3); font-size: 11.5px; }
   input[type=number], select { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; text-align: right; font-variant-numeric: tabular-nums; }
   select { text-align: left; }
@@ -99,57 +106,57 @@
 </head>
 <body>
 <div class="app">
-  <p class="disclaimer" style="grid-column:1/-1;margin:0"><b>Not financial advice.</b> This is just a vibe-coded simulation and is sure to contain mistakes.</p>
+  <p class="disclaimer" style="grid-column:1/-1;margin:0" data-i18n="banner"></p>
   <aside>
     <div class="card">
-      <h1>Country Wealth Compare</h1>
-      <p class="sub">Same family, same plan — different tax systems.</p>
+      <div class="head"><h1 data-i18n="title"></h1><div class="langs" id="langs" role="group" data-i18n-aria="language"></div></div>
+      <p class="sub" data-i18n="tagline"></p>
       <form id="form">
         <fieldset>
-          <legend>Partner 1</legend>
-          <label class="f"><span>Works as</span><select name="role1"><option value="owner">Company owner</option><option value="employee">Employee</option></select></label>
-          <label class="f" id="profitRow1" title="Turnover (what the company invoices, excluding VAT) minus all business costs, before anything is paid to you. Example: €120,000 invoiced and €20,000 of costs means €100,000 here. The owner salary, employer contributions, corporate tax and dividend all come out of this amount."><span><span class="help">Company profit</span><small>€/year, before owner pay</small></span><input type="number" name="profit1" min="0" step="5000"></label>
+          <legend data-i18n="partner1"></legend>
+          <label class="f"><span data-i18n="worksAs"></span><select name="role1"><option value="owner" data-i18n="owner"></option><option value="employee" data-i18n="employee"></option></select></label>
+          <label class="f" id="profitRow1" data-i18n-title="profitTip"><span><span class="help" data-i18n="profit"></span><small data-i18n="profitHint"></small></span><input type="number" name="profit1" min="0" step="5000"></label>
           <label class="f" id="salaryRow1"><span><span class="lbl"></span><small></small></span><input type="number" name="salary1" min="0" step="5000"></label>
         </fieldset>
         <fieldset>
-          <legend>Partner 2</legend>
-          <label class="c"><input type="checkbox" name="hasPartner2"><span>Include a second partner<small>Untick for a one-person household</small></span></label>
+          <legend data-i18n="partner2"></legend>
+          <label class="c"><input type="checkbox" name="hasPartner2"><span><span data-i18n="hasPartner2"></span><small data-i18n="hasPartner2Hint"></small></span></label>
           <div id="partner2">
-            <label class="f"><span>Works as</span><select name="role2"><option value="owner">Company owner</option><option value="employee">Employee</option></select></label>
-            <label class="f" id="profitRow2" title="Turnover (what the company invoices, excluding VAT) minus all business costs, before anything is paid to you. Example: €120,000 invoiced and €20,000 of costs means €100,000 here. The owner salary, employer contributions, corporate tax and dividend all come out of this amount."><span><span class="help">Company profit</span><small>€/year, before owner pay</small></span><input type="number" name="profit2" min="0" step="5000"></label>
+            <label class="f"><span data-i18n="worksAs"></span><select name="role2"><option value="owner" data-i18n="owner"></option><option value="employee" data-i18n="employee"></option></select></label>
+            <label class="f" id="profitRow2" data-i18n-title="profitTip"><span><span class="help" data-i18n="profit"></span><small data-i18n="profitHint"></small></span><input type="number" name="profit2" min="0" step="5000"></label>
             <label class="f" id="salaryRow2"><span><span class="lbl"></span><small></small></span><input type="number" name="salary2" min="0" step="5000"></label>
           </div>
         </fieldset>
         <fieldset>
-          <legend>Family</legend>
-          <label class="f"><span>Children</span><input type="number" name="kids" min="0" max="8" step="1"></label>
-          <label class="f"><span>Living costs<small id="livingHint"></small></span><input type="number" name="living" min="0" step="1000"></label>
-          <label class="c"><input type="checkbox" name="adjustLiving"><span>Adjust living costs to local prices<small>Scales the amount by each country's price level</small></span></label>
+          <legend data-i18n="family"></legend>
+          <label class="f"><span><span data-i18n="children"></span></span><input type="number" name="kids" min="0" max="8" step="1"></label>
+          <label class="f"><span><span data-i18n="living"></span><small id="livingHint"></small></span><input type="number" name="living" min="0" step="1000"></label>
+          <label class="c"><input type="checkbox" name="adjustLiving"><span><span data-i18n="adjustLiving"></span><small data-i18n="adjustLivingHint"></small></span></label>
           <div id="pliBox">
-            <label class="f"><span>Amount applies to</span><select name="livingRef"></select></label>
-            <details class="pli"><summary>Price levels (EU = 100)</summary><div id="pliList"></div></details>
+            <label class="f"><span data-i18n="livingRef"></span><select name="livingRef"></select></label>
+            <details class="pli"><summary data-i18n="priceLevels"></summary><div id="pliList"></div></details>
           </div>
         </fieldset>
         <fieldset>
-          <legend>Investing</legend>
-          <label class="f"><span>Strategy</span><select name="mode"><option value="fixed">Fixed amount</option><option value="all">Everything left over</option></select></label>
-          <label class="f" id="monthlyRow"><span>Monthly ETF purchase<small>€/month</small></span><input type="number" name="monthly" min="0" step="100"></label>
-          <label class="f"><span>Starting capital<small>€ already invested</small></span><input type="number" name="startCapital" min="0" step="5000"></label>
-          <label class="f"><span>Expected return<small>% per year</small></span><input type="number" name="returnPct" min="-10" max="20" step="0.5"></label>
-          <label class="f"><span>Horizon<small>years</small></span><input type="number" name="years" min="1" max="50" step="1"></label>
-          <label class="c"><input type="checkbox" name="beHarvest"><span>Belgium: use the yearly capital-gains exemption<small>Sells and rebuys each year to realise €10k of gain per person tax-free</small></span></label>
-          <label class="c"><input type="checkbox" name="useWrappers"><span>Use tax-free accounts where they exist<small>UK ISA, French PEA</small></span></label>
+          <legend data-i18n="investing"></legend>
+          <label class="f"><span data-i18n="strategy"></span><select name="mode"><option value="fixed" data-i18n="modeFixed"></option><option value="all" data-i18n="modeAll"></option></select></label>
+          <label class="f" id="monthlyRow"><span><span data-i18n="monthly"></span><small data-i18n="monthlyHint"></small></span><input type="number" name="monthly" min="0" step="100"></label>
+          <label class="f"><span><span data-i18n="startCapital"></span><small data-i18n="startCapitalHint"></small></span><input type="number" name="startCapital" min="0" step="5000"></label>
+          <label class="f"><span><span data-i18n="returnPct"></span><small data-i18n="returnHint"></small></span><input type="number" name="returnPct" min="-10" max="20" step="0.5"></label>
+          <label class="f"><span><span data-i18n="horizon"></span><small data-i18n="horizonHint"></small></span><input type="number" name="years" min="1" max="50" step="1"></label>
+          <label class="c"><input type="checkbox" name="beHarvest"><span><span data-i18n="beHarvest"></span><small data-i18n="beHarvestHint"></small></span></label>
+          <label class="c"><input type="checkbox" name="useWrappers"><span><span data-i18n="useWrappers"></span><small data-i18n="useWrappersHint"></small></span></label>
         </fieldset>
         <fieldset id="ownerOpts">
-          <legend>Company options</legend>
-          <label class="c"><input type="checkbox" name="optimizeSalary"><span>Best salary / dividend mix per country<small>Picks the split that maximises net income. Ignores pension and benefit entitlements.</small></span></label>
-          <label class="c"><input type="checkbox" name="beVvprbis"><span>Belgium: reduced dividend rate<small>18% instead of 30%, through VVPRbis or a liquidation reserve</small></span></label>
-          <label class="c"><input type="checkbox" name="beOptimize"><span>Belgium: best use of the routes below<small>Maximum royalties, then the mix of pension, company and private investing that gives the most wealth</small></span></label>
-          <label class="f" id="beRoyaltyRow"><span>Belgium: copyright royalties<small>€/year at 15% tax; max 30% of pay</small></span><input type="number" name="beRoyalty" min="0" step="1000"></label>
-          <label class="f"><span>Belgium: company pension<small id="bePensionHint"></small></span><input type="number" name="bePension" min="0" step="1000"></label>
-          <label class="f" id="beCompanyRow"><span>Belgium: invest in the company<small>€/year of profit kept in an equity fund</small></span><input type="number" name="beCompanyInvest" min="0" step="1000"></label>
+          <legend data-i18n="companyOptions"></legend>
+          <label class="c"><input type="checkbox" name="optimizeSalary"><span><span data-i18n="optimizeSalary"></span><small data-i18n="optimizeSalaryHint"></small></span></label>
+          <label class="c"><input type="checkbox" name="beVvprbis"><span><span data-i18n="beVvprbis"></span><small data-i18n="beVvprbisHint"></small></span></label>
+          <label class="c"><input type="checkbox" name="beOptimize"><span><span data-i18n="beOptimize"></span><small data-i18n="beOptimizeHint"></small></span></label>
+          <label class="f" id="beRoyaltyRow"><span><span data-i18n="beRoyalty"></span><small data-i18n="beRoyaltyHint"></small></span><input type="number" name="beRoyalty" min="0" step="1000"></label>
+          <label class="f"><span><span data-i18n="bePension"></span><small id="bePensionHint"></small></span><input type="number" name="bePension" min="0" step="1000"></label>
+          <label class="f" id="beCompanyRow"><span><span data-i18n="beCompanyInvest"></span><small data-i18n="beCompanyInvestHint"></small></span><input type="number" name="beCompanyInvest" min="0" step="1000"></label>
         </fieldset>
-        <button type="button" id="reset" class="reset" title="Puts every field, including the price levels, back to its starting value">Reset to defaults</button>
+        <button type="button" id="reset" class="reset" data-i18n="reset" data-i18n-title="resetTip"></button>
       </form>
     </div>
   </aside>
@@ -161,40 +168,45 @@
 
     <div class="card">
       <h2 id="rankTitle"></h2>
-      <p class="sub">After all taxes, including the tax due if everything were sold at the end. Click a country to show or hide it in the chart below (up to 4).</p>
+      <p class="sub" data-i18n="rankSub"></p>
       <div class="rank" id="rank"></div>
     </div>
 
     <div class="card">
-      <h2>Wealth over time</h2>
-      <p class="sub">Portfolio value after tax if sold in that year.</p>
+      <h2 data-i18n="chartTitle"></h2>
+      <p class="sub" data-i18n="chartSub"></p>
       <div class="legend" id="legend"></div>
-      <div class="chartwrap"><svg id="chart" viewBox="0 0 760 320" role="img" aria-label="Wealth over time for the selected countries"></svg><div class="tip" id="tip"></div></div>
+      <div class="chartwrap"><svg id="chart" viewBox="0 0 760 320" role="img" data-i18n-aria="chartAria"></svg><div class="tip" id="tip"></div></div>
     </div>
 
     <div class="card">
-      <h2>Where the money goes each year</h2>
-      <p class="sub">All amounts in € per year unless stated. "Kept" is net income as a share of gross income: company profit for an owner, gross salary for an employee.</p>
+      <h2 data-i18n="tableTitle"></h2>
+      <p class="sub" data-i18n="tableSub"></p>
       <div class="scroll"><table id="table"></table></div>
     </div>
 
     <div class="card">
-      <h2>Calculation side by side</h2>
-      <p class="sub">Two countries step by step, from gross income to wealth at the end.</p>
-      <div class="calcpick"><select id="calcCountry" aria-label="First country"></select><span>compared with</span><select id="calcCountry2" aria-label="Second country"></select></div>
+      <h2 data-i18n="calcTitle"></h2>
+      <p class="sub" data-i18n="calcSub"></p>
+      <div class="calcpick"><select id="calcCountry" data-i18n-aria="firstCountry"></select><span data-i18n="comparedWith"></span><select id="calcCountry2" data-i18n-aria="secondCountry"></select></div>
       <div class="scroll"><table id="calc" class="calc"></table></div>
       <div id="calcNotes" class="calcnotes"></div>
     </div>
 
     <div class="card">
-      <h2>Assumptions per country</h2>
-      <p class="sub">What each country model includes — and leaves out.</p>
+      <h2 data-i18n="notesTitle"></h2>
+      <p class="sub" data-i18n="notesSub"></p>
       <div id="notes"></div>
-      <p class="disclaimer" style="margin-top:14px"><b>Estimates only.</b> The tax rules are simplified models of 2026 rules. They were fact-checked in November 2026, mostly against secondary sources (accounting firms, tax portals), and some items could not be confirmed. Regional differences, pension-fund premiums, exit taxes when moving and currency moves are ignored. Living costs are scaled with Eurostat's national price levels for 2024, which include average rents but understate housing in capital cities for a newcomer. All company profit is paid out every year unless a Belgian company route is filled in. Use this to shortlist countries, then confirm with a local tax adviser before deciding anything.</p>
+      <p class="disclaimer" style="margin-top:14px" data-i18n="disclaimer"></p>
     </div>
   </main>
 </div>
 
+<script src="lang/en.js"></script>
+<script src="lang/nl.js"></script>
+<script src="lang/fr.js"></script>
+<script src="lang/de.js"></script>
+<script src="lang/it.js"></script>
 <script src="taxdata.js"></script>
 <script src="engine.js"></script>
 <script>
@@ -204,12 +216,10 @@
     optimizeSalary: false, kids: 2, living: 50000,
     mode: 'all', monthly: 1500, startCapital: 0, returnPct: 7, years: 20, useWrappers: true, beVvprbis: true,
     beHarvest: true, beOptimize: false, beRoyalty: 0, bePension: 0, beCompanyInvest: 0, adjustLiving: true, livingRef: 'BE' };
-  const byName = [...COUNTRIES].sort((a, b) => a.name.localeCompare(b.name));
   for (const c of COUNTRIES) DEFAULTS['pli_' + c.code] = c.priceLevel;
   const KEY = 'country-compare-v1';
   const $ = id => document.getElementById(id);
   const form = $('form');
-  const eur = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
   const short = v => Math.abs(v) >= 1e6 ? '€' + (v / 1e6).toFixed(Math.abs(v) >= 1e7 ? 1 : 2) + 'M' : '€' + Math.round(v / 1e3) + 'k';
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -223,9 +233,48 @@
   let selected = saved.selected || null; // {code: slot}
   let results = [];
 
-  form.elements.livingRef.innerHTML = byName.map(c => `<option value="${c.code}">${c.flag} ${esc(c.name)}</option>`).join('');
-  $('pliList').innerHTML = byName.map(c => `<label class="f"><span>${c.flag} ${esc(c.name)}</span><input type="number" name="pli_${c.code}" min="1" step="1"></label>`).join('');
   if (!COUNTRIES.some(c => c.code === inputs.livingRef)) inputs.livingRef = DEFAULTS.livingRef;
+
+  // ── language ──
+  const FLAGS = { en: '🇬🇧', nl: '🇳🇱', fr: '🇫🇷', de: '🇩🇪', it: '🇮🇹' };
+  const langs = Object.keys(FLAGS).filter(l => LANG[l]);
+  let lang = langs.includes(saved.lang) ? saved.lang
+    : (navigator.languages || [navigator.language || 'en']).map(l => l.slice(0, 2).toLowerCase()).find(l => langs.includes(l)) || 'en';
+  let eur, regionNames;
+  /** Interface text for a key in the current language; {name} parts are filled from v. */
+  const t = (k, v) => {
+    const s = LANG[lang].ui[k] !== undefined ? LANG[lang].ui[k] : LANG.en.ui[k] !== undefined ? LANG.en.ui[k] : k;
+    return v ? s.replace(/\{(\w+)\}/g, (m, n) => v[n] !== undefined ? v[n] : m) : s;
+  };
+  const cname = c => {
+    let n = c.name;
+    try { n = regionNames.of(c.code === 'UK' ? 'GB' : c.code) || c.name; } catch (e) {}
+    return c.code === 'CH' ? `${n} (${t('zurich')})` : n;
+  };
+  const byName = list => [...list].sort((a, b) => cname(a.country || a).localeCompare(cname(b.country || b), lang));
+  const notesOf = c => (LANG[lang].notes && LANG[lang].notes[c.code]) || c.notes;
+
+  function setLang(l) {
+    lang = l;
+    eur = new Intl.NumberFormat(LANG[l].locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    try { regionNames = new Intl.DisplayNames([l], { type: 'region' }); } catch (e) { regionNames = null; }
+    document.documentElement.lang = l;
+    document.title = t('title');
+    for (const el of document.querySelectorAll('[data-i18n]')) el.innerHTML = t(el.dataset.i18n);
+    for (const el of document.querySelectorAll('[data-i18n-title]')) el.title = t(el.dataset.i18nTitle);
+    for (const el of document.querySelectorAll('[data-i18n-aria]')) el.setAttribute('aria-label', t(el.dataset.i18nAria));
+    $('langs').innerHTML = langs.map(x =>
+      `<button type="button" data-lang="${x}" title="${esc(LANG[x].name)}" aria-label="${esc(LANG[x].name)}" aria-pressed="${x === l}">${FLAGS[x]}</button>`).join('');
+    // country lists are sorted by their name in this language
+    form.elements.livingRef.innerHTML = byName(COUNTRIES).map(c => `<option value="${c.code}">${c.flag} ${esc(cname(c))}</option>`).join('');
+    $('pliList').innerHTML = byName(COUNTRIES).map(c => `<label class="f"><span>${c.flag} ${esc(cname(c))}</span><input type="number" name="pli_${c.code}" min="1" step="1"></label>`).join('');
+  }
+  setLang(lang);
+  $('langs').addEventListener('click', e => {
+    const b = e.target.closest('button[data-lang]');
+    if (!b || b.dataset.lang === lang) return;
+    setLang(b.dataset.lang); fillForm(); update();
+  });
 
   function fillForm() {
     for (const el of form.elements) {
@@ -249,7 +298,7 @@
     return o;
   }
 
-  function save() { try { localStorage.setItem(KEY, JSON.stringify({ inputs, selected, calcCode, calcCode2 })); } catch (e) {} }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify({ inputs, selected, calcCode, calcCode2, lang })); } catch (e) {} }
 
   function update() {
     inputs = readInputs();
@@ -260,16 +309,16 @@
       $('profitRow' + i).hidden = !owner;
       const row = $('salaryRow' + i);
       row.classList.toggle('disabled', owner && inputs.optimizeSalary);
-      row.querySelector('.lbl').textContent = owner ? 'Owner gross salary' : 'Gross salary';
-      row.querySelector('small').textContent = owner ? '€/year; rest is paid as dividend' : '€/year';
+      row.querySelector('.lbl').textContent = t(owner ? 'ownerSalary' : 'grossSalary');
+      row.querySelector('small').textContent = t(owner ? 'ownerSalaryHint' : 'perYear');
     });
     $('monthlyRow').classList.toggle('disabled', inputs.mode === 'all');
     $('pliBox').hidden = !inputs.adjustLiving;
     $('beRoyaltyRow').classList.toggle('disabled', inputs.beOptimize);
     $('beCompanyRow').classList.toggle('disabled', inputs.beOptimize);
-    $('bePensionHint').textContent = inputs.beOptimize ? '€/year, the most your 80% rule allows' : '€/year premium (IPT), locked until retirement';
+    $('bePensionHint').textContent = t(inputs.beOptimize ? 'bePensionHintOpt' : 'bePensionHint');
     const ref = COUNTRIES.find(c => c.code === inputs.livingRef);
-    $('livingHint').textContent = inputs.adjustLiving ? `€/year at ${ref.name} prices` : '€/year, same in every country';
+    $('livingHint').textContent = inputs.adjustLiving ? t('livingHintAdj', { country: cname(ref) }) : t('livingHintSame');
     results = Engine.compare(COUNTRIES, inputs);
     if (!selected) {
       const n = results.length, pick = [0, Math.floor(n / 3), Math.floor(2 * n / 3), n - 1];
@@ -284,21 +333,21 @@
     const best = results[0], worst = results[results.length - 1];
     const byIncome = [...results].sort((a, b) => b.hh.net - a.hh.net)[0];
     $('hero').innerHTML =
-      `<div><b>${best.country.flag} ${esc(best.country.name)}</b><span>most wealth after ${inputs.years} years: ${eur.format(best.finalNet)}</span></div>` +
-      `<div><b>${eur.format(best.finalNet - worst.finalNet)}</b><span>gap between best and worst (${worst.country.flag} ${esc(worst.country.name)})</span></div>` +
-      `<div><b>${byIncome.country.flag} ${esc(byIncome.country.name)}</b><span>highest net household income: ${eur.format(byIncome.hh.net)} a year</span></div>`;
+      `<div><b>${best.country.flag} ${esc(cname(best.country))}</b><span>${esc(t('heroBest', { years: inputs.years, amount: eur.format(best.finalNet) }))}</span></div>` +
+      `<div><b>${eur.format(best.finalNet - worst.finalNet)}</b><span>${esc(t('heroGap', { country: worst.country.flag + ' ' + cname(worst.country) }))}</span></div>` +
+      `<div><b>${byIncome.country.flag} ${esc(cname(byIncome.country))}</b><span>${esc(t('heroIncome', { amount: eur.format(byIncome.hh.net) }))}</span></div>`;
   }
 
   function renderRank() {
-    $('rankTitle').textContent = `Wealth after ${inputs.years} years`;
+    $('rankTitle').textContent = t('rankTitle', { years: inputs.years });
     const max = Math.max(1, ...results.map(r => r.finalNet));
     $('rank').innerHTML = results.map(r => {
       const c = r.country, slot = selected[c.code];
       const dot = slot ? `style="background:var(--s${slot});border-color:var(--s${slot})"` : '';
-      const tip = `Invested ${eur.format(r.contributed)} · before exit tax ${eur.format(r.finalGross)} · investment taxes ${eur.format(r.investTax)}`;
-      return `<button type="button" data-code="${c.code}" aria-pressed="${!!slot}" title="Show in chart"><i class="dot" ${dot}></i>${c.flag} ${esc(c.name)}</button>` +
+      const tip = esc(t('rankTip', { invested: eur.format(r.contributed), gross: eur.format(r.finalGross), taxes: eur.format(r.investTax) }));
+      return `<button type="button" data-code="${c.code}" aria-pressed="${!!slot}" title="${esc(t('showInChart'))}"><i class="dot" ${dot}></i>${c.flag} ${esc(cname(c))}</button>` +
         `<div class="track" title="${tip}"><i style="width:${(100 * r.finalNet / max).toFixed(2)}%"></i></div>` +
-        `<div class="val" title="${tip}">${eur.format(r.finalNet)}${r.sim.capped ? ' <small class="warn" title="Cannot afford the full monthly amount here">⚠</small>' : ''}</div>`;
+        `<div class="val" title="${tip}">${eur.format(r.finalNet)}${r.sim.capped ? ` <small class="warn" title="${esc(t('cantAfford'))}">⚠</small>` : ''}</div>`;
     }).join('');
   }
 
@@ -329,8 +378,8 @@
     const series = results.filter(r => selected[r.country.code])
       .map(r => ({ r, slot: selected[r.country.code] })).sort((a, b) => a.slot - b.slot);
     $('legend').innerHTML = series.length
-      ? series.map(s => `<span><i style="background:var(--s${s.slot})"></i>${s.r.country.flag} ${esc(s.r.country.name)}</span>`).join('')
-      : '<span>Click a country in the ranking above to plot it.</span>';
+      ? series.map(s => `<span><i style="background:var(--s${s.slot})"></i>${s.r.country.flag} ${esc(cname(s.r.country))}</span>`).join('')
+      : `<span>${esc(t('legendEmpty'))}</span>`;
     const years = inputs.years;
     const maxV = Math.max(1, ...series.flatMap(s => s.r.sim.points.map(p => p.net)));
     const step = niceStep(maxV), top = Math.ceil(maxV / step) * step;
@@ -340,7 +389,7 @@
     for (let v = 0; v <= top + 1e-6; v += step)
       svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${yy(v)}" y2="${yy(v)}" stroke="var(--grid)"/><text x="${M.l - 8}" y="${yy(v) + 4}" text-anchor="end">${short(v)}</text>`;
     const xs = years <= 10 ? 1 : years <= 25 ? 5 : 10;
-    for (let y = 0; y <= years; y += xs) svg += `<text x="${x(y)}" y="${H - 8}" text-anchor="middle">${y === 0 ? 'now' : 'yr ' + y}</text>`;
+    for (let y = 0; y <= years; y += xs) svg += `<text x="${x(y)}" y="${H - 8}" text-anchor="middle">${esc(y === 0 ? t('now') : t('yr', { n: y }))}</text>`;
     // end labels, nudged apart
     const labels = series.map(s => ({ s, y: yy(s.r.sim.points[years].net) })).sort((a, b) => a.y - b.y);
     for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 14) labels[i].y = labels[i - 1].y + 14;
@@ -367,9 +416,9 @@
     chart.querySelector('#marks').innerHTML = series.map(s =>
       `<circle cx="${x(yr)}" cy="${yy(s.r.sim.points[yr].net)}" r="4" fill="var(--s${s.slot})" stroke="var(--surface)" stroke-width="2"/>`).join('');
     const rows = [...series].sort((a, b) => b.r.sim.points[yr].net - a.r.sim.points[yr].net);
-    tip.innerHTML = `<b>${yr === 0 ? 'Today' : 'After year ' + yr}</b>` +
-      rows.map(s => `<div><i style="background:var(--s${s.slot})"></i>${esc(s.r.country.name)}<span>${eur.format(s.r.sim.points[yr].net)}</span></div>`).join('') +
-      `<div style="color:var(--text-3)">Paid in<span>${eur.format(rows[0].r.sim.points[yr].contributed)}${new Set(rows.map(s => Math.round(s.r.sim.points[yr].contributed))).size > 1 ? ' (varies)' : ''}</span></div>`;
+    tip.innerHTML = `<b>${esc(yr === 0 ? t('today') : t('afterYear', { n: yr }))}</b>` +
+      rows.map(s => `<div><i style="background:var(--s${s.slot})"></i>${esc(cname(s.r.country))}<span>${eur.format(s.r.sim.points[yr].net)}</span></div>`).join('') +
+      `<div style="color:var(--text-3)">${esc(t('paidIn'))}<span>${eur.format(rows[0].r.sim.points[yr].contributed)}${new Set(rows.map(s => Math.round(s.r.sim.points[yr].contributed))).size > 1 ? ' ' + esc(t('varies')) : ''}</span></div>`;
     tip.style.display = 'block';
     const left = x(yr) * box.width / W;
     tip.style.left = (left + 14 + tip.offsetWidth > box.width ? left - tip.offsetWidth - 14 : left + 14) + 'px';
@@ -384,25 +433,25 @@
   });
 
   function renderTable() {
-    const n = v => eur.format(Math.round(v)).replace('€', '');
-    const head = ['Country', 'Gross salaries', 'Dividends (gross)', 'Corporate tax', 'Social contributions', 'Income tax', 'Dividend tax', 'Child benefit',
-      'Net household income', 'Kept', 'Living costs', 'Invested / month', 'Unspent / year', 'Investment taxes (total)', `Wealth after ${inputs.years} y`];
+    const n = v => eur.format(Math.round(v)).replace('€', '').trim();
+    const head = ['thCountry', 'thSalaries', 'thDividends', 'thCorpTax', 'thSocial', 'thIncomeTax', 'thDividendTax', 'thChildBenefit',
+      'thNet', 'thKept', 'thLiving', 'thInvested', 'thUnspent', 'thInvestTax', 'thWealth'].map(k => esc(t(k, { years: inputs.years })));
     $('table').innerHTML = '<thead><tr>' + head.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>' + results.map(r => {
       const h = r.hh, c = r.country;
-      return `<tr><td>${c.flag} ${esc(c.name)}</td>` +
-        `<td>${n(h.salaries)}${h.salaryAdjusted ? ' <span class="warn" title="Adjusted to what this country requires or the company can afford">⚠</span>' : ''}</td>` +
+      return `<tr><td>${c.flag} ${esc(cname(c))}</td>` +
+        `<td>${n(h.salaries)}${h.salaryAdjusted ? ' <span class="warn" title="' + esc(t('salaryAdjustedTip')) + '">⚠</span>' : ''}</td>` +
         `<td>${n(h.dividend)}</td><td>${n(h.corpTax)}</td><td>${n(h.social)}</td><td>${n(h.incomeTax)}</td><td>${n(h.dividendTax)}</td><td>${n(h.childBenefit)}</td>` +
         `<td class="strong">${n(h.net)}</td><td>${(h.keptShare * 100).toFixed(0)}%</td><td>${n(h.living)}</td>` +
-        `<td>${n(r.sim.monthly)}${r.sim.capped ? ' <span class="warn" title="Net income minus living costs is less than the planned amount">⚠</span>' : ''}</td>` +
+        `<td>${n(r.sim.monthly)}${r.sim.capped ? ' <span class="warn" title="' + esc(t('cappedTip')) + '">⚠</span>' : ''}</td>` +
         `<td>${n(r.sim.surplusLeft)}</td><td>${n(r.investTax)}</td><td class="strong">${n(r.finalNet)}</td></tr>`;
     }).join('') + '</tbody>';
   }
 
   function renderNotes() {
     const open = new Set([...document.querySelectorAll('#notes details[open]')].map(d => d.dataset.code));
-    $('notes').innerHTML = [...results].sort((a, b) => a.country.name.localeCompare(b.country.name)).map(r => {
+    $('notes').innerHTML = byName(results).map(r => {
       const c = r.country;
-      return `<details data-code="${c.code}" ${open.has(c.code) ? 'open' : ''}><summary>${c.flag} ${esc(c.name)}</summary><ul>${c.notes.map(t => `<li>${esc(t)}</li>`).join('')}</ul></details>`;
+      return `<details data-code="${c.code}" ${open.has(c.code) ? 'open' : ''}><summary>${c.flag} ${esc(cname(c))}</summary><ul>${notesOf(c).map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>`;
     }).join('');
   }
 
@@ -415,64 +464,65 @@
   function calcRows(r) {
     const h = r.hh, s = r.sim, last = s.points[s.points.length - 1];
     const pct = (a, b) => b > 0.5 ? (100 * a / b).toFixed(1) + '%' : '';
-    const of = (a, b, what) => pct(a, b) && pct(a, b) + ' of ' + what;
+    const of = (a, b, what) => pct(a, b) && esc(t('of' + what, { p: pct(a, b) }));
     const rows = [];
     const sec = label => rows.push({ sec: true, label });
     const row = (label, v, note, tot) => rows.push({ label, v, note: note || '', tot: !!tot });
     const people = [h.a, h.b].filter(Boolean);
-    const who = i => people.length > 1 ? `Partner ${i + 1} ` : 'Your ';
-    const adjusted = h.salaryAdjusted ? '<span class="warn" title="Salary adjusted to what this country requires or the company can afford">⚠ adjusted</span>' : inputs.optimizeSalary ? 'best mix' : '';
+    const who = (i, what) => esc(people.length > 1 ? t('cPartner' + what, { n: i + 1 }) : t('cYour' + what));
+    const adjusted = h.salaryAdjusted ? `<span class="warn" title="${esc(t('cAdjustedTip'))}">${esc(t('cAdjusted'))}</span>` : inputs.optimizeSalary ? esc(t('cBestMix')) : '';
     const leftover = Math.max(0, h.net - h.living);
     const growth = last.net + last.exitTax + last.taxesSoFar - last.contributed - last.companyExtra;
     const routes = inputs.beOptimize || inputs.beRoyalty > 0 || inputs.bePension > 0 || inputs.beCompanyInvest > 0; // rows shown for every country so the tables line up
-    const beOnly = v => v > 0.5 ? '' : 'Belgium only';
+    const beOnly = v => v > 0.5 ? '' : esc(t('cBeOnly'));
+    const L = (k, v) => esc(t(k, v));
     people.forEach((p, i) => {
       if (p.role !== 'owner') return;
-      sec(`${who(i)}company`.replace('Your c', 'C'));
-      row('Profit before owner pay', p.profit);
-      row('Owner gross salary', -p.salary, adjusted);
-      row('Employer contributions on owner salary', -p.er, of(p.er, p.salary, 'salary'));
+      sec(people.length > 1 ? L('cCompanyN', { n: i + 1 }) : L('cCompany'));
+      row(L('cProfit'), p.profit);
+      row(L('cOwnerSalary'), -p.salary, adjusted);
+      row(L('cEmployerSS'), -p.er, of(p.er, p.salary, 'Salary'));
       if (routes) {
-        row('Copyright royalties paid to owner', -p.royalty, beOnly(p.royalty));
-        row('Company pension premium', -p.pension, beOnly(p.pension));
+        row(L('cRoyaltyPaid'), -p.royalty, beOnly(p.royalty));
+        row(L('cPensionPremium'), -p.pension, beOnly(p.pension));
       }
-      row('Taxable profit', p.taxableProfit, '', true);
-      row('Corporate tax', -p.corpTax, of(p.corpTax, p.taxableProfit, 'profit'));
-      if (routes) row('Kept in the company to invest', -p.retained, beOnly(p.retained));
-      row('Dividend paid to owner', p.dividend, '', true);
+      row(L('cTaxableProfit'), p.taxableProfit, '', true);
+      row(L('cCorpTax'), -p.corpTax, of(p.corpTax, p.taxableProfit, 'Profit'));
+      if (routes) row(L('cRetained'), -p.retained, beOnly(p.retained));
+      row(L('cDividendPaid'), p.dividend, '', true);
     });
-    sec('Household income per year');
+    sec(L('cHousehold'));
     people.forEach((p, i) => {
-      row(who(i) + (p.role === 'owner' ? 'owner salary' : 'gross salary'), p.salary);
-      row(who(i) + 'own social contributions', -p.ee, of(p.ee, p.salary, 'salary'));
+      row(who(i, p.role === 'owner' ? 'OwnerSalary' : 'GrossSalary'), p.salary);
+      row(who(i, 'OwnSS'), -p.ee, of(p.ee, p.salary, 'Salary'));
     });
-    row(people.length > 1 ? 'Income tax on both salaries' : 'Income tax on salary', -h.incomeTax, of(h.incomeTax, h.salaries, 'salaries'));
+    row(L(people.length > 1 ? 'cIncomeTaxBoth' : 'cIncomeTaxOne'), -h.incomeTax, of(h.incomeTax, h.salaries, 'Salaries'));
     if (people.some(p => p.role === 'owner')) {
-      row('Dividends', h.dividend);
-      row('Dividend tax', -h.dividendTax, of(h.dividendTax, h.dividend, 'dividends'));
+      row(L('cDividends'), h.dividend);
+      row(L('cDividendTax'), -h.dividendTax, of(h.dividendTax, h.dividend, 'Dividends'));
       if (routes) {
-        row('Copyright royalties', h.royalty);
-        row('Tax on royalties', -h.royaltyTax, of(h.royaltyTax, h.royalty, 'royalties'));
+        row(L('cRoyalties'), h.royalty);
+        row(L('cRoyaltyTax'), -h.royaltyTax, of(h.royaltyTax, h.royalty, 'Royalties'));
       }
     }
-    row('Child benefit', h.childBenefit);
-    row('Net household income', h.net, (h.keptShare * 100).toFixed(0) + '% kept', true);
-    sec('Saving per year');
-    row('Living costs', -h.living, inputs.adjustLiving ? 'price level ' + Math.round(Engine.priceLevel(r.country, inputs)) : '');
-    row('Left over', leftover, h.net < inputs.living ? '<span class="warn">does not cover living costs</span>' : '', true);
-    row('Invested in the ETF', s.monthly * 12, eur.format(Math.round(s.monthly)) + ' a month' + (s.capped ? ' <span class="warn" title="Less than the planned amount">⚠</span>' : ''));
-    if (routes) row('Given up for pension and company investing', h.routeCost, h.routeCost > 0.5 ? 'net income these routes cost' : '');
-    row('Not invested', s.surplusLeft);
-    sec(`Investing over ${inputs.years} years`);
-    row('Paid in' + (inputs.startCapital > 0 ? ' (including starting capital)' : ''), last.contributed, s.wrapper ? 'uses ' + esc(s.wrapper) : '');
-    if (routes) row('Added by the company from untaxed profit', last.companyExtra, last.companyExtra > 0.5 ? 'taxed later, at payout' : '');
-    row('Investment growth', growth, inputs.returnPct + '% a year');
-    row('Investment taxes along the way', -last.taxesSoFar, of(last.taxesSoFar, growth, 'growth'));
-    row('Tax when everything is sold', -last.exitTax, of(last.exitTax, growth, 'growth'));
-    row(`Wealth after ${inputs.years} years`, last.net, '', true);
+    row(L('cChildBenefit'), h.childBenefit);
+    row(L('cNet'), h.net, L('cKept', { p: (h.keptShare * 100).toFixed(0) }), true);
+    sec(L('cSaving'));
+    row(L('cLiving'), -h.living, inputs.adjustLiving ? L('cPriceLevel', { n: Math.round(Engine.priceLevel(r.country, inputs)) }) : '');
+    row(L('cLeftOver'), leftover, h.net < h.living ? `<span class="warn">${L('cNotCovered')}</span>` : '', true);
+    row(L('cInvestedEtf'), s.monthly * 12, L('cPerMonth', { amount: eur.format(Math.round(s.monthly)) }) + (s.capped ? ` <span class="warn" title="${L('cLessThanPlanned')}">⚠</span>` : ''));
+    if (routes) row(L('cGivenUp'), h.routeCost, h.routeCost > 0.5 ? L('cGivenUpNote') : '');
+    row(L('cNotInvested'), s.surplusLeft);
+    sec(L('cInvesting', { years: inputs.years }));
+    row(L(inputs.startCapital > 0 ? 'cPaidInStart' : 'cPaidIn'), last.contributed, s.wrapper ? L('cUses', { name: s.wrapper }) : '');
+    if (routes) row(L('cCompanyExtra'), last.companyExtra, last.companyExtra > 0.5 ? L('cTaxedLater') : '');
+    row(L('cGrowth'), growth, L('cGrowthNote', { p: inputs.returnPct }));
+    row(L('cTaxesAlong'), -last.taxesSoFar, of(last.taxesSoFar, growth, 'Growth'));
+    row(L('cExitTax'), -last.exitTax, of(last.exitTax, growth, 'Growth'));
+    row(L('cWealth', { years: inputs.years }), last.net, '', true);
     if (routes) {
-      row('of which company pension, after tax', last.pensionNet);
-      row('of which company portfolio, after tax', last.companyNet);
+      row(L('cOfPension'), last.pensionNet);
+      row(L('cOfCompany'), last.companyNet);
     }
     return rows;
   }
@@ -481,17 +531,17 @@
     const has = code => results.some(r => r.country.code === code);
     if (!has(calcCode)) calcCode = results[0].country.code;
     if (!has(calcCode2) || calcCode2 === calcCode && !saved.calcCode2) calcCode2 = (results.find(r => r.country.code !== calcCode) || results[0]).country.code;
-    const sorted = [...results].sort((a, b) => a.country.name.localeCompare(b.country.name));
-    const options = sel => sorted.map(r => `<option value="${r.country.code}" ${r.country.code === sel ? 'selected' : ''}>${r.country.flag} ${esc(r.country.name)}</option>`).join('');
+    const sorted = byName(results);
+    const options = sel => sorted.map(r => `<option value="${r.country.code}" ${r.country.code === sel ? 'selected' : ''}>${r.country.flag} ${esc(cname(r.country))}</option>`).join('');
     calcSel.innerHTML = options(calcCode); calcSel2.innerHTML = options(calcCode2);
     const r1 = results.find(x => x.country.code === calcCode), r2 = results.find(x => x.country.code === calcCode2);
     const A = calcRows(r1), B = calcRows(r2);
     const fmt = v => (v < -0.5 ? '−' : '') + eur.format(Math.abs(Math.round(v)));
     const signed = v => Math.abs(v) < 0.5 ? '–' : (v > 0 ? '+' : '−') + eur.format(Math.abs(Math.round(v)));
-    const name = r => `${r.country.flag} ${esc(r.country.name)}`;
+    const name = r => `${r.country.flag} ${esc(cname(r.country))}`;
     let n = 0;
     $('calc').innerHTML =
-      `<thead><tr><th></th><th>${name(r1)}</th><th></th><th>${name(r2)}</th><th></th><th title="Second country minus first country">Difference</th></tr></thead><tbody>` +
+      `<thead><tr><th></th><th>${name(r1)}</th><th></th><th>${name(r2)}</th><th></th><th title="${esc(t('differenceTip'))}">${esc(t('difference'))}</th></tr></thead><tbody>` +
       A.map((a, i) => {
         const b = B[i];
         if (a.sec) return `<tr class="sec"><td colspan="6">${++n}. ${a.label}</td></tr>`;
@@ -499,7 +549,7 @@
           `<td>${fmt(b.v)}</td><td class="pct">${b.note}</td><td class="diff">${signed(b.v - a.v)}</td></tr>`;
       }).join('') + '</tbody>';
     $('calcNotes').innerHTML = [r1, r2].filter((r, i) => i === 0 || r !== r1).map(r =>
-      `<div><h3>${name(r)}</h3><ul>${r.country.notes.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('');
+      `<div><h3>${name(r)}</h3><ul>${notesOf(r.country).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('');
   }
 
   form.addEventListener('input', update);

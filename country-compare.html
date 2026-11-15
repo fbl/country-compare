@@ -34,6 +34,13 @@
   fieldset { border: 0; padding: 0; margin: 0 0 14px; }
   legend { font-weight: 600; padding: 0; margin-bottom: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-2); }
   label.f { display: grid; grid-template-columns: 1fr 112px; align-items: center; gap: 8px; margin: 6px 0; }
+  label.f:has(select) { grid-template-columns: 1fr 170px; }
+  .head { display: flex; flex-direction: column-reverse; }
+  .langs { display: flex; gap: 2px; justify-content: flex-end; margin: -8px -6px 0 0; }
+  .langs button { all: unset; cursor: pointer; font-size: 17px; line-height: 1; padding: 4px 3px; border-radius: 5px; opacity: .45; }
+  .langs button:hover { opacity: .8; }
+  .langs button[aria-pressed=true] { opacity: 1; background: var(--bar-track); }
+  .langs button:focus-visible { outline: 2px solid var(--accent); }
   label.f span small { display: block; color: var(--text-3); font-size: 11.5px; }
   input[type=number], select { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; text-align: right; font-variant-numeric: tabular-nums; }
   select { text-align: left; }
@@ -99,57 +106,57 @@
 </head>
 <body>
 <div class="app">
-  <p class="disclaimer" style="grid-column:1/-1;margin:0"><b>Not financial advice.</b> This is just a vibe-coded simulation and is sure to contain mistakes.</p>
+  <p class="disclaimer" style="grid-column:1/-1;margin:0" data-i18n="banner"></p>
   <aside>
     <div class="card">
-      <h1>Country Wealth Compare</h1>
-      <p class="sub">Same family, same plan — different tax systems.</p>
+      <div class="head"><h1 data-i18n="title"></h1><div class="langs" id="langs" role="group" data-i18n-aria="language"></div></div>
+      <p class="sub" data-i18n="tagline"></p>
       <form id="form">
         <fieldset>
-          <legend>Partner 1</legend>
-          <label class="f"><span>Works as</span><select name="role1"><option value="owner">Company owner</option><option value="employee">Employee</option></select></label>
-          <label class="f" id="profitRow1" title="Turnover (what the company invoices, excluding VAT) minus all business costs, before anything is paid to you. Example: €120,000 invoiced and €20,000 of costs means €100,000 here. The owner salary, employer contributions, corporate tax and dividend all come out of this amount."><span><span class="help">Company profit</span><small>€/year, before owner pay</small></span><input type="number" name="profit1" min="0" step="5000"></label>
+          <legend data-i18n="partner1"></legend>
+          <label class="f"><span data-i18n="worksAs"></span><select name="role1"><option value="owner" data-i18n="owner"></option><option value="employee" data-i18n="employee"></option></select></label>
+          <label class="f" id="profitRow1" data-i18n-title="profitTip"><span><span class="help" data-i18n="profit"></span><small data-i18n="profitHint"></small></span><input type="number" name="profit1" min="0" step="5000"></label>
           <label class="f" id="salaryRow1"><span><span class="lbl"></span><small></small></span><input type="number" name="salary1" min="0" step="5000"></label>
         </fieldset>
         <fieldset>
-          <legend>Partner 2</legend>
-          <label class="c"><input type="checkbox" name="hasPartner2"><span>Include a second partner<small>Untick for a one-person household</small></span></label>
+          <legend data-i18n="partner2"></legend>
+          <label class="c"><input type="checkbox" name="hasPartner2"><span><span data-i18n="hasPartner2"></span><small data-i18n="hasPartner2Hint"></small></span></label>
           <div id="partner2">
-            <label class="f"><span>Works as</span><select name="role2"><option value="owner">Company owner</option><option value="employee">Employee</option></select></label>
-            <label class="f" id="profitRow2" title="Turnover (what the company invoices, excluding VAT) minus all business costs, before anything is paid to you. Example: €120,000 invoiced and €20,000 of costs means €100,000 here. The owner salary, employer contributions, corporate tax and dividend all come out of this amount."><span><span class="help">Company profit</span><small>€/year, before owner pay</small></span><input type="number" name="profit2" min="0" step="5000"></label>
+            <label class="f"><span data-i18n="worksAs"></span><select name="role2"><option value="owner" data-i18n="owner"></option><option value="employee" data-i18n="employee"></option></select></label>
+            <label class="f" id="profitRow2" data-i18n-title="profitTip"><span><span class="help" data-i18n="profit"></span><small data-i18n="profitHint"></small></span><input type="number" name="profit2" min="0" step="5000"></label>
             <label class="f" id="salaryRow2"><span><span class="lbl"></span><small></small></span><input type="number" name="salary2" min="0" step="5000"></label>
           </div>
         </fieldset>
         <fieldset>
-          <legend>Family</legend>
-          <label class="f"><span>Children</span><input type="number" name="kids" min="0" max="8" step="1"></label>
-          <label class="f"><span>Living costs<small id="livingHint"></small></span><input type="number" name="living" min="0" step="1000"></label>
-          <label class="c"><input type="checkbox" name="adjustLiving"><span>Adjust living costs to local prices<small>Scales the amount by each country's price level</small></span></label>
+          <legend data-i18n="family"></legend>
+          <label class="f"><span><span data-i18n="children"></span></span><input type="number" name="kids" min="0" max="8" step="1"></label>
+          <label class="f"><span><span data-i18n="living"></span><small id="livingHint"></small></span><input type="number" name="living" min="0" step="1000"></label>
+          <label class="c"><input type="checkbox" name="adjustLiving"><span><span data-i18n="adjustLiving"></span><small data-i18n="adjustLivingHint"></small></span></label>
           <div id="pliBox">
-            <label class="f"><span>Amount applies to</span><select name="livingRef"></select></label>
-            <details class="pli"><summary>Price levels (EU = 100)</summary><div id="pliList"></div></details>
+            <label class="f"><span data-i18n="livingRef"></span><select name="livingRef"></select></label>
+            <details class="pli"><summary data-i18n="priceLevels"></summary><div id="pliList"></div></details>
           </div>
         </fieldset>
         <fieldset>
-          <legend>Investing</legend>
-          <label class="f"><span>Strategy</span><select name="mode"><option value="fixed">Fixed amount</option><option value="all">Everything left over</option></select></label>
-          <label class="f" id="monthlyRow"><span>Monthly ETF purchase<small>€/month</small></span><input type="number" name="monthly" min="0" step="100"></label>
-          <label class="f"><span>Starting capital<small>€ already invested</small></span><input type="number" name="startCapital" min="0" step="5000"></label>
-          <label class="f"><span>Expected return<small>% per year</small></span><input type="number" name="returnPct" min="-10" max="20" step="0.5"></label>
-          <label class="f"><span>Horizon<small>years</small></span><input type="number" name="years" min="1" max="50" step="1"></label>
-          <label class="c"><input type="checkbox" name="beHarvest"><span>Belgium: use the yearly capital-gains exemption<small>Sells and rebuys each year to realise €10k of gain per person tax-free</small></span></label>
-          <label class="c"><input type="checkbox" name="useWrappers"><span>Use tax-free accounts where they exist<small>UK ISA, French PEA</small></span></label>
+          <legend data-i18n="investing"></legend>
+          <label class="f"><span data-i18n="strategy"></span><select name="mode"><option value="fixed" data-i18n="modeFixed"></option><option value="all" data-i18n="modeAll"></option></select></label>
+          <label class="f" id="monthlyRow"><span><span data-i18n="monthly"></span><small data-i18n="monthlyHint"></small></span><input type="number" name="monthly" min="0" step="100"></label>
+          <label class="f"><span><span data-i18n="startCapital"></span><small data-i18n="startCapitalHint"></small></span><input type="number" name="startCapital" min="0" step="5000"></label>
+          <label class="f"><span><span data-i18n="returnPct"></span><small data-i18n="returnHint"></small></span><input type="number" name="returnPct" min="-10" max="20" step="0.5"></label>
+          <label class="f"><span><span data-i18n="horizon"></span><small data-i18n="horizonHint"></small></span><input type="number" name="years" min="1" max="50" step="1"></label>
+          <label class="c"><input type="checkbox" name="beHarvest"><span><span data-i18n="beHarvest"></span><small data-i18n="beHarvestHint"></small></span></label>
+          <label class="c"><input type="checkbox" name="useWrappers"><span><span data-i18n="useWrappers"></span><small data-i18n="useWrappersHint"></small></span></label>
         </fieldset>
         <fieldset id="ownerOpts">
-          <legend>Company options</legend>
-          <label class="c"><input type="checkbox" name="optimizeSalary"><span>Best salary / dividend mix per country<small>Picks the split that maximises net income. Ignores pension and benefit entitlements.</small></span></label>
-          <label class="c"><input type="checkbox" name="beVvprbis"><span>Belgium: reduced dividend rate<small>18% instead of 30%, through VVPRbis or a liquidation reserve</small></span></label>
-          <label class="c"><input type="checkbox" name="beOptimize"><span>Belgium: best use of the routes below<small>Maximum royalties, then the mix of pension, company and private investing that gives the most wealth</small></span></label>
-          <label class="f" id="beRoyaltyRow"><span>Belgium: copyright royalties<small>€/year at 15% tax; max 30% of pay</small></span><input type="number" name="beRoyalty" min="0" step="1000"></label>
-          <label class="f"><span>Belgium: company pension<small id="bePensionHint"></small></span><input type="number" name="bePension" min="0" step="1000"></label>
-          <label class="f" id="beCompanyRow"><span>Belgium: invest in the company<small>€/year of profit kept in an equity fund</small></span><input type="number" name="beCompanyInvest" min="0" step="1000"></label>
+          <legend data-i18n="companyOptions"></legend>
+          <label class="c"><input type="checkbox" name="optimizeSalary"><span><span data-i18n="optimizeSalary"></span><small data-i18n="optimizeSalaryHint"></small></span></label>
+          <label class="c"><input type="checkbox" name="beVvprbis"><span><span data-i18n="beVvprbis"></span><small data-i18n="beVvprbisHint"></small></span></label>
+          <label class="c"><input type="checkbox" name="beOptimize"><span><span data-i18n="beOptimize"></span><small data-i18n="beOptimizeHint"></small></span></label>
+          <label class="f" id="beRoyaltyRow"><span><span data-i18n="beRoyalty"></span><small data-i18n="beRoyaltyHint"></small></span><input type="number" name="beRoyalty" min="0" step="1000"></label>
+          <label class="f"><span><span data-i18n="bePension"></span><small id="bePensionHint"></small></span><input type="number" name="bePension" min="0" step="1000"></label>
+          <label class="f" id="beCompanyRow"><span><span data-i18n="beCompanyInvest"></span><small data-i18n="beCompanyInvestHint"></small></span><input type="number" name="beCompanyInvest" min="0" step="1000"></label>
         </fieldset>
-        <button type="button" id="reset" class="reset" title="Puts every field, including the price levels, back to its starting value">Reset to defaults</button>
+        <button type="button" id="reset" class="reset" data-i18n="reset" data-i18n-title="resetTip"></button>
       </form>
     </div>
   </aside>
@@ -161,40 +168,1442 @@
 
     <div class="card">
       <h2 id="rankTitle"></h2>
-      <p class="sub">After all taxes, including the tax due if everything were sold at the end. Click a country to show or hide it in the chart below (up to 4).</p>
+      <p class="sub" data-i18n="rankSub"></p>
       <div class="rank" id="rank"></div>
     </div>
 
     <div class="card">
-      <h2>Wealth over time</h2>
-      <p class="sub">Portfolio value after tax if sold in that year.</p>
+      <h2 data-i18n="chartTitle"></h2>
+      <p class="sub" data-i18n="chartSub"></p>
       <div class="legend" id="legend"></div>
-      <div class="chartwrap"><svg id="chart" viewBox="0 0 760 320" role="img" aria-label="Wealth over time for the selected countries"></svg><div class="tip" id="tip"></div></div>
+      <div class="chartwrap"><svg id="chart" viewBox="0 0 760 320" role="img" data-i18n-aria="chartAria"></svg><div class="tip" id="tip"></div></div>
     </div>
 
     <div class="card">
-      <h2>Where the money goes each year</h2>
-      <p class="sub">All amounts in € per year unless stated. "Kept" is net income as a share of gross income: company profit for an owner, gross salary for an employee.</p>
+      <h2 data-i18n="tableTitle"></h2>
+      <p class="sub" data-i18n="tableSub"></p>
       <div class="scroll"><table id="table"></table></div>
     </div>
 
     <div class="card">
-      <h2>Calculation side by side</h2>
-      <p class="sub">Two countries step by step, from gross income to wealth at the end.</p>
-      <div class="calcpick"><select id="calcCountry" aria-label="First country"></select><span>compared with</span><select id="calcCountry2" aria-label="Second country"></select></div>
+      <h2 data-i18n="calcTitle"></h2>
+      <p class="sub" data-i18n="calcSub"></p>
+      <div class="calcpick"><select id="calcCountry" data-i18n-aria="firstCountry"></select><span data-i18n="comparedWith"></span><select id="calcCountry2" data-i18n-aria="secondCountry"></select></div>
       <div class="scroll"><table id="calc" class="calc"></table></div>
       <div id="calcNotes" class="calcnotes"></div>
     </div>
 
     <div class="card">
-      <h2>Assumptions per country</h2>
-      <p class="sub">What each country model includes — and leaves out.</p>
+      <h2 data-i18n="notesTitle"></h2>
+      <p class="sub" data-i18n="notesSub"></p>
       <div id="notes"></div>
-      <p class="disclaimer" style="margin-top:14px"><b>Estimates only.</b> The tax rules are simplified models of 2026 rules. They were fact-checked in November 2026, mostly against secondary sources (accounting firms, tax portals), and some items could not be confirmed. Regional differences, pension-fund premiums, exit taxes when moving and currency moves are ignored. Living costs are scaled with Eurostat's national price levels for 2024, which include average rents but understate housing in capital cities for a newcomer. All company profit is paid out every year unless a Belgian company route is filled in. Use this to shortlist countries, then confirm with a local tax adviser before deciding anything.</p>
+      <p class="disclaimer" style="margin-top:14px" data-i18n="disclaimer"></p>
     </div>
   </main>
 </div>
 
+<script>
+/* English interface text. Other languages live next to this file and use the same keys.
+   {name} marks a value filled in by the page. Country notes for English are in taxdata.js. */
+(function (root) {
+  root.LANG = root.LANG || {};
+  root.LANG.en = { name: 'English', locale: 'en-IE', ui: {
+    title: 'Country Wealth Compare',
+    banner: '<b>Not financial advice.</b> This is just a vibe-coded simulation and is sure to contain mistakes.',
+    tagline: 'Same family, same plan — different tax systems.',
+    language: 'Language',
+    zurich: 'Zurich',
+    partner1: 'Partner 1',
+    partner2: 'Partner 2',
+    worksAs: 'Works as',
+    owner: 'Company owner',
+    employee: 'Employee',
+    profit: 'Company profit',
+    profitHint: '€/year, before owner pay',
+    profitTip: 'Turnover (what the company invoices, excluding VAT) minus all business costs, before anything is paid to you. Example: €120,000 invoiced and €20,000 of costs means €100,000 here. The owner salary, employer contributions, corporate tax and dividend all come out of this amount.',
+    ownerSalary: 'Owner gross salary',
+    ownerSalaryHint: '€/year; rest is paid as dividend',
+    grossSalary: 'Gross salary',
+    perYear: '€/year',
+    hasPartner2: 'Include a second partner',
+    hasPartner2Hint: 'Untick for a one-person household',
+    family: 'Family',
+    children: 'Children',
+    living: 'Living costs',
+    livingHintAdj: '€/year at {country} prices',
+    livingHintSame: '€/year, same in every country',
+    adjustLiving: 'Adjust living costs to local prices',
+    adjustLivingHint: 'Scales the amount by each country\'s price level',
+    livingRef: 'Amount applies to',
+    priceLevels: 'Price levels (EU = 100)',
+    investing: 'Investing',
+    strategy: 'Strategy',
+    modeFixed: 'Fixed amount',
+    modeAll: 'Everything left over',
+    monthly: 'Monthly ETF purchase',
+    monthlyHint: '€/month',
+    startCapital: 'Starting capital',
+    startCapitalHint: '€ already invested',
+    returnPct: 'Expected return',
+    returnHint: '% per year',
+    horizon: 'Horizon',
+    horizonHint: 'years',
+    beHarvest: 'Belgium: use the yearly capital-gains exemption',
+    beHarvestHint: 'Sells and rebuys each year to realise €10k of gain per person tax-free',
+    useWrappers: 'Use tax-free accounts where they exist',
+    useWrappersHint: 'UK ISA, French PEA',
+    companyOptions: 'Company options',
+    optimizeSalary: 'Best salary / dividend mix per country',
+    optimizeSalaryHint: 'Picks the split that maximises net income. Ignores pension and benefit entitlements.',
+    beVvprbis: 'Belgium: reduced dividend rate',
+    beVvprbisHint: '18% instead of 30%, through VVPRbis or a liquidation reserve',
+    beOptimize: 'Belgium: best use of the routes below',
+    beOptimizeHint: 'Maximum royalties, then the mix of pension, company and private investing that gives the most wealth',
+    beRoyalty: 'Belgium: copyright royalties',
+    beRoyaltyHint: '€/year at 15% tax; max 30% of pay',
+    bePension: 'Belgium: company pension',
+    bePensionHint: '€/year premium (IPT), locked until retirement',
+    bePensionHintOpt: '€/year, the most your 80% rule allows',
+    beCompanyInvest: 'Belgium: invest in the company',
+    beCompanyInvestHint: '€/year of profit kept in an equity fund',
+    reset: 'Reset to defaults',
+    resetTip: 'Puts every field, including the price levels, back to its starting value',
+
+    heroBest: 'most wealth after {years} years: {amount}',
+    heroGap: 'gap between best and worst ({country})',
+    heroIncome: 'highest net household income: {amount} a year',
+    rankTitle: 'Wealth after {years} years',
+    rankSub: 'After all taxes, including the tax due if everything were sold at the end. Click a country to show or hide it in the chart below (up to 4).',
+    rankTip: 'Invested {invested} · before exit tax {gross} · investment taxes {taxes}',
+    showInChart: 'Show in chart',
+    cantAfford: 'Cannot afford the full monthly amount here',
+    chartTitle: 'Wealth over time',
+    chartSub: 'Portfolio value after tax if sold in that year.',
+    chartAria: 'Wealth over time for the selected countries',
+    legendEmpty: 'Click a country in the ranking above to plot it.',
+    now: 'now',
+    yr: 'yr {n}',
+    today: 'Today',
+    afterYear: 'After year {n}',
+    paidIn: 'Paid in',
+    varies: '(varies)',
+
+    tableTitle: 'Where the money goes each year',
+    tableSub: 'All amounts in € per year unless stated. "Kept" is net income as a share of gross income: company profit for an owner, gross salary for an employee.',
+    thCountry: 'Country',
+    thSalaries: 'Gross salaries',
+    thDividends: 'Dividends (gross)',
+    thCorpTax: 'Corporate tax',
+    thSocial: 'Social contributions',
+    thIncomeTax: 'Income tax',
+    thDividendTax: 'Dividend tax',
+    thChildBenefit: 'Child benefit',
+    thNet: 'Net household income',
+    thKept: 'Kept',
+    thLiving: 'Living costs',
+    thInvested: 'Invested / month',
+    thUnspent: 'Unspent / year',
+    thInvestTax: 'Investment taxes (total)',
+    thWealth: 'Wealth after {years} y',
+    salaryAdjustedTip: 'Adjusted to what this country requires or the company can afford',
+    cappedTip: 'Net income minus living costs is less than the planned amount',
+
+    calcTitle: 'Calculation side by side',
+    calcSub: 'Two countries step by step, from gross income to wealth at the end.',
+    firstCountry: 'First country',
+    secondCountry: 'Second country',
+    comparedWith: 'compared with',
+    difference: 'Difference',
+    differenceTip: 'Second country minus first country',
+    cAdjusted: '⚠ adjusted',
+    cAdjustedTip: 'Salary adjusted to what this country requires or the company can afford',
+    cBestMix: 'best mix',
+    cBeOnly: 'Belgium only',
+    cCompany: 'Company',
+    cCompanyN: 'Partner {n} company',
+    cProfit: 'Profit before owner pay',
+    cOwnerSalary: 'Owner gross salary',
+    cEmployerSS: 'Employer contributions on owner salary',
+    cRoyaltyPaid: 'Copyright royalties paid to owner',
+    cPensionPremium: 'Company pension premium',
+    cTaxableProfit: 'Taxable profit',
+    cCorpTax: 'Corporate tax',
+    cRetained: 'Kept in the company to invest',
+    cDividendPaid: 'Dividend paid to owner',
+    cHousehold: 'Household income per year',
+    cYourOwnerSalary: 'Your owner salary',
+    cYourGrossSalary: 'Your gross salary',
+    cYourOwnSS: 'Your own social contributions',
+    cPartnerOwnerSalary: 'Partner {n} owner salary',
+    cPartnerGrossSalary: 'Partner {n} gross salary',
+    cPartnerOwnSS: 'Partner {n} own social contributions',
+    cIncomeTaxBoth: 'Income tax on both salaries',
+    cIncomeTaxOne: 'Income tax on salary',
+    cDividends: 'Dividends',
+    cDividendTax: 'Dividend tax',
+    cRoyalties: 'Copyright royalties',
+    cRoyaltyTax: 'Tax on royalties',
+    cChildBenefit: 'Child benefit',
+    cNet: 'Net household income',
+    cKept: '{p}% kept',
+    cSaving: 'Saving per year',
+    cLiving: 'Living costs',
+    cPriceLevel: 'price level {n}',
+    cLeftOver: 'Left over',
+    cNotCovered: 'does not cover living costs',
+    cInvestedEtf: 'Invested in the ETF',
+    cPerMonth: '{amount} a month',
+    cLessThanPlanned: 'Less than the planned amount',
+    cGivenUp: 'Given up for pension and company investing',
+    cGivenUpNote: 'net income these routes cost',
+    cNotInvested: 'Not invested',
+    cInvesting: 'Investing over {years} years',
+    cPaidIn: 'Paid in',
+    cPaidInStart: 'Paid in (including starting capital)',
+    cUses: 'uses {name}',
+    cCompanyExtra: 'Added by the company from untaxed profit',
+    cTaxedLater: 'taxed later, at payout',
+    cGrowth: 'Investment growth',
+    cGrowthNote: '{p}% a year',
+    cTaxesAlong: 'Investment taxes along the way',
+    cExitTax: 'Tax when everything is sold',
+    cWealth: 'Wealth after {years} years',
+    cOfPension: 'of which company pension, after tax',
+    cOfCompany: 'of which company portfolio, after tax',
+    ofSalary: '{p} of salary',
+    ofProfit: '{p} of profit',
+    ofSalaries: '{p} of salaries',
+    ofDividends: '{p} of dividends',
+    ofRoyalties: '{p} of royalties',
+    ofGrowth: '{p} of growth',
+
+    notesTitle: 'Assumptions per country',
+    notesSub: 'What each country model includes — and leaves out.',
+    disclaimer: '<b>Estimates only.</b> The tax rules are simplified models of 2026 rules. They were fact-checked in November 2026, mostly against secondary sources (accounting firms, tax portals), and some items could not be confirmed. Regional differences, pension-fund premiums, exit taxes when moving and currency moves are ignored. Living costs are scaled with Eurostat\'s national price levels for 2024, which include average rents but understate housing in capital cities for a newcomer. All company profit is paid out every year unless a Belgian company route is filled in. Use this to shortlist countries, then confirm with a local tax adviser before deciding anything.',
+  } };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* Nederlandse interfacetekst (Belgisch gebruik). Zelfde sleutels als en.js.
+   {name} staat voor een waarde die de pagina invult. */
+(function (root) {
+  root.LANG = root.LANG || {};
+  root.LANG.nl = { name: 'Nederlands', locale: 'nl-BE', ui: {
+    title: 'Country Wealth Compare',
+    banner: '<b>Geen financieel advies.</b> Dit is maar een met AI in elkaar geknutselde simulatie en bevat zeker fouten.',
+    tagline: 'Zelfde gezin, zelfde plan — andere belastingstelsels.',
+    language: 'Taal',
+    zurich: 'Zürich',
+    partner1: 'Partner 1',
+    partner2: 'Partner 2',
+    worksAs: 'Werkt als',
+    owner: 'Bedrijfsleider',
+    employee: 'Werknemer',
+    profit: 'Winst vennootschap',
+    profitHint: '€/jaar, vóór loon bedrijfsleider',
+    profitTip: 'Omzet (wat de vennootschap factureert, exclusief btw) min alle bedrijfskosten, voordat er iets aan jou wordt uitbetaald. Voorbeeld: € 120.000 gefactureerd en € 20.000 kosten geeft hier € 100.000. Het loon van de bedrijfsleider, de werkgeversbijdragen, de vennootschapsbelasting en het dividend gaan allemaal van dit bedrag af.',
+    ownerSalary: 'Brutoloon bedrijfsleider',
+    ownerSalaryHint: '€/jaar; de rest wordt dividend',
+    grossSalary: 'Brutoloon',
+    perYear: '€/jaar',
+    hasPartner2: 'Tweede partner toevoegen',
+    hasPartner2Hint: 'Vink uit voor een eenpersoonshuishouden',
+    family: 'Gezin',
+    children: 'Kinderen',
+    living: 'Levensonderhoud',
+    livingHintAdj: '€/jaar tegen prijzen in {country}',
+    livingHintSame: '€/jaar, gelijk in elk land',
+    adjustLiving: 'Levensonderhoud aanpassen aan lokale prijzen',
+    adjustLivingHint: 'Schaalt het bedrag met het prijsniveau van elk land',
+    livingRef: 'Bedrag geldt voor',
+    priceLevels: 'Prijsniveaus (EU = 100)',
+    investing: 'Beleggen',
+    strategy: 'Strategie',
+    modeFixed: 'Vast bedrag',
+    modeAll: 'Alles wat overblijft',
+    monthly: 'Maandelijkse ETF-aankoop',
+    monthlyHint: '€/maand',
+    startCapital: 'Startkapitaal',
+    startCapitalHint: '€ al belegd',
+    returnPct: 'Verwacht rendement',
+    returnHint: '% per jaar',
+    horizon: 'Looptijd',
+    horizonHint: 'jaar',
+    beHarvest: 'België: jaarlijkse vrijstelling meerwaarden benutten',
+    beHarvestHint: 'Verkoopt en koopt elk jaar terug om € 10.000 meerwaarde per persoon belastingvrij te realiseren',
+    useWrappers: 'Belastingvrije rekeningen gebruiken waar ze bestaan',
+    useWrappersHint: 'Britse ISA, Franse PEA',
+    companyOptions: 'Opties vennootschap',
+    optimizeSalary: 'Beste mix loon / dividend per land',
+    optimizeSalaryHint: 'Kiest de verdeling met het hoogste netto-inkomen. Houdt geen rekening met pensioen- en uitkeringsrechten.',
+    beVvprbis: 'België: verlaagd tarief op dividenden',
+    beVvprbisHint: '18 % in plaats van 30 %, via VVPRbis of een liquidatiereserve',
+    beOptimize: 'België: onderstaande routes optimaal benutten',
+    beOptimizeHint: 'Maximale auteursrechten, daarna de mix van pensioen, beleggen via de vennootschap en privé beleggen die het meeste vermogen oplevert',
+    beRoyalty: 'België: auteursrechten',
+    beRoyaltyHint: '€/jaar tegen 15 % belasting; max. 30 % van de vergoeding',
+    bePension: 'België: pensioen via vennootschap (IPT)',
+    bePensionHint: '€/jaar premie (IPT), geblokkeerd tot pensioen',
+    bePensionHintOpt: '€/jaar, het maximum volgens jouw 80%-regel',
+    beCompanyInvest: 'België: beleggen via de vennootschap',
+    beCompanyInvestHint: '€/jaar winst belegd in een DBI-bevek',
+    reset: 'Standaardwaarden herstellen',
+    resetTip: 'Zet elk veld, ook de prijsniveaus, terug op de beginwaarde',
+
+    heroBest: 'meeste vermogen na {years} jaar: {amount}',
+    heroGap: 'verschil tussen beste en slechtste ({country})',
+    heroIncome: 'hoogste netto gezinsinkomen: {amount} per jaar',
+    rankTitle: 'Vermogen na {years} jaar',
+    rankSub: 'Na alle belastingen, inclusief de belasting die verschuldigd zou zijn als alles op het einde werd verkocht. Klik op een land om het in de grafiek hieronder te tonen of te verbergen (maximaal 4).',
+    rankTip: 'Ingelegd {invested} · vóór belasting bij verkoop {gross} · belastingen op beleggingen {taxes}',
+    showInChart: 'Tonen in grafiek',
+    cantAfford: 'Het volledige maandbedrag is hier niet haalbaar',
+    chartTitle: 'Vermogen in de tijd',
+    chartSub: 'Waarde van de portefeuille na belasting bij verkoop in dat jaar.',
+    chartAria: 'Vermogen in de tijd voor de geselecteerde landen',
+    legendEmpty: 'Klik op een land in de rangschikking hierboven om het te tonen.',
+    now: 'nu',
+    yr: 'jr {n}',
+    today: 'Vandaag',
+    afterYear: 'Na jaar {n}',
+    paidIn: 'Ingelegd',
+    varies: '(varieert)',
+
+    tableTitle: 'Waar het geld elk jaar naartoe gaat',
+    tableSub: 'Alle bedragen in € per jaar, tenzij anders vermeld. "Behouden" is het netto-inkomen als aandeel van het bruto-inkomen: de winst van de vennootschap voor een bedrijfsleider, het brutoloon voor een werknemer.',
+    thCountry: 'Land',
+    thSalaries: 'Brutolonen',
+    thDividends: 'Dividenden (bruto)',
+    thCorpTax: 'Vennootschapsbelasting',
+    thSocial: 'Sociale bijdragen',
+    thIncomeTax: 'Inkomstenbelasting',
+    thDividendTax: 'Dividendbelasting',
+    thChildBenefit: 'Kinderbijslag',
+    thNet: 'Netto gezinsinkomen',
+    thKept: 'Behouden',
+    thLiving: 'Levensonderhoud',
+    thInvested: 'Belegd / maand',
+    thUnspent: 'Niet besteed / jaar',
+    thInvestTax: 'Belastingen op beleggingen (totaal)',
+    thWealth: 'Vermogen na {years} j.',
+    salaryAdjustedTip: 'Aangepast aan wat dit land vereist of wat de vennootschap kan betalen',
+    cappedTip: 'Netto-inkomen min levensonderhoud is lager dan het geplande bedrag',
+
+    calcTitle: 'Berekening naast elkaar',
+    calcSub: 'Twee landen stap voor stap, van bruto-inkomen tot vermogen op het einde.',
+    firstCountry: 'Eerste land',
+    secondCountry: 'Tweede land',
+    comparedWith: 'vergeleken met',
+    difference: 'Verschil',
+    differenceTip: 'Tweede land min eerste land',
+    cAdjusted: '⚠ aangepast',
+    cAdjustedTip: 'Loon aangepast aan wat dit land vereist of wat de vennootschap kan betalen',
+    cBestMix: 'beste mix',
+    cBeOnly: 'enkel België',
+    cCompany: 'Vennootschap',
+    cCompanyN: 'Vennootschap partner {n}',
+    cProfit: 'Winst vóór loon bedrijfsleider',
+    cOwnerSalary: 'Brutoloon bedrijfsleider',
+    cEmployerSS: 'Werkgeversbijdragen op loon bedrijfsleider',
+    cRoyaltyPaid: 'Auteursrechten betaald aan bedrijfsleider',
+    cPensionPremium: 'IPT-premie',
+    cTaxableProfit: 'Belastbare winst',
+    cCorpTax: 'Vennootschapsbelasting',
+    cRetained: 'Blijft in de vennootschap om te beleggen',
+    cDividendPaid: 'Dividend uitgekeerd aan bedrijfsleider',
+    cHousehold: 'Gezinsinkomen per jaar',
+    cYourOwnerSalary: 'Jouw loon als bedrijfsleider',
+    cYourGrossSalary: 'Jouw brutoloon',
+    cYourOwnSS: 'Jouw eigen sociale bijdragen',
+    cPartnerOwnerSalary: 'Loon bedrijfsleider partner {n}',
+    cPartnerGrossSalary: 'Brutoloon partner {n}',
+    cPartnerOwnSS: 'Eigen sociale bijdragen partner {n}',
+    cIncomeTaxBoth: 'Inkomstenbelasting op beide lonen',
+    cIncomeTaxOne: 'Inkomstenbelasting op loon',
+    cDividends: 'Dividenden',
+    cDividendTax: 'Dividendbelasting',
+    cRoyalties: 'Auteursrechten',
+    cRoyaltyTax: 'Belasting op auteursrechten',
+    cChildBenefit: 'Kinderbijslag',
+    cNet: 'Netto gezinsinkomen',
+    cKept: '{p}% behouden',
+    cSaving: 'Sparen per jaar',
+    cLiving: 'Levensonderhoud',
+    cPriceLevel: 'prijsniveau {n}',
+    cLeftOver: 'Blijft over',
+    cNotCovered: 'dekt het levensonderhoud niet',
+    cInvestedEtf: 'Belegd in de ETF',
+    cPerMonth: '{amount} per maand',
+    cLessThanPlanned: 'Minder dan het geplande bedrag',
+    cGivenUp: 'Opgegeven voor pensioen en beleggen via de vennootschap',
+    cGivenUpNote: 'netto-inkomen dat deze routes kosten',
+    cNotInvested: 'Niet belegd',
+    cInvesting: 'Beleggen over {years} jaar',
+    cPaidIn: 'Ingelegd',
+    cPaidInStart: 'Ingelegd (inclusief startkapitaal)',
+    cUses: 'gebruikt {name}',
+    cCompanyExtra: 'Toegevoegd door de vennootschap uit onbelaste winst',
+    cTaxedLater: 'later belast, bij uitkering',
+    cGrowth: 'Groei van de beleggingen',
+    cGrowthNote: '{p}% per jaar',
+    cTaxesAlong: 'Belastingen op beleggingen onderweg',
+    cExitTax: 'Belasting wanneer alles wordt verkocht',
+    cWealth: 'Vermogen na {years} jaar',
+    cOfPension: 'waarvan IPT, na belasting',
+    cOfCompany: 'waarvan portefeuille vennootschap, na belasting',
+    ofSalary: '{p} van het loon',
+    ofProfit: '{p} van de winst',
+    ofSalaries: '{p} van de lonen',
+    ofDividends: '{p} van de dividenden',
+    ofRoyalties: '{p} van de auteursrechten',
+    ofGrowth: '{p} van de groei',
+
+    notesTitle: 'Aannames per land',
+    notesSub: 'Wat het model van elk land meerekent — en wat niet.',
+    disclaimer: '<b>Enkel schattingen.</b> De belastingregels zijn vereenvoudigde modellen van de regels voor 2026. Ze zijn in november 2026 nagekeken, vooral aan de hand van secundaire bronnen (accountantskantoren, belastingportalen), en sommige punten konden niet worden bevestigd. Regionale verschillen, pensioenfondspremies, exitheffingen bij verhuizing en wisselkoersschommelingen blijven buiten beschouwing. Het levensonderhoud wordt geschaald met de nationale prijsniveaus van Eurostat voor 2024, die gemiddelde huurprijzen bevatten maar de woonkosten in hoofdsteden voor een nieuwkomer onderschatten. Alle winst van de vennootschap wordt elk jaar uitgekeerd, tenzij een Belgische vennootschapsroute is ingevuld. Gebruik dit om een shortlist van landen te maken en vraag daarna bevestiging aan een lokale belastingadviseur voordat je iets beslist.',
+  }, notes: {
+    BE: [
+      'De eigenaar is een zelfstandige bedrijfsleider: ca. 20,5 % sociale bijdragen (begrensd), geen werkgeversbijdragen.',
+      'Vennootschapsbelasting 20 % op de eerste € 100.000 als het loon van de bedrijfsleider minstens € 51.000 bedraagt, anders 25 %.',
+      'Roerende voorheffing op dividenden 18 % wanneer de optie voor het verlaagde tarief is aangevinkt, anders het gewone tarief van 30 %. Twee routes leiden tot 18 %: VVPRbis (kleine vennootschap, nieuwe aandelen op naam uitgegeven tegen inbreng in geld sinds juli 2013, vanaf het derde boekjaar na de inbreng) of een liquidatiereserve (10 % betaald door de vennootschap bij het aanleggen, 9,8 % bij uitkering na een wachttijd van drie jaar).',
+      'Auteursrechten (optioneel): 15 % belasting op het brutobedrag en geen sociale bijdragen, beperkt tot 30 % van de totale vergoeding en € 77.220 per jaar. Software komt vanaf 2026 opnieuw in aanmerking, maar alleen als het werk in licentie wordt gegeven voor exploitatie en een breed publiek bereikt; het aandeel van 30 % wordt ook getoetst als gemiddelde over vier jaar.',
+      'Pensioen via de vennootschap (optioneel, IPT): premie aftrekbaar voor de vennootschap, 4,4 % premietaks; van de uitkering gaat ongeveer 16 % af (3,55 % RIZIV-bijdrage, 2 % solidariteitsbijdrage plus 2 % boven € 150.000, 10 % belasting plus gemeentebelasting). Het geld is geblokkeerd tot het pensioen en de premie moet binnen de "80%-regel" passen, wat de tool niet controleert. Kosten van de verzekeraar blijven buiten beschouwing.',
+      'Beleggen via de vennootschap (optioneel, DBI-bevek): de winst wordt belegd na vennootschapsbelasting maar vóór roerende voorheffing; 5 % belasting op de meerwaarde bij uitstap, daarna roerende voorheffing op alles wat wordt uitgekeerd. Vereist het loon van € 51.000 voor de bedrijfsleider. Fondskosten, doorgaans hoger dan bij een ETF, blijven buiten beschouwing.',
+      'Pensioen en beleggen via de vennootschap worden betaald uit het maandbedrag: de privéaankoop van de ETF wordt verminderd met wat deze routes aan netto-inkomen kosten.',
+      'Met "onderstaande routes optimaal benutten" aangevinkt worden de auteursrechten op het wettelijke maximum gezet en zoekt de tool de pensioenpremie (tot het ingevulde bedrag) en het bedrag dat in de vennootschap blijft die het meeste vermogen opleveren, terwijl het levensonderhoud gedekt blijft.',
+      'ETF: 0,12 % beurstaks (TOB) bij aankoop en verkoop; 10 % meerwaardebelasting (vanaf 2026). Met de optie voor de jaarlijkse vrijstelling aangevinkt verkoopt het koppel elk jaar en koopt het terug om € 10.000 meerwaarde per persoon belastingvrij te realiseren, waarbij op dat deel tweemaal beurstaks wordt betaald; anders één verkoop op het einde met een vrijstelling tot € 15.000 per persoon. België heeft geen uitdrukkelijke regel tegen verkopen en terugkopen, maar de algemene antimisbruikbepaling is hierop nog niet getoetst; 0,3 % jaarlijkse effectentaks zodra de rekening meer dan € 1 miljoen bedraagt. Fondsen die in België geregistreerd zijn, betalen 1,32 % beurstaks in plaats van 0,12 %.',
+      'Kinderbijslag: basisbedrag van het Vlaamse Groeipakket.',
+    ],
+    NL: [
+      'De eigenaar (DGA) moet het gebruikelijk loon van minstens € 58.000 opnemen; de vennootschap betaalt daarop alleen de bijdrage voor de zorgverzekering.',
+      'De volksverzekeringen zitten in de eerste schijf van de inkomstenbelasting, waardoor de werknemersbijdragen als 0 verschijnen. Pensioenfondspremies blijven buiten beschouwing.',
+      'Dividenden in box 2: 24,5 % tot € 137.700 voor fiscale partners, 31 % daarboven.',
+      'ETF in box 3: jaarlijks ca. 2,16 % van de waarde boven € 118.700 (36 % van een forfaitair rendement van 6 %, of van het werkelijke rendement als dat lager is). Geen belasting bij verkoop. Een overstap naar belasting op het werkelijke rendement is gepland voor 2028, maar is nog geen wet.',
+    ],
+    DE: [
+      'Vennootschapsbelasting ca. 30 % (15 % + solidariteitstoeslag + bedrijfsbelasting (Gewerbesteuer) met een Hebesatz van 400 %).',
+      'Een eigenaar met ≥50 % van de aandelen valt buiten de wettelijke sociale verzekering; gemodelleerd met alleen een vrijwillige ziekte- en zorgverzekering (geen pensioen).',
+      'Gezamenlijke aanslag met inkomenssplitsing; het voordeligste van Kindergeld of de kinderaftrek wordt toegepast.',
+      'ETF: 26,375 % op 70 % van de meerwaarde (gedeeltelijke vrijstelling voor aandelenfondsen), plus de jaarlijkse voorheffing Vorabpauschale. De spaardersvrijstelling van € 2.000 wordt verondersteld al door dividenden te zijn opgebruikt.',
+    ],
+    FR: [
+      'De eigenaar wordt behandeld als bezoldigd voorzitter (SAS), zonder werkloosheidsverzekering. De sociale lasten zijn ruwe gemiddelden: ca. 21–22 % werknemer, ca. 39–42 % werkgever.',
+      'Inkomstenbelasting met het gezinsquotiënt (begrensd voordeel per kind).',
+      'Dividenden en meerwaarden onder de flat tax, gerekend aan 31,4 % (12,8 % + 18,6 % sociale heffingen vanaf 2026).',
+      'Met belastingvrije rekeningen ingeschakeld: de inleg gaat eerst naar twee PEA-rekeningen (elk € 150.000), waar na 5 jaar alleen sociale heffingen gelden. Enkel ETF\'s die voor de PEA in aanmerking komen.',
+    ],
+    LU: [
+      'Gehuwd koppel belast in klasse 2 (splitsing), 7 % toeslag voor het werkgelegenheidsfonds.',
+      'Dividenden: 50 % vrijgesteld, de rest belast tegen het marginale tarief, plus 1,4 % bijdrage voor de afhankelijkheidsverzekering.',
+      'ETF: meerwaarden op beleggingen die langer dan 6 maanden worden aangehouden, zijn belastingvrij voor particuliere beleggers (een ontwerpbegroting zou dit vanaf 2027 verlengen tot 12 maanden).',
+      'De splitsing van klasse 2 wordt vanaf 2028 vervangen door één enkele belastingklasse.',
+    ],
+    ES: [
+      'De inkomstenbelasting gebruikt de algemene schaal van staat + regio; de werkelijke tarieven verschillen per regio.',
+      'De eigenaar betaalt bijdragen als zelfstandige (autónomo) op de minimumgrondslag, ongeveer € 5.400–€ 7.300 per jaar.',
+      'Vennootschapsbelasting: verlaagde tarieven voor micro-ondernemingen (19 % / 21 %) bij een omzet onder € 1 miljoen (benaderd door winst onder € 1 miljoen), anders 23 %.',
+      'Meerwaarden op ETF\'s volgens de spaarschaal (19–30 %). Vermogensbelasting volgens de staatsschaal boven € 700.000 per persoon; Madrid heft niets onder ongeveer € 3 miljoen, en andere regio\'s hanteren andere vrijstellingen.',
+    ],
+    PT: [
+      'Gezamenlijke belasting met inkomenssplitsing; belastingkrediet van € 600 per kind.',
+      'Dividenden tegen een vast tarief van 28 %, of de helft van het dividend belast tegen progressieve tarieven wanneer dat goedkoper is.',
+      'ETF: 28 % op meerwaarden, waarbij 10 / 20 / 30 % van de meerwaarde wordt vrijgesteld na 2 / 5 / 8 jaar aanhouden.',
+      'De kinderbijslag is inkomensafhankelijk en wordt verondersteld nul te zijn.',
+    ],
+    IT: [
+      'Vennootschapsbelasting 27,9 % (IRES 24 % + IRAP 3,9 %; de bestuurdersvergoeding van de eigenaar blijft in de IRAP-grondslag).',
+      'De eigenaar wordt alleen als bestuurder betaald, via het afzonderlijke stelsel van de INPS (ca. 35 %, waarvan een derde ten laste van de eigenaar). Een eigenaar die ook dagelijks in de zaak meewerkt, is daarbovenop bijdragen aan het stelsel voor handelaars verschuldigd (niet gemodelleerd).',
+      'De inkomstenbelasting bevat ca. 2,3 % regionale en gemeentelijke opcentiemen.',
+      'ETF: 26 % op meerwaarden plus een jaarlijks zegelrecht van 0,2 % op de waarde van de portefeuille.',
+      'Kinderbijslag: minimale universele toelage voor hogere inkomens.',
+    ],
+    IE: [
+      'Vennootschapsbelasting 12,5 % op bedrijfsinkomsten.',
+      'De eigenaar-bestuurder betaalt PRSI klasse S; geen werkgevers-PRSI op het loon van de eigenaar.',
+      'Dividenden worden belast als gewoon inkomen (inkomstenbelasting + USC + PRSI) — doorgaans de duurste manier om winst uit de vennootschap te halen.',
+      'ETF: 35 % exit tax op meerwaarden (het tarief vanaf 2027; 38 % in 2026), met om de 8 jaar een fictieve verkoop (deemed disposal, belast ook zonder verkoop). De Investment Account die voor midden 2027 is voorgesteld, is niet gemodelleerd.',
+    ],
+    UK: [
+      'Omgerekend tegen £ 1 = € 1,18. Vennootschapsbelasting 19–25 % met marginal relief.',
+      'Dividendtarieven 10,75 % / 35,75 % / 39,35 % (vanaf april 2026), vrijstelling van £ 500.',
+      'De kinderbijslag wordt teruggevorderd wanneer de meestverdienende partner meer dan £ 60.000 verdient.',
+      'Met belastingvrije rekeningen ingeschakeld: tot £ 20.000 per persoon per jaar gaat naar ISA\'s (helemaal geen belasting). De rest wordt belast tegen 24 % CGT met een vrijstelling van £ 3.000 elk, plus jaarlijkse dividendbelasting op de herbelegde inkomsten van het fonds (uitgaande van een UK reporting fund).',
+    ],
+    CH: [
+      'Omgerekend tegen CHF 1 = € 1,08. Stad Zürich; kantons met lage belastingen zoals Zug of Schwyz zijn duidelijk goedkoper.',
+      'De inkomstenbelasting is een curve van effectieve tarieven, afgestemd op de federale belastingcalculator voor 2026 (gehuwd, twee inkomens, stad Zürich), niet de wettelijke tarieven.',
+      'Verplichte bijdragen aan het pensioenfonds (BVG) worden afgetrokken zoals een belasting, hoewel het in feite het eigen pensioensparen van de eigenaar is.',
+      'Dividenden uit een eigen vennootschap (deelneming ≥10 %) worden belast op ongeveer 55 % van het bedrag.',
+      'ETF: geen meerwaardebelasting; jaarlijkse vermogensbelasting (ca. 0,1–0,6 %), inkomstenbelasting op de interne dividenden van het fonds, en 0,15 % zegelrecht per transactie (uitgaande van een Zwitserse broker).',
+    ],
+    AT: [
+      'De eigenaar (vennoot-zaakvoerder met meer dan 25 %) is verzekerd in het stelsel voor zelfstandigen (GSVG, ca. 27 %, begrensd). Ook op dividenden zijn deze bijdragen verschuldigd totdat loon plus dividend het plafond bereiken (getoond onder dividendbelasting).',
+      'Het 13e/14e maandloon van de partner wordt belast tegen het verlaagde tarief van 6 %; Familienbonus Plus van € 2.000 per kind.',
+      'ETF: 27,5 % op meerwaarden, en jaarlijks 27,5 % op de interne dividenden van het fonds (verrekend met de uiteindelijke meerwaarde).',
+    ],
+    DK: [
+      'Omgerekend tegen DKK 7,46 = € 1. De inkomstenbelasting gebruikt de schijvenstructuur van 2026 (8 % arbeidsmarktbijdrage, ca. 25 % gemeentebelasting, staatsbelasting in een laagste, middelste en hoogste schijf).',
+      'Bijna geen sociale bijdragen; de sociale zekerheid wordt uit de inkomstenbelasting gefinancierd.',
+      'Dividenden en meerwaarden op ETF\'s zijn aandeleninkomen: 27 % tot DKK 158.800 voor een koppel, 42 % daarboven — dividenden vullen eerst de lage schijf.',
+      'Meerwaarden op ETF\'s worden elk jaar belast op de niet-gerealiseerde waardestijging (mark-to-market). Gaat uit van een ETF op de lijst van aandelenfondsen van de belastingdienst; andere worden belast als kapitaalinkomen (ongeveer 37–42 %). De Aktiesparekonto (17 %, laag stortingsplafond) is niet gemodelleerd.',
+    ],
+    SE: [
+      'Omgerekend tegen SEK 11 = € 1. Werkgeversbijdragen 31,42 %; gemeentebelasting 32,38 % plus 20 % staatsbelasting op hoge inkomens.',
+      'Regels voor besloten vennootschappen (3:12): dividenden binnen de jaarlijkse ruimte worden belast tegen 20 %, het meerdere als looninkomen.',
+      'ETF op een ISK-rekening: ca. 1,07 % van de waarde per jaar boven SEK 300.000 per persoon, geen belasting op meerwaarden.',
+    ],
+    PL: [
+      'Omgerekend tegen PLN 4,40 = € 1. Vennootschapsbelasting 9 % voor kleine belastingplichtigen (omzet tot € 2 miljoen, hier niet gecontroleerd), anders 19 %.',
+      'De eigenaar wordt betaald als bestuurslid op basis van benoeming (9 % ziektebijdrage) en betaalt als enige aandeelhouder ook sociale en ziektebijdragen als zelfstandige van ongeveer PLN 31.400 per jaar. Met een echte tweede aandeelhouder valt die vaste kost weg.',
+      'Gezamenlijke aangifte, schaal van 12 % / 32 %, belastingvermindering voor kinderen en de universele kinderbijslag 800+.',
+      'ETF: 19 % op meerwaarden, plus de solidariteitsheffing van 4 % op zeer grote meerwaarden. De pensioenrekeningen IKE/IKZE en de persoonlijke beleggingsrekening die in 2027 start, zijn niet gemodelleerd.',
+    ],
+    CZ: [
+      'Omgerekend tegen CZK 24,4 = € 1. Vlaktaks van 15 % inkomstenbelasting (23 % op zeer hoge lonen), hoge werkgeversbijdragen (33,8 %).',
+      'Belastingkredieten voor kinderen kunnen hoger zijn dan de verschuldigde belasting en worden dan uitbetaald.',
+      'ETF: meerwaarden zijn belastingvrij na een houdperiode van 3 jaar. Aankopen van de laatste 3 jaar zouden als gewoon inkomen worden belast tegen 15 % / 23 % (niet gemodelleerd).',
+    ],
+    EE: [
+      'De winst van de vennootschap blijft onbelast tot ze wordt uitgekeerd; een uitkering kost 22 % en het dividend is daarna belastingvrij voor de eigenaar. Winst die in de vennootschap blijft, zou onbelast blijven (niet gemodelleerd — alles wordt uitgekeerd).',
+      'Vlaktaks van 22 % inkomstenbelasting met een basisvrijstelling van € 8.400; sociale belasting voor de werkgever 33 %. De eigenaar wordt betaald als bestuurslid (geen werkloosheidsverzekering).',
+      'ETF: 22 % op meerwaarden bij verkoop.',
+    ],
+    BG: [
+      'Vlaktaks van 10 % vennootschaps- en inkomstenbelasting, 5 % dividendbelasting; sociale bijdragen begrensd op ongeveer € 27.600 loon. De eigenaar wordt verondersteld met een managementcontract te werken.',
+      'ETF: meerwaarden zijn alleen belastingvrij bij verkoop op een gereglementeerde markt in de EU/EER (bv. Xetra, Euronext); anders ongeveer 9–10 %.',
+      'De belastingvermindering voor kinderen is meegerekend; de inkomensafhankelijke kinderbijslag wordt verondersteld nul te zijn.',
+    ],
+    CY: [
+      'Gebruikt de belastinghervorming van 2026: 15 % vennootschapsbelasting, nieuwe schijven in de inkomstenbelasting, aftrekken voor kinderen bij een gezinsinkomen tot € 100.000 (meer met 3+ kinderen), 5 % defensiebijdrage op dividenden voor inwoners met domicilie. Aftrekken voor huisvesting zijn niet gemodelleerd.',
+      'Nieuwkomers met non-dom-status betalen 17 jaar lang geen defensiebijdrage op dividenden (alleen 2,65 % ziektebijdrage).',
+      'ETF: meerwaarden op effecten zijn belastingvrij.',
+    ],
+    RO: [
+      'Omgerekend tegen RON 5,34 = € 1. Standaard 16 % winstbelasting; de omzetbelasting van 1 % voor micro-ondernemingen (omzet tot € 100.000) is niet gemodelleerd.',
+      'Lonen: 35 % werknemersbijdragen (pensioen + ziekteverzekering), 10 % inkomstenbelasting, 2,25 % werkgeversbijdrage.',
+      'Dividenden tegen 16 % (vanaf 2026) plus een ziektebijdrage begrensd op 10 % van 24 minimumlonen.',
+      'ETF: 3 % op meerwaarden voor beleggingen die langer dan een jaar worden aangehouden via een Roemeense broker (6 % bij minder dan een jaar, niet gemodelleerd), plus de begrensde ziektebijdrage als dividenden het plafond nog niet hebben bereikt. Via een buitenlandse broker is het tarief 16 %.',
+    ],
+  } };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* Texte de l'interface en français. Mêmes clés que en.js.
+   {name} désigne une valeur remplie par la page. */
+(function (root) {
+  root.LANG = root.LANG || {};
+  root.LANG.fr = { name: 'Français', locale: 'fr-BE', ui: {
+    title: 'Country Wealth Compare',
+    banner: "<b>Ceci n'est pas un conseil financier.</b> Simple simulation générée par IA (« vibe coding »), qui contient certainement des erreurs.",
+    tagline: "Même famille, même plan — des systèmes fiscaux différents.",
+    language: "Langue",
+    zurich: "Zurich",
+    partner1: "Partenaire 1",
+    partner2: "Partenaire 2",
+    worksAs: "Statut",
+    owner: "Dirigeant",
+    employee: "Salarié",
+    profit: "Bénéfice de la société",
+    profitHint: "€/an, avant rémunération du dirigeant",
+    profitTip: "Chiffre d'affaires (ce que la société facture, hors TVA) moins tous les frais professionnels, avant tout versement en votre faveur. Exemple : 120 000 € facturés et 20 000 € de frais donnent 100 000 € ici. Le salaire du dirigeant, les cotisations patronales, l'impôt des sociétés et le dividende sont tous prélevés sur ce montant.",
+    ownerSalary: "Salaire brut du dirigeant",
+    ownerSalaryHint: "€/an ; le reste est versé en dividende",
+    grossSalary: "Salaire brut",
+    perYear: "€/an",
+    hasPartner2: "Ajouter un second partenaire",
+    hasPartner2Hint: "Décochez pour un ménage d'une personne",
+    family: "Famille",
+    children: "Enfants",
+    living: "Coût de la vie",
+    livingHintAdj: "€/an, niveau de prix : {country}",
+    livingHintSame: "€/an, identique dans chaque pays",
+    adjustLiving: "Adapter le coût de la vie aux prix locaux",
+    adjustLivingHint: "Ajuste le montant selon le niveau de prix de chaque pays",
+    livingRef: "Montant valable pour",
+    priceLevels: "Niveaux de prix (UE = 100)",
+    investing: "Investissement",
+    strategy: "Stratégie",
+    modeFixed: "Montant fixe",
+    modeAll: "Tout le solde",
+    monthly: "Achat mensuel d'ETF",
+    monthlyHint: "€/mois",
+    startCapital: "Capital de départ",
+    startCapitalHint: "€ déjà investis",
+    returnPct: "Rendement attendu",
+    returnHint: "% par an",
+    horizon: "Horizon",
+    horizonHint: "ans",
+    beHarvest: "Belgique : utiliser l'exonération annuelle des plus-values",
+    beHarvestHint: "Vend et rachète chaque année pour réaliser 10 000 € de plus-value par personne en exonération",
+    useWrappers: "Utiliser les enveloppes fiscales existantes",
+    useWrappersHint: "ISA britannique, PEA français",
+    companyOptions: "Options de la société",
+    optimizeSalary: "Meilleure répartition salaire / dividende par pays",
+    optimizeSalaryHint: "Choisit la répartition qui maximise le revenu net. Ne tient pas compte des droits à la pension ni aux prestations sociales.",
+    beVvprbis: "Belgique : taux réduit sur les dividendes",
+    beVvprbisHint: "18 % au lieu de 30 %, via VVPRbis ou une réserve de liquidation",
+    beOptimize: "Belgique : meilleur usage des voies ci-dessous",
+    beOptimizeHint: "Droits d'auteur au maximum, puis la combinaison de pension, d'investissement en société et d'investissement privé qui donne le patrimoine le plus élevé",
+    beRoyalty: "Belgique : droits d'auteur",
+    beRoyaltyHint: "€/an imposés à 15 % ; max. 30 % de la rémunération",
+    bePension: "Belgique : engagement individuel de pension",
+    bePensionHint: "Prime en €/an (EIP), bloquée jusqu'à la pension",
+    bePensionHintOpt: "€/an, le maximum permis par votre règle des 80 %",
+    beCompanyInvest: "Belgique : investir via la société",
+    beCompanyInvestHint: "€/an de bénéfice conservés dans une sicav RDT",
+    reset: "Réinitialiser",
+    resetTip: "Remet tous les champs, y compris les niveaux de prix, à leur valeur de départ",
+
+    heroBest: "patrimoine le plus élevé après {years} ans : {amount}",
+    heroGap: "écart entre le premier et le dernier ({country})",
+    heroIncome: "revenu net du ménage le plus élevé : {amount} par an",
+    rankTitle: "Patrimoine après {years} ans",
+    rankSub: "Après tous les impôts, y compris l'impôt dû si tout était vendu à la fin. Cliquez sur un pays pour l'afficher ou le masquer dans le graphique ci-dessous (4 au maximum).",
+    rankTip: "Investi {invested} · avant impôt à la vente {gross} · impôts sur les placements {taxes}",
+    showInChart: "Afficher dans le graphique",
+    cantAfford: "Le montant mensuel complet n'est pas finançable ici",
+    chartTitle: "Évolution du patrimoine",
+    chartSub: "Valeur du portefeuille après impôt en cas de vente cette année-là.",
+    chartAria: "Évolution du patrimoine pour les pays sélectionnés",
+    legendEmpty: "Cliquez sur un pays dans le classement ci-dessus pour l'afficher.",
+    now: "auj.",
+    yr: "an {n}",
+    today: "Aujourd'hui",
+    afterYear: "Après l'année {n}",
+    paidIn: "Versé",
+    varies: "(variable)",
+
+    tableTitle: "Où va l'argent chaque année",
+    tableSub: "Tous les montants sont en € par an, sauf mention contraire. « Conservé » est le revenu net en proportion du revenu brut : le bénéfice de la société pour un dirigeant, le salaire brut pour un salarié.",
+    thCountry: "Pays",
+    thSalaries: "Salaires bruts",
+    thDividends: "Dividendes (bruts)",
+    thCorpTax: "Impôt des sociétés",
+    thSocial: "Cotisations sociales",
+    thIncomeTax: "Impôt sur le revenu",
+    thDividendTax: "Impôt sur les dividendes",
+    thChildBenefit: "Allocations familiales",
+    thNet: "Revenu net du ménage",
+    thKept: "Conservé",
+    thLiving: "Coût de la vie",
+    thInvested: "Investi / mois",
+    thUnspent: "Non dépensé / an",
+    thInvestTax: "Impôts sur les placements (total)",
+    thWealth: "Patrimoine après {years} ans",
+    salaryAdjustedTip: "Adapté à ce que ce pays impose ou à ce que la société peut payer",
+    cappedTip: "Le revenu net moins le coût de la vie est inférieur au montant prévu",
+
+    calcTitle: "Calcul côte à côte",
+    calcSub: "Deux pays, étape par étape, du revenu brut au patrimoine final.",
+    firstCountry: "Premier pays",
+    secondCountry: "Second pays",
+    comparedWith: "comparé à",
+    difference: "Différence",
+    differenceTip: "Second pays moins premier pays",
+    cAdjusted: "⚠ adapté",
+    cAdjustedTip: "Salaire adapté à ce que ce pays impose ou à ce que la société peut payer",
+    cBestMix: "meilleure répartition",
+    cBeOnly: "Belgique uniquement",
+    cCompany: "Société",
+    cCompanyN: "Société du partenaire {n}",
+    cProfit: "Bénéfice avant rémunération du dirigeant",
+    cOwnerSalary: "Salaire brut du dirigeant",
+    cEmployerSS: "Cotisations patronales sur le salaire du dirigeant",
+    cRoyaltyPaid: "Droits d'auteur versés au dirigeant",
+    cPensionPremium: "Prime de l'engagement individuel de pension",
+    cTaxableProfit: "Bénéfice imposable",
+    cCorpTax: "Impôt des sociétés",
+    cRetained: "Conservé dans la société pour investir",
+    cDividendPaid: "Dividende versé au dirigeant",
+    cHousehold: "Revenu du ménage par an",
+    cYourOwnerSalary: "Votre salaire de dirigeant",
+    cYourGrossSalary: "Votre salaire brut",
+    cYourOwnSS: "Vos cotisations sociales personnelles",
+    cPartnerOwnerSalary: "Salaire de dirigeant du partenaire {n}",
+    cPartnerGrossSalary: "Salaire brut du partenaire {n}",
+    cPartnerOwnSS: "Cotisations sociales personnelles du partenaire {n}",
+    cIncomeTaxBoth: "Impôt sur le revenu sur les deux salaires",
+    cIncomeTaxOne: "Impôt sur le revenu sur le salaire",
+    cDividends: "Dividendes",
+    cDividendTax: "Impôt sur les dividendes",
+    cRoyalties: "Droits d'auteur",
+    cRoyaltyTax: "Impôt sur les droits d'auteur",
+    cChildBenefit: "Allocations familiales",
+    cNet: "Revenu net du ménage",
+    cKept: "{p} % conservés",
+    cSaving: "Épargne par an",
+    cLiving: "Coût de la vie",
+    cPriceLevel: "niveau de prix {n}",
+    cLeftOver: "Solde",
+    cNotCovered: "ne couvre pas le coût de la vie",
+    cInvestedEtf: "Investi dans l'ETF",
+    cPerMonth: "{amount} par mois",
+    cLessThanPlanned: "Moins que le montant prévu",
+    cGivenUp: "Cédé pour la pension et l'investissement en société",
+    cGivenUpNote: "revenu net que coûtent ces voies",
+    cNotInvested: "Non investi",
+    cInvesting: "Investissement sur {years} ans",
+    cPaidIn: "Versé",
+    cPaidInStart: "Versé (capital de départ compris)",
+    cUses: "utilise {name}",
+    cCompanyExtra: "Ajouté par la société à partir de bénéfices non imposés",
+    cTaxedLater: "imposé plus tard, au versement",
+    cGrowth: "Croissance des placements",
+    cGrowthNote: "{p} % par an",
+    cTaxesAlong: "Impôts sur les placements en cours de route",
+    cExitTax: "Impôt lors de la vente totale",
+    cWealth: "Patrimoine après {years} ans",
+    cOfPension: "dont pension d'entreprise, après impôt",
+    cOfCompany: "dont portefeuille de la société, après impôt",
+    ofSalary: "{p} du salaire",
+    ofProfit: "{p} du bénéfice",
+    ofSalaries: "{p} des salaires",
+    ofDividends: "{p} des dividendes",
+    ofRoyalties: "{p} des droits d'auteur",
+    ofGrowth: "{p} de la croissance",
+
+    notesTitle: "Hypothèses par pays",
+    notesSub: "Ce que le modèle de chaque pays inclut — et ce qu'il laisse de côté.",
+    disclaimer: "<b>Estimations uniquement.</b> Les règles fiscales sont des modèles simplifiés des règles de 2026. Elles ont été vérifiées en novembre 2026, principalement à partir de sources secondaires (cabinets comptables, portails fiscaux), et certains points n'ont pas pu être confirmés. Les différences régionales, les cotisations aux fonds de pension, les taxes de sortie en cas de déménagement et les variations de change ne sont pas prises en compte. Le coût de la vie est ajusté avec les niveaux de prix nationaux d'Eurostat pour 2024, qui incluent les loyers moyens mais sous-estiment le logement dans les capitales pour un nouvel arrivant. Tout le bénéfice de la société est distribué chaque année, sauf si une voie belge via la société est renseignée. Utilisez cet outil pour présélectionner des pays, puis faites confirmer par un conseiller fiscal local avant toute décision.",
+  }, notes: {
+    BE: [
+      "Le dirigeant d'entreprise est un indépendant : ~20,5 % de cotisations sociales (plafonnées), pas de cotisations patronales.",
+      "Impôt des sociétés de 20 % sur la première tranche de 100 000 € si la rémunération du dirigeant atteint au moins 51 000 €, sinon 25 %.",
+      "Dividendes à 18 % lorsque l'option de taux réduit est cochée, sinon le précompte mobilier ordinaire de 30 %. Deux voies mènent à 18 % : VVPRbis (petite société, nouvelles actions nominatives émises contre apport en numéraire depuis juillet 2013, à partir du troisième exercice comptable suivant l'apport) ou une réserve de liquidation (10 % payés par la société lors de la mise en réserve, 9,8 % à la distribution après un délai d'attente de trois ans).",
+      "Droits d'auteur (facultatif) : impôt de 15 % sur le montant brut et pas de cotisations sociales, dans la limite de 30 % de la rémunération totale et de 77 220 € par an. Les logiciels sont de nouveau admis à partir de 2026, mais seulement si l'œuvre est concédée en licence en vue de son exploitation et atteint un large public ; la part de 30 % est aussi vérifiée en moyenne sur quatre ans.",
+      "Engagement individuel de pension (facultatif, EIP) : prime déductible pour la société, taxe sur les primes de 4,4 % ; le capital versé perd environ 16 % (cotisation INAMI de 3,55 %, cotisation de solidarité de 2 % plus 2 % au-delà de 150 000 €, impôt de 10 % plus additionnels communaux). L'argent est bloqué jusqu'à la pension et la prime doit respecter la « règle des 80 % », que l'outil ne vérifie pas. Les frais de l'assureur ne sont pas pris en compte.",
+      "Investissement via la société (facultatif, sicav RDT) : le bénéfice est investi après l'impôt des sociétés mais avant le précompte mobilier sur les dividendes ; impôt de 5 % sur la plus-value à la sortie, puis précompte mobilier sur tout ce qui est distribué. Nécessite la rémunération du dirigeant de 51 000 €. Les frais du fonds, généralement plus élevés que ceux d'un ETF, ne sont pas pris en compte.",
+      "La pension et l'investissement via la société sont financés sur le montant mensuel : l'achat privé d'ETF est réduit de ce que ces voies coûtent en revenu net.",
+      "Avec l'option « meilleur usage des voies » cochée, les droits d'auteur sont fixés au maximum légal et l'outil cherche la prime de pension (jusqu'au montant saisi) et le montant conservé dans la société qui donnent le patrimoine le plus élevé, tout en couvrant le coût de la vie.",
+      "ETF : taxe sur les opérations de bourse (TOB) de 0,12 % à l'achat et à la vente ; taxe sur les plus-values de 10 % (à partir de 2026). Avec l'option d'exonération annuelle cochée, le couple vend et rachète chaque année pour réaliser 10 000 € de plus-value par personne en exonération, en payant deux fois la TOB sur cette tranche ; sinon, une seule vente finale avec une exonération pouvant atteindre 15 000 € par personne. La Belgique n'a pas de règle explicite contre la vente suivie d'un rachat, mais la disposition générale anti-abus n'a pas été testée sur ce point ; taxe sur les comptes-titres de 0,3 % par an dès que le compte dépasse 1 million €. Les fonds enregistrés en Belgique paient une TOB de 1,32 % au lieu de 0,12 %.",
+      "Allocations familiales : montant de base du Groeipakket flamand."
+    ],
+    NL: [
+      "Le dirigeant (DGA) doit se verser le salaire d'usage d'au moins 58 000 € ; la société ne paie dessus que la cotisation d'assurance maladie.",
+      "Les assurances sociales nationales sont comprises dans la première tranche de l'impôt sur le revenu : les cotisations salariales apparaissent donc à 0. Les cotisations aux fonds de pension ne sont pas prises en compte.",
+      "Dividendes en box 2 : 24,5 % jusqu'à 137 700 € pour des partenaires fiscaux, 31 % au-delà.",
+      "ETF en box 3 : chaque année ~2,16 % de la valeur au-delà de 118 700 € (36 % d'un rendement forfaitaire de 6 %, ou du rendement réel s'il est inférieur). Pas d'impôt à la vente. Un passage à l'imposition des rendements réels est prévu pour 2028 mais n'est pas encore voté."
+    ],
+    DE: [
+      "Impôt des sociétés ~30 % (15 % + contribution de solidarité + taxe professionnelle avec un coefficient de 400 %).",
+      "Un dirigeant détenant ≥50 % est hors de l'assurance sociale obligatoire ; modélisé avec la seule assurance maladie et dépendance volontaire (pas de pension).",
+      "Imposition commune avec splitting des revenus ; le plus avantageux du Kindergeld ou de l'abattement pour enfant est appliqué.",
+      "ETF : 26,375 % sur 70 % de la plus-value (exonération partielle des fonds d'actions), plus l'acompte annuel de la Vorabpauschale. L'abattement d'épargnant de 2 000 € est supposé absorbé par les dividendes."
+    ],
+    FR: [
+      "Le dirigeant est traité comme un président de SAS assimilé salarié, sans assurance chômage. Les charges sociales sont des moyennes approximatives : ~21–22 % côté salarié, ~39–42 % côté employeur.",
+      "Impôt sur le revenu avec le quotient familial (avantage plafonné par enfant).",
+      "Dividendes et plus-values soumis au PFU (flat tax), retenu à 31,4 % (12,8 % + 18,6 % de prélèvements sociaux à partir de 2026).",
+      "Avec les enveloppes fiscales activées : les versements vont d'abord sur deux PEA (150 000 € chacun), où seuls les prélèvements sociaux s'appliquent après 5 ans. ETF éligibles au PEA uniquement."
+    ],
+    LU: [
+      "Couple marié imposé en classe 2 (splitting), majoration de 7 % pour le fonds pour l'emploi.",
+      "Dividendes : exonérés à 50 %, le reste imposé au taux marginal, plus 1,4 % de contribution dépendance.",
+      "ETF : les plus-values sur les titres détenus plus de 6 mois sont exonérées pour les investisseurs privés (un projet de budget porterait ce délai à 12 mois à partir de 2027).",
+      "Le splitting de la classe 2 doit être remplacé par une classe d'impôt unique à partir de 2028."
+    ],
+    ES: [
+      "L'impôt sur le revenu utilise le barème générique État + région ; les taux réels diffèrent selon la région.",
+      "Le dirigeant paie les cotisations d'indépendant (autónomo) sur la base minimale, soit environ 5 400 € à 7 300 € par an.",
+      "Impôt des sociétés : taux réduits pour les micro-entreprises (19 % / 21 %) pour un chiffre d'affaires inférieur à 1 million € (approché par un bénéfice inférieur à 1 million €), sinon 23 %.",
+      "Plus-values sur ETF imposées au barème de l'épargne (19–30 %). Impôt sur la fortune au barème de l'État au-delà de 700 000 € par personne ; Madrid ne prélève rien en dessous d'environ 3 millions €, et d'autres régions appliquent des exonérations différentes."
+    ],
+    PT: [
+      "Imposition commune avec splitting des revenus ; crédit d'impôt de 600 € par enfant.",
+      "Dividendes au taux forfaitaire de 28 %, ou la moitié du dividende imposée au barème progressif lorsque c'est moins cher.",
+      "ETF : 28 % sur les plus-values, avec 10 / 20 / 30 % de la plus-value exclus après 2 / 5 / 8 ans de détention.",
+      "Les allocations familiales dépendent des revenus et sont supposées nulles."
+    ],
+    IT: [
+      "Impôt des sociétés de 27,9 % (IRES 24 % + IRAP 3,9 % ; la rémunération d'administrateur du dirigeant reste dans la base de l'IRAP).",
+      "Dirigeant rémunéré uniquement comme administrateur, via le régime séparé de l'INPS (~35 %, dont un tiers à la charge du dirigeant). Un dirigeant qui travaille aussi au quotidien dans l'entreprise doit en plus des cotisations au régime des commerçants (non modélisé).",
+      "L'impôt sur le revenu inclut ~2,3 % d'additionnels régionaux et communaux.",
+      "ETF : 26 % sur les plus-values plus un droit de timbre annuel de 0,2 % sur la valeur du portefeuille.",
+      "Allocations familiales : allocation universelle minimale pour les revenus élevés."
+    ],
+    IE: [
+      "Impôt des sociétés de 12,5 % sur les revenus d'exploitation.",
+      "Le dirigeant-administrateur paie la PRSI de classe S ; pas de PRSI patronale sur le salaire du dirigeant.",
+      "Les dividendes sont imposés comme un revenu ordinaire (impôt sur le revenu + USC + PRSI) — en général la façon la plus coûteuse de sortir le bénéfice.",
+      "ETF : exit tax de 35 % sur les plus-values (taux à partir de 2027 ; 38 % en 2026), avec une cession réputée (deemed disposal) tous les 8 ans (imposée même sans vente). L'Investment Account proposé pour la mi-2027 n'est pas modélisé."
+    ],
+    UK: [
+      "Converti à 1 £ = 1,18 €. Impôt des sociétés de 19–25 % avec marginal relief.",
+      "Taux sur les dividendes de 10,75 % / 35,75 % / 39,35 % (à partir d'avril 2026), abattement de 500 £.",
+      "Les allocations familiales sont récupérées lorsque le revenu le plus élevé du couple dépasse 60 000 £.",
+      "Avec les enveloppes fiscales activées : jusqu'à 20 000 £ par personne et par an vont dans des ISA (aucun impôt). Le reste est imposé à 24 % au titre de la CGT avec une exonération de 3 000 £ chacun, plus un impôt annuel sur les dividendes pour les revenus réinvestis du fonds (fonds supposé avoir le statut de UK reporting fund)."
+    ],
+    CH: [
+      "Converti à 1 CHF = 1,08 €. Ville de Zurich ; les cantons à faible fiscalité comme Zoug ou Schwytz sont nettement moins chers.",
+      "L'impôt sur le revenu est une courbe de taux effectifs ajustée sur le calculateur d'impôt fédéral pour 2026 (mariés, deux revenus, ville de Zurich), et non les barèmes légaux.",
+      "Les cotisations obligatoires à la caisse de pension (BVG) sont déduites comme un impôt, alors qu'il s'agit en réalité de l'épargne-retraite du dirigeant lui-même.",
+      "Les dividendes d'une société propre (participation ≥10 %) sont imposés sur environ 55 % du montant.",
+      "ETF : pas d'impôt sur les plus-values ; impôt annuel sur la fortune (~0,1–0,6 %), impôt sur le revenu sur les dividendes internes du fonds, et droit de timbre de 0,15 % par transaction (courtier suisse supposé)."
+    ],
+    AT: [
+      "Le dirigeant (associé-gérant détenant plus de 25 %) est assuré au régime des indépendants (GSVG, ~27 % plafonnés). Les dividendes supportent aussi ces cotisations jusqu'à ce que salaire et dividende atteignent le plafond (affichées sous l'impôt sur les dividendes).",
+      "13e/14e mois du conjoint imposés au taux réduit de 6 % ; Familienbonus Plus de 2 000 € par enfant.",
+      "ETF : 27,5 % sur les plus-values, et 27,5 % par an sur les dividendes internes du fonds (imputés sur la plus-value finale)."
+    ],
+    DK: [
+      "Converti à 7,46 DKK = 1 €. L'impôt sur le revenu utilise la structure de tranches de 2026 (contribution au marché du travail de 8 %, ~25 % d'impôt communal, impôts d'État de base / intermédiaire / supérieur).",
+      "Presque pas de cotisations sociales ; la protection sociale est financée par l'impôt sur le revenu.",
+      "Les dividendes et les plus-values sur ETF sont des revenus d'actions : 27 % jusqu'à 158 800 DKK pour un couple, 42 % au-delà — les dividendes utilisent d'abord la tranche basse.",
+      "Les plus-values sur ETF sont imposées chaque année sur la hausse latente (mark-to-market). Suppose un ETF figurant sur la liste des fonds en actions de l'administration fiscale ; les autres sont imposés comme revenus de capitaux (environ 37–42 %). L'Aktiesparekonto (17 %, plafond de versement bas) n'est pas modélisé."
+    ],
+    SE: [
+      "Converti à 11 SEK = 1 €. Cotisations patronales de 31,42 % ; impôt communal de 32,38 % plus 20 % d'impôt d'État sur les hauts revenus.",
+      "Règles des sociétés à actionnariat restreint (3:12) : les dividendes dans la limite du montant annuel autorisé sont imposés à 20 %, l'excédent comme un revenu salarial.",
+      "ETF détenu sur un compte ISK : ~1,07 % de la valeur par an au-delà de 300 000 SEK par personne, pas d'impôt sur les plus-values."
+    ],
+    PL: [
+      "Converti à 4,40 PLN = 1 €. Impôt des sociétés de 9 % pour les petits contribuables (chiffre d'affaires jusqu'à 2 millions €, non vérifié ici), 19 % sinon.",
+      "Le dirigeant est rémunéré comme membre du directoire par nomination (cotisation santé de 9 %) et, en tant qu'associé unique, paie aussi les cotisations sociales et de santé d'indépendant, soit environ 31 400 PLN par an. Avec un véritable second associé, ce coût fixe disparaît.",
+      "Déclaration commune, barème 12 % / 32 %, réduction d'impôt pour enfants et allocation familiale universelle 800+.",
+      "ETF : 19 % sur les plus-values, plus la contribution de solidarité de 4 % sur les très grosses plus-values. Les comptes de retraite IKE/IKZE et le compte d'investissement personnel lancé en 2027 ne sont pas modélisés."
+    ],
+    CZ: [
+      "Converti à 24,4 CZK = 1 €. Impôt sur le revenu à taux unique de 15 % (23 % sur les très hauts salaires), cotisations patronales élevées (33,8 %).",
+      "Les crédits d'impôt pour enfants peuvent dépasser l'impôt dû et sont alors versés.",
+      "ETF : les plus-values sont exonérées après 3 ans de détention. Les achats des 3 dernières années seraient imposés comme un revenu ordinaire à 15 % / 23 % (non modélisé)."
+    ],
+    EE: [
+      "Le bénéfice de la société n'est pas imposé tant qu'il n'est pas distribué ; une distribution coûte 22 % et le dividende est ensuite exonéré pour le dirigeant. Le bénéfice laissé dans la société resterait non imposé (non modélisé — tout est distribué).",
+      "Impôt sur le revenu à taux unique de 22 % avec une exonération de base de 8 400 € ; taxe sociale patronale de 33 %. Dirigeant rémunéré comme membre du directoire (pas d'assurance chômage).",
+      "ETF : 22 % sur les plus-values à la vente."
+    ],
+    BG: [
+      "Impôt des sociétés et impôt sur le revenu à taux unique de 10 %, impôt de 5 % sur les dividendes ; cotisations sociales plafonnées à environ 27 600 € de salaire. Le dirigeant est supposé travailler sous contrat de gestion.",
+      "ETF : les plus-values ne sont exonérées qu'en cas de vente sur un marché réglementé de l'UE/EEE (p. ex. Xetra, Euronext) ; sinon environ 9–10 %.",
+      "La réduction d'impôt pour enfants est incluse ; l'allocation familiale soumise à condition de revenus est supposée nulle."
+    ],
+    CY: [
+      "Utilise la réforme fiscale de 2026 : impôt des sociétés de 15 %, nouvelles tranches d'impôt sur le revenu, déductions pour enfants pour un revenu familial jusqu'à 100 000 € (davantage avec 3 enfants ou plus), contribution de défense de 5 % sur les dividendes pour les résidents domiciliés. Les déductions liées au logement ne sont pas modélisées.",
+      "Les nouveaux arrivants au statut non-dom ne paient pas de contribution de défense sur les dividendes pendant 17 ans (seulement 2,65 % de cotisation santé).",
+      "ETF : les plus-values sur titres sont exonérées."
+    ],
+    RO: [
+      "Converti à 5,34 RON = 1 €. Impôt ordinaire sur les bénéfices de 16 % ; l'impôt de 1 % sur le chiffre d'affaires des micro-entreprises (chiffre d'affaires jusqu'à 100 000 €) n'est pas modélisé.",
+      "Salaires : 35 % de cotisations salariales (pension + santé), 10 % d'impôt sur le revenu, 2,25 % de cotisation patronale.",
+      "Dividendes à 16 % (à partir de 2026) plus une cotisation santé plafonnée à 10 % de 24 salaires minimums.",
+      "ETF : 3 % sur les plus-values pour les titres détenus plus d'un an via un courtier roumain (6 % en dessous d'un an, non modélisé), plus la cotisation santé plafonnée si les dividendes n'ont pas déjà atteint le plafond. Via un courtier étranger, le taux est de 16 %."
+    ]
+  } };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* Deutsche Oberflächentexte. Gleiche Schlüssel wie en.js.
+   {name} markiert einen Wert, den die Seite einsetzt. */
+(function (root) {
+  root.LANG = root.LANG || {};
+  root.LANG.de = { name: 'Deutsch', locale: 'de-DE', ui: {
+    title: 'Country Wealth Compare',
+    banner: '<b>Keine Finanzberatung.</b> Dies ist nur eine mit KI-Hilfe zusammengebaute („vibe-coded“) Simulation und enthält mit Sicherheit Fehler.',
+    tagline: 'Gleiche Familie, gleicher Plan – unterschiedliche Steuersysteme.',
+    language: 'Sprache',
+    zurich: 'Zürich',
+    partner1: 'Partner 1',
+    partner2: 'Partner 2',
+    worksAs: 'Tätig als',
+    owner: 'Inhaber/in',
+    employee: 'Angestellte/r',
+    profit: 'Firmengewinn',
+    profitHint: '€/Jahr, vor Inhabervergütung',
+    profitTip: 'Umsatz (was die Firma in Rechnung stellt, ohne Umsatzsteuer) abzüglich aller Betriebskosten, bevor etwas an Sie ausgezahlt wird. Beispiel: 120.000 € Rechnungen und 20.000 € Kosten ergeben hier 100.000 €. Geschäftsführergehalt, Arbeitgeberbeiträge, Körperschaftsteuer und Ausschüttung werden alle aus diesem Betrag bezahlt.',
+    ownerSalary: 'Geschäftsführergehalt (brutto)',
+    ownerSalaryHint: '€/Jahr; der Rest wird ausgeschüttet',
+    grossSalary: 'Bruttogehalt',
+    perYear: '€/Jahr',
+    hasPartner2: 'Zweiten Partner einbeziehen',
+    hasPartner2Hint: 'Für einen Ein-Personen-Haushalt abwählen',
+    family: 'Familie',
+    children: 'Kinder',
+    living: 'Lebenshaltungskosten',
+    livingHintAdj: '€/Jahr zu Preisen in {country}',
+    livingHintSame: '€/Jahr, in jedem Land gleich',
+    adjustLiving: 'Kosten an lokale Preise anpassen',
+    adjustLivingHint: 'Skaliert den Betrag mit dem Preisniveau des jeweiligen Landes',
+    livingRef: 'Betrag gilt für',
+    priceLevels: 'Preisniveaus (EU = 100)',
+    investing: 'Geldanlage',
+    strategy: 'Strategie',
+    modeFixed: 'Fester Betrag',
+    modeAll: 'Alles Übrige',
+    monthly: 'Monatlicher ETF-Kauf',
+    monthlyHint: '€/Monat',
+    startCapital: 'Startkapital',
+    startCapitalHint: '€ bereits angelegt',
+    returnPct: 'Erwartete Rendite',
+    returnHint: '% pro Jahr',
+    horizon: 'Anlagedauer',
+    horizonHint: 'Jahre',
+    beHarvest: 'Belgien: jährlichen Freibetrag für Kursgewinne nutzen',
+    beHarvestHint: 'Verkauft und kauft jedes Jahr neu, um 10.000 € Gewinn pro Person steuerfrei zu realisieren',
+    useWrappers: 'Steuerfreie Konten nutzen, wo vorhanden',
+    useWrappersHint: 'ISA (UK), PEA (Frankreich)',
+    companyOptions: 'Optionen für die Firma',
+    optimizeSalary: 'Bester Mix aus Gehalt und Dividende je Land',
+    optimizeSalaryHint: 'Wählt die Aufteilung mit dem höchsten Nettoeinkommen. Renten- und Leistungsansprüche bleiben unberücksichtigt.',
+    beVvprbis: 'Belgien: ermäßigter Dividendensatz',
+    beVvprbisHint: '18 % statt 30 %, über VVPRbis oder eine Liquidationsrücklage',
+    beOptimize: 'Belgien: Wege unten optimal nutzen',
+    beOptimizeHint: 'Maximale Urheberrechtsvergütung, dann der Mix aus Altersvorsorge, Anlage in der Firma und privater Anlage mit dem höchsten Vermögen',
+    beRoyalty: 'Belgien: Urheberrechtsvergütung',
+    beRoyaltyHint: '€/Jahr zu 15 % Steuer; max. 30 % der Vergütung',
+    bePension: 'Belgien: betriebliche Altersvorsorge',
+    bePensionHint: '€/Jahr Prämie (IPT), bis zur Rente gebunden',
+    bePensionHintOpt: '€/Jahr, das Maximum nach Ihrer 80-%-Regel',
+    beCompanyInvest: 'Belgien: in der Firma anlegen',
+    beCompanyInvestHint: '€/Jahr Gewinn, der in einem Aktienfonds bleibt',
+    reset: 'Zurücksetzen',
+    resetTip: 'Setzt alle Felder, auch die Preisniveaus, auf die Ausgangswerte zurück',
+
+    heroBest: 'höchstes Vermögen nach {years} Jahren: {amount}',
+    heroGap: 'Abstand zwischen bestem und schlechtestem Land ({country})',
+    heroIncome: 'höchstes Haushaltsnettoeinkommen: {amount} pro Jahr',
+    rankTitle: 'Vermögen nach {years} Jahren',
+    rankSub: 'Nach allen Steuern, einschließlich der Steuer, die beim Verkauf des gesamten Bestands am Ende anfiele. Klicken Sie auf ein Land, um es im Diagramm unten ein- oder auszublenden (bis zu 4).',
+    rankTip: 'Eingezahlt {invested} · vor Steuer beim Verkauf {gross} · Steuern auf die Anlage {taxes}',
+    showInChart: 'Im Diagramm zeigen',
+    cantAfford: 'Der volle Monatsbetrag ist hier nicht finanzierbar',
+    chartTitle: 'Vermögen im Zeitverlauf',
+    chartSub: 'Depotwert nach Steuern bei Verkauf im jeweiligen Jahr.',
+    chartAria: 'Vermögen im Zeitverlauf für die ausgewählten Länder',
+    legendEmpty: 'Klicken Sie oben in der Rangliste auf ein Land, um es darzustellen.',
+    now: 'heute',
+    yr: 'J. {n}',
+    today: 'Heute',
+    afterYear: 'Nach Jahr {n}',
+    paidIn: 'Eingezahlt',
+    varies: '(variiert)',
+
+    tableTitle: 'Wohin das Geld jedes Jahr fließt',
+    tableSub: 'Alle Beträge in € pro Jahr, sofern nicht anders angegeben. „Behalten“ ist das Nettoeinkommen als Anteil am Bruttoeinkommen: Firmengewinn bei Inhabern, Bruttogehalt bei Angestellten.',
+    thCountry: 'Land',
+    thSalaries: 'Bruttogehälter',
+    thDividends: 'Dividenden (brutto)',
+    thCorpTax: 'Körperschaftsteuer',
+    thSocial: 'Sozialversicherungsbeiträge',
+    thIncomeTax: 'Einkommensteuer',
+    thDividendTax: 'Dividendensteuer',
+    thChildBenefit: 'Kindergeld',
+    thNet: 'Haushaltsnettoeinkommen',
+    thKept: 'Behalten',
+    thLiving: 'Lebenshaltungskosten',
+    thInvested: 'Angelegt / Monat',
+    thUnspent: 'Nicht ausgegeben / Jahr',
+    thInvestTax: 'Steuern auf die Anlage (gesamt)',
+    thWealth: 'Vermögen nach {years} J.',
+    salaryAdjustedTip: 'Angepasst an das, was dieses Land verlangt oder die Firma tragen kann',
+    cappedTip: 'Nettoeinkommen abzüglich Lebenshaltungskosten liegt unter dem geplanten Betrag',
+
+    calcTitle: 'Berechnung im direkten Vergleich',
+    calcSub: 'Zwei Länder Schritt für Schritt, vom Bruttoeinkommen bis zum Vermögen am Ende.',
+    firstCountry: 'Erstes Land',
+    secondCountry: 'Zweites Land',
+    comparedWith: 'verglichen mit',
+    difference: 'Differenz',
+    differenceTip: 'Zweites Land minus erstes Land',
+    cAdjusted: '⚠ angepasst',
+    cAdjustedTip: 'Gehalt angepasst an das, was dieses Land verlangt oder die Firma tragen kann',
+    cBestMix: 'bester Mix',
+    cBeOnly: 'nur Belgien',
+    cCompany: 'Firma',
+    cCompanyN: 'Firma von Partner {n}',
+    cProfit: 'Gewinn vor Inhabervergütung',
+    cOwnerSalary: 'Geschäftsführergehalt (brutto)',
+    cEmployerSS: 'Arbeitgeberbeiträge auf das Geschäftsführergehalt',
+    cRoyaltyPaid: 'Urheberrechtsvergütung an Inhaber',
+    cPensionPremium: 'Prämie betriebliche Altersvorsorge',
+    cTaxableProfit: 'Zu versteuernder Gewinn',
+    cCorpTax: 'Körperschaftsteuer',
+    cRetained: 'In der Firma belassen und angelegt',
+    cDividendPaid: 'Ausschüttung an Inhaber',
+    cHousehold: 'Haushaltseinkommen pro Jahr',
+    cYourOwnerSalary: 'Ihr Geschäftsführergehalt',
+    cYourGrossSalary: 'Ihr Bruttogehalt',
+    cYourOwnSS: 'Ihre eigenen Sozialversicherungsbeiträge',
+    cPartnerOwnerSalary: 'Geschäftsführergehalt Partner {n}',
+    cPartnerGrossSalary: 'Bruttogehalt Partner {n}',
+    cPartnerOwnSS: 'Eigene Sozialversicherungsbeiträge Partner {n}',
+    cIncomeTaxBoth: 'Einkommensteuer auf beide Gehälter',
+    cIncomeTaxOne: 'Einkommensteuer auf das Gehalt',
+    cDividends: 'Dividenden',
+    cDividendTax: 'Dividendensteuer',
+    cRoyalties: 'Urheberrechtsvergütung',
+    cRoyaltyTax: 'Steuer auf Urheberrechtsvergütung',
+    cChildBenefit: 'Kindergeld',
+    cNet: 'Haushaltsnettoeinkommen',
+    cKept: '{p} % behalten',
+    cSaving: 'Sparen pro Jahr',
+    cLiving: 'Lebenshaltungskosten',
+    cPriceLevel: 'Preisniveau {n}',
+    cLeftOver: 'Übrig',
+    cNotCovered: 'deckt die Lebenshaltungskosten nicht',
+    cInvestedEtf: 'In den ETF angelegt',
+    cPerMonth: '{amount} pro Monat',
+    cLessThanPlanned: 'Weniger als der geplante Betrag',
+    cGivenUp: 'Verzicht für Altersvorsorge und Anlage in der Firma',
+    cGivenUpNote: 'Nettoeinkommen, das diese Wege kosten',
+    cNotInvested: 'Nicht angelegt',
+    cInvesting: 'Geldanlage über {years} Jahre',
+    cPaidIn: 'Eingezahlt',
+    cPaidInStart: 'Eingezahlt (einschließlich Startkapital)',
+    cUses: 'nutzt {name}',
+    cCompanyExtra: 'Von der Firma aus unversteuertem Gewinn ergänzt',
+    cTaxedLater: 'später besteuert, bei Auszahlung',
+    cGrowth: 'Wertzuwachs der Anlage',
+    cGrowthNote: '{p} % pro Jahr',
+    cTaxesAlong: 'Laufende Steuern auf die Anlage',
+    cExitTax: 'Steuer beim Verkauf des gesamten Bestands',
+    cWealth: 'Vermögen nach {years} Jahren',
+    cOfPension: 'davon betriebliche Altersvorsorge, nach Steuern',
+    cOfCompany: 'davon Depot der Firma, nach Steuern',
+    ofSalary: '{p} des Gehalts',
+    ofProfit: '{p} des Gewinns',
+    ofSalaries: '{p} der Gehälter',
+    ofDividends: '{p} der Dividenden',
+    ofRoyalties: '{p} der Vergütung',
+    ofGrowth: '{p} des Zuwachses',
+
+    notesTitle: 'Annahmen je Land',
+    notesSub: 'Was das Modell des jeweiligen Landes berücksichtigt – und was nicht.',
+    disclaimer: '<b>Nur Schätzwerte.</b> Die Steuerregeln sind vereinfachte Modelle der Regeln für 2026. Sie wurden im November 2026 überprüft, überwiegend anhand von Sekundärquellen (Steuerkanzleien, Steuerportale), und einige Punkte ließen sich nicht bestätigen. Regionale Unterschiede, Pensionskassenbeiträge, Wegzugsteuern beim Umzug und Wechselkursschwankungen bleiben unberücksichtigt. Die Lebenshaltungskosten werden mit den nationalen Preisniveaus von Eurostat für 2024 skaliert; diese enthalten Durchschnittsmieten, unterschätzen aber die Wohnkosten in Hauptstädten für Neuzuziehende. Der gesamte Firmengewinn wird jedes Jahr ausgeschüttet, sofern kein belgischer Firmenweg ausgefüllt ist. Nutzen Sie dies für eine Vorauswahl von Ländern und lassen Sie das Ergebnis von einem Steuerberater vor Ort bestätigen, bevor Sie etwas entscheiden.',
+  }, notes: {
+    BE: [
+      'Inhaber ist selbständiger Geschäftsführer: ~20,5 % Sozialversicherungsbeiträge (gedeckelt), keine Arbeitgeberbeiträge.',
+      'Körperschaftsteuer 20 % auf die ersten 100.000 €, wenn das Geschäftsführergehalt mindestens 51.000 € beträgt, sonst 25 %.',
+      'Dividenden zu 18 %, wenn die Option für den ermäßigten Satz aktiviert ist, sonst die regulären 30 %. Zwei Wege führen zu 18 %: VVPRbis (kleine Gesellschaft, neue Namensaktien gegen Bareinlage seit Juli 2013, ab dem dritten Geschäftsjahr nach der Einlage) oder eine Liquidationsrücklage (10 % zahlt die Gesellschaft bei der Bildung, 9,8 % bei Auszahlung nach drei Jahren Wartezeit).',
+      'Urheberrechtsvergütung (optional): 15 % Steuer auf den Bruttobetrag und keine Sozialversicherungsbeiträge, begrenzt auf 30 % der Gesamtvergütung und 77.220 € pro Jahr. Software ist ab 2026 wieder begünstigt, aber nur, wenn das Werk zur Verwertung lizenziert wird und ein breites Publikum erreicht; der 30-%-Anteil wird außerdem als Vierjahresdurchschnitt geprüft.',
+      'Betriebliche Altersvorsorge (optional, IPT): Prämie für die Gesellschaft abzugsfähig, 4,4 % Prämiensteuer; von der Auszahlung gehen rund 16 % ab (3,55 % Krankenversicherungsabgabe, 2 % Solidaritätsabgabe plus 2 % oberhalb von 150.000 €, 10 % Steuer plus Gemeindezuschlag). Das Geld ist bis zur Rente gebunden, und die Prämie muss die „80-%-Regel“ einhalten, was das Tool nicht prüft. Gebühren des Versicherers bleiben unberücksichtigt.',
+      'Anlage in der Firma (optional, DBI/RDT-Fonds): Der Gewinn wird nach Körperschaftsteuer, aber vor Dividendensteuer angelegt; 5 % Steuer auf den Gewinn beim Ausstieg, danach Dividendensteuer auf alles, was ausgeschüttet wird. Setzt das Geschäftsführergehalt von 51.000 € voraus. Fondsgebühren, meist höher als bei einem ETF, bleiben unberücksichtigt.',
+      'Altersvorsorge und Anlage in der Firma werden aus dem Monatsbetrag bezahlt: Der private ETF-Kauf verringert sich um das Nettoeinkommen, das diese Wege kosten.',
+      'Ist „Wege optimal nutzen“ aktiviert, wird die Urheberrechtsvergütung auf das gesetzliche Maximum gesetzt, und das Tool sucht die Altersvorsorgeprämie (bis zum eingegebenen Betrag) und den in der Firma belassenen Betrag, die das höchste Vermögen ergeben, während die Lebenshaltungskosten gedeckt bleiben.',
+      'ETF: 0,12 % Börsenumsatzsteuer bei Kauf und Verkauf; 10 % Kapitalertragsteuer auf Kursgewinne (ab 2026). Ist die Option für den jährlichen Freibetrag aktiviert, verkauft das Paar jedes Jahr und kauft neu, um 10.000 € Gewinn pro Person steuerfrei zu realisieren, und zahlt auf diesen Teil zweimal die Börsenumsatzsteuer; andernfalls ein einziger Verkauf am Ende mit einem Freibetrag von bis zu 15.000 € pro Person. Belgien hat keine ausdrückliche Regel gegen Verkauf und Rückkauf, aber die allgemeine Missbrauchsvorschrift wurde hierzu noch nicht erprobt; 0,3 % jährliche Wertpapierdepotsteuer, sobald das Depot 1 Mio. € übersteigt. In Belgien registrierte Fonds zahlen 1,32 % Börsenumsatzsteuer statt 0,12 %.',
+      'Kindergeld: Basisbetrag des flämischen Groeipakket.'
+    ],
+    NL: [
+      'Inhaber (DGA) muss das übliche Gehalt von mindestens 58.000 € beziehen; die Gesellschaft zahlt darauf nur die Krankenversicherungsabgabe.',
+      'Die Volksversicherungen sind in der ersten Einkommensteuerstufe enthalten, daher erscheinen die Arbeitnehmerbeiträge als 0. Pensionsfondsbeiträge bleiben unberücksichtigt.',
+      'Dividenden in box 2: 24,5 % bis 137.700 € für Steuerpartner, 31 % darüber.',
+      'ETF in box 3: jährlich ~2,16 % des Werts oberhalb von 118.700 € (36 % einer fiktiven Rendite von 6 % oder der tatsächlichen Rendite, falls diese niedriger ist). Keine Steuer beim Verkauf. Ein Wechsel zur Besteuerung der tatsächlichen Rendite ist für 2028 geplant, aber noch nicht Gesetz.'
+    ],
+    DE: [
+      'Unternehmensteuern ~30 % (15 % Körperschaftsteuer + Solidaritätszuschlag + Gewerbesteuer bei einem Hebesatz von 400 %).',
+      'Ein Inhaber mit ≥50 % Beteiligung ist nicht sozialversicherungspflichtig; modelliert nur mit freiwilliger Kranken- und Pflegeversicherung (keine Rentenversicherung).',
+      'Zusammenveranlagung mit Ehegattensplitting; Günstigerprüfung zwischen Kindergeld und Kinderfreibetrag.',
+      'ETF: 26,375 % auf 70 % des Gewinns (Teilfreistellung für Aktienfonds), dazu die jährliche Vorabpauschale. Der Sparer-Pauschbetrag von 2.000 € gilt als durch Dividenden ausgeschöpft.'
+    ],
+    FR: [
+      'Inhaber wird als angestellter Präsident (SAS) behandelt, ohne Arbeitslosenversicherung. Die Sozialabgaben sind grobe Durchschnittswerte: ~21–22 % Arbeitnehmer, ~39–42 % Arbeitgeber.',
+      'Einkommensteuer mit Familienquotient (Vorteil pro Kind gedeckelt).',
+      'Dividenden und Kursgewinne unter der Flat Tax, angesetzt mit 31,4 % (12,8 % + 18,6 % Sozialabgaben ab 2026).',
+      'Mit aktivierten steuerfreien Konten: Einzahlungen fließen zuerst in zwei PEA (je 150.000 €), bei denen nach 5 Jahren nur noch Sozialabgaben anfallen. Nur PEA-fähige ETFs.'
+    ],
+    LU: [
+      'Ehepaar in Steuerklasse 2 (Splitting), 7 % Zuschlag für den Beschäftigungsfonds.',
+      'Dividenden: 50 % steuerfrei, der Rest zum Grenzsteuersatz, dazu 1,4 % Beitrag zur Pflegeversicherung.',
+      'ETF: Gewinne aus Anteilen, die länger als 6 Monate gehalten werden, sind für Privatanleger steuerfrei (ein Haushaltsentwurf würde dies ab 2027 auf 12 Monate verlängern).',
+      'Das Splitting der Steuerklasse 2 soll ab 2028 durch eine einheitliche Steuerklasse ersetzt werden.'
+    ],
+    ES: [
+      'Die Einkommensteuer nutzt den allgemeinen Tarif aus Staat + Region; die tatsächlichen Sätze unterscheiden sich je Region.',
+      'Inhaber zahlt Selbständigenbeiträge (autónomo) auf die Mindestbemessungsgrundlage, etwa 5.400–7.300 € pro Jahr.',
+      'Körperschaftsteuer: ermäßigte Sätze für Kleinstunternehmen (19 % / 21 %) bei Umsatz unter 1 Mio. € (angenähert durch Gewinn unter 1 Mio. €), sonst 23 %.',
+      'ETF-Gewinne nach dem Spartarif (19–30 %). Vermögensteuer nach dem staatlichen Tarif oberhalb von 700.000 € pro Person; Madrid erhebt unterhalb von etwa 3 Mio. € nichts, andere Regionen haben abweichende Freibeträge.'
+    ],
+    PT: [
+      'Zusammenveranlagung mit Splitting; 600 € Steuergutschrift pro Kind.',
+      'Dividenden pauschal zu 28 %, oder die Hälfte der Dividende zum progressiven Tarif, wenn das günstiger ist.',
+      'ETF: 28 % auf Gewinne, wobei nach 2 / 5 / 8 Jahren Haltedauer 10 / 20 / 30 % des Gewinns ausgenommen sind.',
+      'Das Kindergeld ist einkommensabhängig und wird mit null angesetzt.'
+    ],
+    IT: [
+      'Unternehmensteuern 27,9 % (IRES 24 % + IRAP 3,9 %; die Geschäftsführervergütung des Inhabers bleibt in der IRAP-Bemessungsgrundlage).',
+      'Inhaber wird nur als Geschäftsführer vergütet, über die INPS-Sonderverwaltung (Gestione Separata; ~35 %, ein Drittel trägt der Inhaber). Ein Inhaber, der auch im Tagesgeschäft mitarbeitet, schuldet zusätzlich Beiträge zur Händlerkasse (nicht modelliert).',
+      'Die Einkommensteuer enthält ~2,3 % regionale und kommunale Zuschläge.',
+      'ETF: 26 % auf Gewinne plus 0,2 % jährliche Stempelsteuer auf den Depotwert.',
+      'Kindergeld: Mindestbetrag der Einheitsleistung für höhere Einkommen.'
+    ],
+    IE: [
+      'Körperschaftsteuer 12,5 % auf gewerbliche Einkünfte.',
+      'Geschäftsführender Inhaber zahlt PRSI der Klasse S; kein Arbeitgeber-PRSI auf das Geschäftsführergehalt.',
+      'Dividenden werden als normales Einkommen besteuert (Einkommensteuer + USC + PRSI) – meist der teuerste Weg, Gewinn zu entnehmen.',
+      'ETF: 35 % Exit Tax auf Gewinne (Satz ab 2027; 38 % in 2026), mit fiktiver Veräußerung alle 8 Jahre (besteuert auch ohne Verkauf). Das für Mitte 2027 vorgeschlagene Investment Account ist nicht modelliert.'
+    ],
+    UK: [
+      'Umgerechnet mit 1 £ = 1,18 €. Körperschaftsteuer 19–25 % mit Marginal Relief.',
+      'Dividendensätze 10,75 % / 35,75 % / 39,35 % (ab April 2026), Freibetrag 500 £.',
+      'Das Kindergeld wird zurückgefordert, wenn der Besserverdienende 60.000 £ überschreitet.',
+      'Mit aktivierten steuerfreien Konten: bis zu 20.000 £ pro Person und Jahr fließen in ISAs (gar keine Steuer). Der Rest wird mit 24 % CGT bei einem Freibetrag von je 3.000 £ besteuert, dazu jährliche Dividendensteuer auf die thesaurierten Erträge des Fonds (UK Reporting Fund angenommen).'
+    ],
+    CH: [
+      'Umgerechnet mit 1 CHF = 1,08 €. Stadt Zürich; Tiefsteuerkantone wie Zug oder Schwyz sind deutlich günstiger.',
+      'Die Einkommenssteuer ist eine Kurve effektiver Sätze, angepasst an den Steuerrechner des Bundes für 2026 (verheiratet, Doppelverdiener, Stadt Zürich), nicht die gesetzlichen Tarife.',
+      'Obligatorische Pensionskassenbeiträge (BVG) werden wie eine Steuer abgezogen, obwohl sie eigentlich die eigene Altersvorsorge des Inhabers sind.',
+      'Dividenden aus der eigenen Gesellschaft (Beteiligung ≥10 %) werden auf rund 55 % des Betrags besteuert.',
+      'ETF: keine Kapitalgewinnsteuer; jährliche Vermögenssteuer (~0,1–0,6 %), Einkommenssteuer auf die fondsinternen Dividenden und 0,15 % Stempelabgabe pro Transaktion (Schweizer Broker angenommen).'
+    ],
+    AT: [
+      'Inhaber (Gesellschafter-Geschäftsführer mit über 25 %) ist nach dem GSVG versichert (~27 %, gedeckelt). Auch Ausschüttungen unterliegen diesen Beiträgen, bis Gehalt plus Ausschüttung die Höchstbeitragsgrundlage erreichen (ausgewiesen unter Dividendensteuer).',
+      '13./14. Gehalt des Ehepartners zum ermäßigten Satz von 6 % besteuert; Familienbonus Plus von 2.000 € pro Kind.',
+      'ETF: 27,5 % KESt auf Gewinne und jährlich 27,5 % auf die fondsinternen Dividenden (auf den Gewinn am Ende angerechnet).'
+    ],
+    DK: [
+      'Umgerechnet mit 7,46 DKK = 1 €. Die Einkommensteuer nutzt die Stufenstruktur 2026 (8 % Arbeitsmarktbeitrag, ~25 % Gemeindesteuer, staatliche Basis-, Mittel- und Spitzensteuer).',
+      'Fast keine Sozialversicherungsbeiträge; der Sozialstaat wird aus der Einkommensteuer finanziert.',
+      'Dividenden und ETF-Gewinne sind Aktieneinkommen: 27 % bis 158.800 DKK für ein Paar, 42 % darüber – Dividenden füllen die untere Stufe zuerst.',
+      'ETF-Gewinne werden jedes Jahr auf den unrealisierten Zuwachs besteuert (Mark-to-Market). Angenommen wird ein ETF auf der Liste aktienbasierter Fonds der Steuerbehörde; andere werden als Kapitaleinkommen besteuert (etwa 37–42 %). Das Aktiesparekonto (17 %, niedrige Einzahlungsgrenze) ist nicht modelliert.'
+    ],
+    SE: [
+      'Umgerechnet mit 11 SEK = 1 €. Arbeitgeberbeiträge 31,42 %; Gemeindesteuer 32,38 % plus 20 % staatliche Steuer auf hohe Einkommen.',
+      'Regeln für personenbezogene Gesellschaften (3:12): Dividenden innerhalb des jährlichen Freiraums werden mit 20 % besteuert, der Überschuss als Gehaltseinkommen.',
+      'ETF auf einem ISK-Konto: ~1,07 % des Werts pro Jahr oberhalb von 300.000 SEK pro Person, keine Steuer auf Gewinne.'
+    ],
+    PL: [
+      'Umgerechnet mit 4,40 PLN = 1 €. Körperschaftsteuer 9 % für kleine Steuerpflichtige (Umsatz bis 2 Mio. €, hier nicht geprüft), sonst 19 %.',
+      'Inhaber wird als bestelltes Vorstandsmitglied vergütet (9 % Krankenversicherungsbeitrag) und zahlt als Alleingesellschafter zusätzlich Sozial- und Krankenversicherungsbeiträge für Selbständige von etwa 31.400 PLN pro Jahr. Mit einem echten zweiten Gesellschafter entfallen diese Fixkosten.',
+      'Zusammenveranlagung, Tarif 12 % / 32 %, Kinderfreibetrag und das allgemeine Kindergeld 800+.',
+      'ETF: 19 % auf Gewinne, dazu die Solidaritätsabgabe von 4 % auf sehr hohe Gewinne. Die Altersvorsorgekonten IKE/IKZE und das ab 2027 startende persönliche Anlagekonto sind nicht modelliert.'
+    ],
+    CZ: [
+      'Umgerechnet mit 24,4 CZK = 1 €. Einheitliche Einkommensteuer von 15 % (23 % auf sehr hohe Gehälter), hohe Arbeitgeberbeiträge (33,8 %).',
+      'Steuergutschriften für Kinder können die geschuldete Steuer übersteigen und werden dann ausgezahlt.',
+      'ETF: Gewinne sind nach einer Haltedauer von 3 Jahren steuerfrei. Käufe aus den letzten 3 Jahren würden als normales Einkommen mit 15 % / 23 % besteuert (nicht modelliert).'
+    ],
+    EE: [
+      'Der Firmengewinn bleibt bis zur Ausschüttung unversteuert; eine Ausschüttung kostet 22 %, und die Dividende ist dann für den Inhaber steuerfrei. In der Firma belassener Gewinn bliebe unversteuert (nicht modelliert – alles wird ausgeschüttet).',
+      'Einheitliche Einkommensteuer von 22 % mit einem Grundfreibetrag von 8.400 €; Sozialsteuer des Arbeitgebers 33 %. Inhaber wird als Vorstandsmitglied vergütet (keine Arbeitslosenversicherung).',
+      'ETF: 22 % auf Gewinne beim Verkauf.'
+    ],
+    BG: [
+      'Einheitlich 10 % Körperschaft- und Einkommensteuer, 5 % Dividendensteuer; Sozialversicherungsbeiträge gedeckelt bei etwa 27.600 € Gehalt. Angenommen wird, dass der Inhaber mit einem Managementvertrag arbeitet.',
+      'ETF: Gewinne sind nur steuerfrei, wenn an einem geregelten Markt in der EU/im EWR verkauft wird (z. B. Xetra, Euronext); sonst etwa 9–10 %.',
+      'Die Steuerermäßigung für Kinder ist enthalten; das einkommensabhängige Kindergeld wird mit null angesetzt.'
+    ],
+    CY: [
+      'Nutzt die Steuerreform 2026: 15 % Körperschaftsteuer, neue Einkommensteuerstufen, Kinderabzüge bei Familieneinkommen bis 100.000 € (mehr bei 3+ Kindern), 5 % Verteidigungsabgabe auf Dividenden für Ansässige mit Domizil. Abzüge für Wohnkosten sind nicht modelliert.',
+      'Neuzuziehende mit Non-Dom-Status zahlen 17 Jahre lang keine Verteidigungsabgabe auf Dividenden (nur 2,65 % Krankenversicherungsbeitrag).',
+      'ETF: Gewinne aus Wertpapieren sind steuerfrei.'
+    ],
+    RO: [
+      'Umgerechnet mit 5,34 RON = 1 €. Regulär 16 % Gewinnsteuer; die Umsatzbesteuerung von 1 % für Kleinstunternehmen (Umsatz bis 100.000 €) ist nicht modelliert.',
+      'Gehälter: 35 % Arbeitnehmerbeiträge (Rente + Gesundheit), 10 % Einkommensteuer, 2,25 % Arbeitgeberbeitrag.',
+      'Dividenden zu 16 % (ab 2026) plus ein Krankenversicherungsbeitrag, gedeckelt bei 10 % von 24 Mindestlöhnen.',
+      'ETF: 3 % auf Gewinne bei einer Haltedauer von über einem Jahr über einen rumänischen Broker (6 % unter einem Jahr, nicht modelliert), dazu der gedeckelte Krankenversicherungsbeitrag, falls Dividenden die Obergrenze nicht schon erreicht haben. Über einen ausländischen Broker beträgt der Satz 16 %.'
+    ]
+  } };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* Testi dell'interfaccia in italiano. Stesse chiavi di en.js.
+   {name} indica un valore inserito dalla pagina. */
+(function (root) {
+  root.LANG = root.LANG || {};
+  root.LANG.it = { name: 'Italiano', locale: 'it-IT', ui: {
+    title: 'Country Wealth Compare',
+    banner: "<b>Non è consulenza finanziaria.</b> È solo una simulazione scritta in vibe coding e contiene sicuramente errori.",
+    tagline: "Stessa famiglia, stesso piano: sistemi fiscali diversi.",
+    language: "Lingua",
+    zurich: "Zurigo",
+    partner1: "Partner 1",
+    partner2: "Partner 2",
+    worksAs: "Lavora come",
+    owner: "Titolare di società",
+    employee: "Dipendente",
+    profit: "Utile della società",
+    profitHint: "€/anno, prima del compenso del titolare",
+    profitTip: "Fatturato (ciò che la società fattura, IVA esclusa) meno tutti i costi aziendali, prima di qualsiasi pagamento a te. Esempio: 120.000 € fatturati e 20.000 € di costi danno 100.000 € qui. Stipendio del titolare, contributi a carico della società, imposta sulle società e dividendo escono tutti da questo importo.",
+    ownerSalary: "Stipendio lordo del titolare",
+    ownerSalaryHint: "€/anno; il resto è pagato come dividendo",
+    grossSalary: "Stipendio lordo",
+    perYear: "€/anno",
+    hasPartner2: "Includi un secondo partner",
+    hasPartner2Hint: "Togli la spunta per una famiglia di una sola persona",
+    family: "Famiglia",
+    children: "Figli",
+    living: "Costo della vita",
+    livingHintAdj: "€/anno ai prezzi di: {country}",
+    livingHintSame: "€/anno, uguale in ogni paese",
+    adjustLiving: "Adegua il costo della vita ai prezzi locali",
+    adjustLivingHint: "Riscala l'importo in base al livello dei prezzi di ciascun paese",
+    livingRef: "L'importo si riferisce a",
+    priceLevels: "Livelli dei prezzi (UE = 100)",
+    investing: "Investimenti",
+    strategy: "Strategia",
+    modeFixed: "Importo fisso",
+    modeAll: "Tutto ciò che avanza",
+    monthly: "Acquisto mensile di ETF",
+    monthlyHint: "€/mese",
+    startCapital: "Capitale iniziale",
+    startCapitalHint: "€ già investiti",
+    returnPct: "Rendimento atteso",
+    returnHint: "% all'anno",
+    horizon: "Orizzonte",
+    horizonHint: "anni",
+    beHarvest: "Belgio: usa l'esenzione annua sulle plusvalenze",
+    beHarvestHint: "Vende e ricompra ogni anno per realizzare 10.000 € di plusvalenza a persona senza imposte",
+    useWrappers: "Usa i conti esentasse dove esistono",
+    useWrappersHint: "ISA nel Regno Unito, PEA in Francia",
+    companyOptions: "Opzioni per la società",
+    optimizeSalary: "Miglior mix stipendio / dividendo per paese",
+    optimizeSalaryHint: "Sceglie la ripartizione che massimizza il reddito netto. Non considera i diritti a pensione e prestazioni.",
+    beVvprbis: "Belgio: aliquota ridotta sui dividendi",
+    beVvprbisHint: "18 % invece di 30 %, tramite VVPRbis o una riserva di liquidazione",
+    beOptimize: "Belgio: miglior uso delle opzioni qui sotto",
+    beOptimizeHint: "Diritti d'autore al massimo, poi il mix di pensione, investimento in società e investimento privato che dà più patrimonio",
+    beRoyalty: "Belgio: diritti d'autore",
+    beRoyaltyHint: "€/anno tassati al 15 %; max 30 % del compenso",
+    bePension: "Belgio: pensione aziendale",
+    bePensionHint: "€/anno di premio (IPT), vincolato fino alla pensione",
+    bePensionHintOpt: "€/anno, il massimo consentito dalla tua regola dell'80 %",
+    beCompanyInvest: "Belgio: investi nella società",
+    beCompanyInvestHint: "€/anno di utile tenuti in un fondo azionario",
+    reset: "Ripristina i valori predefiniti",
+    resetTip: "Riporta ogni campo, compresi i livelli dei prezzi, al valore iniziale",
+
+    heroBest: "patrimonio più alto dopo {years} anni: {amount}",
+    heroGap: "divario tra il migliore e il peggiore ({country})",
+    heroIncome: "reddito familiare netto più alto: {amount} all'anno",
+    rankTitle: "Patrimonio dopo {years} anni",
+    rankSub: "Al netto di tutte le imposte, compresa quella dovuta se si vendesse tutto alla fine. Clicca su un paese per mostrarlo o nasconderlo nel grafico qui sotto (fino a 4).",
+    rankTip: "Investito {invested} · prima dell'imposta alla vendita {gross} · imposte sugli investimenti {taxes}",
+    showInChart: "Mostra nel grafico",
+    cantAfford: "Qui l'intero importo mensile non è sostenibile",
+    chartTitle: "Patrimonio nel tempo",
+    chartSub: "Valore del portafoglio al netto delle imposte se venduto in quell'anno.",
+    chartAria: "Patrimonio nel tempo per i paesi selezionati",
+    legendEmpty: "Clicca su un paese nella classifica qui sopra per aggiungerlo al grafico.",
+    now: "ora",
+    yr: "anno {n}",
+    today: "Oggi",
+    afterYear: "Dopo l'anno {n}",
+    paidIn: "Versato",
+    varies: "(variabile)",
+
+    tableTitle: "Dove vanno i soldi ogni anno",
+    tableSub: "Tutti gli importi sono in € all'anno, salvo diversa indicazione. \"Quota netta\" è il reddito netto in rapporto al reddito lordo: utile della società per un titolare, stipendio lordo per un dipendente.",
+    thCountry: "Paese",
+    thSalaries: "Stipendi lordi",
+    thDividends: "Dividendi (lordi)",
+    thCorpTax: "Imposta sulle società",
+    thSocial: "Contributi previdenziali",
+    thIncomeTax: "Imposta sul reddito",
+    thDividendTax: "Imposta sui dividendi",
+    thChildBenefit: "Assegno per i figli",
+    thNet: "Reddito familiare netto",
+    thKept: "Quota netta",
+    thLiving: "Costo della vita",
+    thInvested: "Investito / mese",
+    thUnspent: "Non speso / anno",
+    thInvestTax: "Imposte sugli investimenti (totale)",
+    thWealth: "Patrimonio dopo {years} anni",
+    salaryAdjustedTip: "Adeguato a quanto richiede questo paese o a quanto la società può permettersi",
+    cappedTip: "Il reddito netto meno il costo della vita è inferiore all'importo previsto",
+
+    calcTitle: "Calcolo a confronto",
+    calcSub: "Due paesi passo per passo, dal reddito lordo al patrimonio finale.",
+    firstCountry: "Primo paese",
+    secondCountry: "Secondo paese",
+    comparedWith: "a confronto con",
+    difference: "Differenza",
+    differenceTip: "Secondo paese meno primo paese",
+    cAdjusted: "⚠ adeguato",
+    cAdjustedTip: "Stipendio adeguato a quanto richiede questo paese o a quanto la società può permettersi",
+    cBestMix: "miglior mix",
+    cBeOnly: "solo Belgio",
+    cCompany: "Società",
+    cCompanyN: "Società del partner {n}",
+    cProfit: "Utile prima del compenso del titolare",
+    cOwnerSalary: "Stipendio lordo del titolare",
+    cEmployerSS: "Contributi a carico della società sullo stipendio del titolare",
+    cRoyaltyPaid: "Diritti d'autore pagati al titolare",
+    cPensionPremium: "Premio della pensione aziendale",
+    cTaxableProfit: "Utile imponibile",
+    cCorpTax: "Imposta sulle società",
+    cRetained: "Tenuto in società per investire",
+    cDividendPaid: "Dividendo pagato al titolare",
+    cHousehold: "Reddito familiare annuo",
+    cYourOwnerSalary: "Il tuo stipendio da titolare",
+    cYourGrossSalary: "Il tuo stipendio lordo",
+    cYourOwnSS: "I tuoi contributi previdenziali",
+    cPartnerOwnerSalary: "Stipendio da titolare del partner {n}",
+    cPartnerGrossSalary: "Stipendio lordo del partner {n}",
+    cPartnerOwnSS: "Contributi previdenziali del partner {n}",
+    cIncomeTaxBoth: "Imposta sul reddito su entrambi gli stipendi",
+    cIncomeTaxOne: "Imposta sul reddito sullo stipendio",
+    cDividends: "Dividendi",
+    cDividendTax: "Imposta sui dividendi",
+    cRoyalties: "Diritti d'autore",
+    cRoyaltyTax: "Imposta sui diritti d'autore",
+    cChildBenefit: "Assegno per i figli",
+    cNet: "Reddito familiare netto",
+    cKept: "resta il {p}%",
+    cSaving: "Risparmio annuo",
+    cLiving: "Costo della vita",
+    cPriceLevel: "livello dei prezzi {n}",
+    cLeftOver: "Avanzo",
+    cNotCovered: "non copre il costo della vita",
+    cInvestedEtf: "Investito nell'ETF",
+    cPerMonth: "{amount} al mese",
+    cLessThanPlanned: "Meno dell'importo previsto",
+    cGivenUp: "Rinunciato per pensione e investimento in società",
+    cGivenUpNote: "reddito netto che queste opzioni costano",
+    cNotInvested: "Non investito",
+    cInvesting: "Investimento su {years} anni",
+    cPaidIn: "Versato",
+    cPaidInStart: "Versato (compreso il capitale iniziale)",
+    cUses: "usa {name}",
+    cCompanyExtra: "Aggiunto dalla società da utile non tassato",
+    cTaxedLater: "tassato più tardi, al pagamento",
+    cGrowth: "Crescita dell'investimento",
+    cGrowthNote: "{p}% all'anno",
+    cTaxesAlong: "Imposte sugli investimenti lungo il percorso",
+    cExitTax: "Imposta alla vendita di tutto",
+    cWealth: "Patrimonio dopo {years} anni",
+    cOfPension: "di cui pensione aziendale, al netto delle imposte",
+    cOfCompany: "di cui portafoglio della società, al netto delle imposte",
+    ofSalary: "{p} dello stipendio",
+    ofProfit: "{p} dell'utile",
+    ofSalaries: "{p} degli stipendi",
+    ofDividends: "{p} dei dividendi",
+    ofRoyalties: "{p} dei diritti d'autore",
+    ofGrowth: "{p} della crescita",
+
+    notesTitle: "Ipotesi per paese",
+    notesSub: "Che cosa include il modello di ciascun paese, e che cosa lascia fuori.",
+    disclaimer: "<b>Solo stime.</b> Le regole fiscali sono modelli semplificati delle norme 2026. Sono state verificate a novembre 2026, per lo più su fonti secondarie (studi di commercialisti, portali fiscali), e alcuni punti non è stato possibile confermarli. Non si considerano le differenze regionali, i contributi ai fondi pensione, le exit tax in caso di trasferimento e le variazioni dei cambi. Il costo della vita è riscalato con i livelli nazionali dei prezzi di Eurostat per il 2024, che includono gli affitti medi ma sottostimano il costo dell'alloggio nelle capitali per chi è appena arrivato. Tutto l'utile della società viene distribuito ogni anno, salvo che sia compilata una delle opzioni societarie belghe. Usa questo strumento per selezionare alcuni paesi, poi verifica con un consulente fiscale locale prima di decidere qualsiasi cosa.",
+  }, notes: {
+    BE: [
+      "Il titolare è un amministratore lavoratore autonomo: contributi previdenziali di circa il 20,5 % (con massimale), nessun contributo a carico della società.",
+      "Imposta sulle società al 20 % sui primi 100.000 € se lo stipendio del titolare è di almeno 51.000 €, altrimenti 25 %.",
+      "Dividendi al 18 % se l'opzione dell'aliquota ridotta è selezionata, altrimenti al 30 % ordinario. Due vie portano al 18 %: VVPRbis (piccola società, nuove azioni nominative emesse contro conferimento in denaro da luglio 2013, dal terzo esercizio successivo al conferimento) oppure una riserva di liquidazione (10 % pagato dalla società all'accantonamento, 9,8 % alla distribuzione dopo un'attesa di tre anni).",
+      "Diritti d'autore (facoltativi): imposta del 15 % sull'importo lordo e nessun contributo previdenziale, entro il limite del 30 % del compenso totale e di 77.220 € all'anno. Dal 2026 il software rientra di nuovo, ma solo se l'opera è concessa in licenza per lo sfruttamento e raggiunge un pubblico ampio; la quota del 30 % è verificata anche come media su quattro anni.",
+      "Pensione aziendale (facoltativa, IPT): premio deducibile per la società, imposta sui premi del 4,4 %; la prestazione perde circa il 16 % (3,55 % di contributo sanitario, 2 % di contributo di solidarietà più 2 % oltre 150.000 €, 10 % di imposta più addizionale comunale). Il denaro è vincolato fino alla pensione e il premio deve rispettare la \"regola dell'80 %\", che lo strumento non verifica. Le commissioni dell'assicuratore non sono considerate.",
+      "Investimento nella società (facoltativo, fondo DBI/RDT): l'utile è investito dopo l'imposta sulle società ma prima dell'imposta sui dividendi; imposta del 5 % sulla plusvalenza all'uscita, poi imposta sui dividendi su tutto ciò che viene distribuito. Richiede lo stipendio del titolare di 51.000 €. Le commissioni del fondo, di solito più alte di quelle di un ETF, non sono considerate.",
+      "Pensione e investimento in società sono finanziati con l'importo mensile: l'acquisto privato di ETF è ridotto di quanto queste opzioni costano in reddito netto.",
+      "Con \"miglior uso delle opzioni\" selezionato, i diritti d'autore sono portati al massimo di legge e lo strumento cerca il premio pensionistico (fino all'importo inserito) e l'importo tenuto in società che danno più patrimonio, lasciando coperto il costo della vita.",
+      "ETF: tassa sulle operazioni di borsa dello 0,12 % su acquisto e vendita; imposta sulle plusvalenze del 10 % (dal 2026). Con l'opzione dell'esenzione annua selezionata, la coppia vende e ricompra ogni anno per realizzare 10.000 € di plusvalenza a persona senza imposte, pagando due volte la tassa di borsa su quella quota; altrimenti un'unica vendita finale con un'esenzione fino a 15.000 € a persona. Il Belgio non ha una regola esplicita contro la vendita seguita da riacquisto, ma la norma generale antiabuso non è stata messa alla prova su questo punto; imposta annua sui conti titoli dello 0,3 % quando il conto supera 1 milione di €. I fondi registrati in Belgio pagano una tassa di borsa dell'1,32 % invece dello 0,12 %.",
+      "Assegno per i figli: importo base del Groeipakket fiammingo."
+    ],
+    NL: [
+      "Il titolare (DGA) deve percepire lo stipendio d'uso di almeno 58.000 €; su di esso la società paga solo il contributo per l'assicurazione sanitaria.",
+      "Le assicurazioni sociali nazionali sono comprese nel primo scaglione dell'imposta sul reddito, quindi i contributi del lavoratore risultano pari a 0. I contributi ai fondi pensione non sono considerati.",
+      "Dividendi nel box 2: 24,5 % fino a 137.700 € per i partner fiscali, 31 % oltre.",
+      "ETF nel box 3: ogni anno circa il 2,16 % del valore oltre 118.700 € (36 % di un rendimento presunto del 6 %, o del rendimento effettivo se inferiore). Nessuna imposta alla vendita. Il passaggio alla tassazione dei rendimenti effettivi è previsto per il 2028 ma non è ancora legge."
+    ],
+    DE: [
+      "Imposta sulle società di circa il 30 % (15 % + contributo di solidarietà + imposta sulle attività produttive con moltiplicatore del 400 %).",
+      "Il titolare con una quota ≥50 % è fuori dall'assicurazione sociale obbligatoria; il modello considera solo l'assicurazione volontaria sanitaria e per l'assistenza (nessuna pensione).",
+      "Tassazione congiunta con splitting del reddito; si applica il più favorevole tra Kindergeld e detrazione per i figli.",
+      "ETF: 26,375 % sul 70 % della plusvalenza (esenzione parziale per i fondi azionari), più l'anticipo annuo della Vorabpauschale. Si assume che la franchigia per i risparmiatori di 2.000 € sia già usata dai dividendi."
+    ],
+    FR: [
+      "Il titolare è trattato come presidente stipendiato (SAS), senza assicurazione contro la disoccupazione. Gli oneri sociali sono medie approssimative: circa 21–22 % a carico del lavoratore, circa 39–42 % a carico della società.",
+      "Imposta sul reddito con il quoziente familiare (vantaggio per figlio con tetto massimo).",
+      "Dividendi e plusvalenze con la flat tax, considerata pari al 31,4 % (12,8 % + 18,6 % di prelievi sociali dal 2026).",
+      "Con i conti esentasse attivi: i versamenti vanno prima in due conti PEA (150.000 € ciascuno), dove dopo 5 anni si applicano solo i prelievi sociali. Solo ETF ammessi al PEA."
+    ],
+    LU: [
+      "Coppia sposata tassata in classe 2 (splitting), addizionale del 7 % per il fondo per l'occupazione.",
+      "Dividendi: 50 % esente, il resto tassato all'aliquota marginale, più l'1,4 % di contributo per la non autosufficienza.",
+      "ETF: le plusvalenze su titoli detenuti per più di 6 mesi sono esenti per gli investitori privati (un progetto di bilancio porterebbe il termine a 12 mesi dal 2027).",
+      "Lo splitting della classe 2 dovrebbe essere sostituito da una classe d'imposta unica dal 2028."
+    ],
+    ES: [
+      "L'imposta sul reddito usa la scala generica statale + regionale; le aliquote reali variano da regione a regione.",
+      "Il titolare paga i contributi da lavoratore autonomo (autónomo) sulla base minima, circa 5.400–7.300 € all'anno.",
+      "Imposta sulle società: aliquote ridotte per le microimprese (19 % / 21 %) con fatturato inferiore a 1 milione di € (approssimato con un utile inferiore a 1 milione di €), altrimenti 23 %.",
+      "Plusvalenze sugli ETF tassate con la scala del risparmio (19–30 %). Imposta sul patrimonio con la scala statale oltre 700.000 € a persona; Madrid non applica nulla sotto circa 3 milioni di €, e altre regioni usano esenzioni diverse."
+    ],
+    PT: [
+      "Tassazione congiunta con splitting del reddito; credito d'imposta di 600 € per figlio.",
+      "Dividendi con aliquota fissa del 28 %, oppure metà del dividendo tassata con le aliquote progressive quando conviene.",
+      "ETF: 28 % sulle plusvalenze, con il 10 / 20 / 30 % della plusvalenza escluso dopo 2 / 5 / 8 anni di detenzione.",
+      "L'assegno per i figli dipende dal reddito e si assume pari a zero."
+    ],
+    IT: [
+      "Imposta sulle società al 27,9 % (IRES 24 % + IRAP 3,9 %; il compenso amministratore del titolare resta nella base imponibile IRAP).",
+      "Il titolare è retribuito solo come amministratore, tramite la gestione separata INPS (circa 35 %, un terzo a carico del titolare). Un titolare che lavora anche abitualmente nell'impresa deve in più i contributi alla gestione commercianti (non considerati nel modello).",
+      "L'IRPEF comprende circa il 2,3 % di addizionali regionali e comunali.",
+      "ETF: 26 % sulle plusvalenze più un'imposta di bollo annua dello 0,2 % sul valore del portafoglio.",
+      "Assegno per i figli: importo minimo dell'assegno unico per i redditi più alti."
+    ],
+    IE: [
+      "Imposta sulle società al 12,5 % sui redditi da attività commerciale.",
+      "Il titolare-amministratore paga la PRSI di classe S; nessuna PRSI a carico della società sullo stipendio del titolare.",
+      "I dividendi sono tassati come reddito ordinario (imposta sul reddito + USC + PRSI): di solito il modo più costoso per prelevare l'utile.",
+      "ETF: exit tax del 35 % sulle plusvalenze (aliquota dal 2027; 38 % nel 2026), con una cessione presunta ogni 8 anni (tassata anche senza vendita). L'Investment Account proposto per metà 2027 non è considerato nel modello."
+    ],
+    UK: [
+      "Convertito a 1 £ = 1,18 €. Imposta sulle società 19–25 % con sgravio marginale.",
+      "Aliquote sui dividendi 10,75 % / 35,75 % / 39,35 % (da aprile 2026), franchigia di 500 £.",
+      "L'assegno per i figli viene recuperato quando chi guadagna di più supera 60.000 £.",
+      "Con i conti esentasse attivi: fino a 20.000 £ a persona all'anno vanno negli ISA (nessuna imposta). Il resto è tassato con la CGT al 24 % con un'esenzione di 3.000 £ ciascuno, più l'imposta annua sui dividendi sui redditi reinvestiti dal fondo (si assume un UK reporting fund)."
+    ],
+    CH: [
+      "Convertito a 1 CHF = 1,08 €. Città di Zurigo; i cantoni a bassa fiscalità come Zugo o Svitto sono nettamente più convenienti.",
+      "L'imposta sul reddito è una curva di aliquote effettive adattata al calcolatore fiscale federale per il 2026 (coniugati, due redditi, città di Zurigo), non le tariffe di legge.",
+      "I contributi obbligatori alla cassa pensione (BVG) sono dedotti come un'imposta, anche se in realtà sono risparmio previdenziale proprio del titolare.",
+      "I dividendi di una società propria (quota ≥10 %) sono tassati su circa il 55 % dell'importo.",
+      "ETF: nessuna imposta sulle plusvalenze; imposta annua sul patrimonio (circa 0,1–0,6 %), imposta sul reddito sui dividendi interni al fondo e tassa di bollo dello 0,15 % per operazione (si assume un broker svizzero)."
+    ],
+    AT: [
+      "Il titolare (socio-amministratore con oltre il 25 %) è assicurato nel regime dei lavoratori autonomi (GSVG, circa 27 % con massimale). Anche i dividendi sono soggetti a questi contributi finché stipendio più dividendo non raggiungono il massimale (indicati sotto l'imposta sui dividendi).",
+      "13ª/14ª mensilità del coniuge tassate all'aliquota ridotta del 6 %; Familienbonus Plus di 2.000 € per figlio.",
+      "ETF: 27,5 % sulle plusvalenze e 27,5 % ogni anno sui dividendi interni al fondo (scomputati dalla plusvalenza finale)."
+    ],
+    DK: [
+      "Convertito a 7,46 DKK = 1 €. L'imposta sul reddito usa la struttura a scaglioni del 2026 (contributo per il mercato del lavoro dell'8 %, circa 25 % comunale, imposte statali di base/intermedia/massima).",
+      "Quasi nessun contributo previdenziale; lo stato sociale è finanziato dall'imposta sul reddito.",
+      "Dividendi e plusvalenze sugli ETF sono reddito azionario: 27 % fino a 158.800 DKK per una coppia, 42 % oltre; i dividendi usano per primi la fascia bassa.",
+      "Le plusvalenze sugli ETF sono tassate ogni anno sull'incremento non realizzato (mark-to-market). Si assume un ETF presente nell'elenco dei fondi azionari dell'autorità fiscale; gli altri sono tassati come reddito di capitale (circa 37–42 %). L'Aktiesparekonto (17 %, tetto di versamento basso) non è considerato nel modello."
+    ],
+    SE: [
+      "Convertito a 11 SEK = 1 €. Contributi a carico del datore di lavoro 31,42 %; imposta comunale 32,38 % più 20 % di imposta statale sui redditi alti.",
+      "Regole per le società a ristretta base azionaria (3:12): i dividendi entro la franchigia annua sono tassati al 20 %, l'eccedenza come reddito da lavoro.",
+      "ETF detenuto in un conto ISK: circa l'1,07 % del valore all'anno oltre 300.000 SEK a persona, nessuna imposta sulle plusvalenze."
+    ],
+    PL: [
+      "Convertito a 4,40 PLN = 1 €. Imposta sulle società al 9 % per i piccoli contribuenti (ricavi fino a 2 milioni di €, non verificato qui), altrimenti 19 %.",
+      "Il titolare è retribuito come membro del consiglio di amministrazione per nomina (contributo sanitario del 9 %) e, come socio unico, paga anche i contributi previdenziali e sanitari da lavoratore autonomo, circa 31.400 PLN all'anno. Con un vero secondo socio questo costo fisso viene meno.",
+      "Dichiarazione congiunta, scala 12 % / 32 %, sgravio fiscale per i figli e assegno universale per i figli 800+.",
+      "ETF: 19 % sulle plusvalenze, più il contributo di solidarietà del 4 % sulle plusvalenze molto elevate. I conti previdenziali IKE/IKZE e il conto di investimento personale in partenza dal 2027 non sono considerati nel modello."
+    ],
+    CZ: [
+      "Convertito a 24,4 CZK = 1 €. Imposta sul reddito ad aliquota fissa del 15 % (23 % sugli stipendi molto alti), contributi elevati a carico del datore di lavoro (33,8 %).",
+      "I crediti d'imposta per i figli possono superare l'imposta dovuta e in tal caso vengono rimborsati.",
+      "ETF: le plusvalenze sono esenti dopo un periodo di detenzione di 3 anni. Gli acquisti degli ultimi 3 anni sarebbero tassati come reddito ordinario al 15 % / 23 % (non considerato nel modello)."
+    ],
+    EE: [
+      "L'utile della società non è tassato finché non viene distribuito; la distribuzione costa il 22 % e il dividendo è poi esente per il titolare. L'utile lasciato in società resterebbe non tassato (non considerato nel modello: tutto viene distribuito).",
+      "Imposta sul reddito ad aliquota fissa del 22 % con un'esenzione di base di 8.400 €; imposta sociale a carico del datore di lavoro del 33 %. Il titolare è retribuito come membro del consiglio di amministrazione (nessuna assicurazione contro la disoccupazione).",
+      "ETF: 22 % sulle plusvalenze alla vendita."
+    ],
+    BG: [
+      "Aliquota fissa del 10 % per l'imposta sulle società e sul reddito, 5 % di imposta sui dividendi; contributi previdenziali con massimale a circa 27.600 € di stipendio. Si assume che il titolare lavori con un contratto di gestione.",
+      "ETF: le plusvalenze sono esenti solo se la vendita avviene su un mercato regolamentato UE/SEE (ad es. Xetra, Euronext); altrimenti circa 9–10 %.",
+      "Lo sgravio fiscale per i figli è incluso; l'assegno per i figli legato al reddito si assume pari a zero."
+    ],
+    CY: [
+      "Usa la riforma fiscale del 2026: imposta sulle società al 15 %, nuovi scaglioni dell'imposta sul reddito, deduzioni per i figli con reddito familiare fino a 100.000 € (di più con 3 o più figli), contributo per la difesa del 5 % sui dividendi per i residenti domiciliati. Le deduzioni per l'abitazione non sono considerate nel modello.",
+      "I nuovi arrivati con status non-dom non pagano il contributo per la difesa sui dividendi per 17 anni (solo il 2,65 % di contributo sanitario).",
+      "ETF: le plusvalenze su titoli sono esenti."
+    ],
+    RO: [
+      "Convertito a 5,34 RON = 1 €. Imposta ordinaria sugli utili del 16 %; l'imposta dell'1 % sul fatturato delle microimprese (fatturato fino a 100.000 €) non è considerata nel modello.",
+      "Stipendi: 35 % di contributi a carico del lavoratore (pensione + sanità), 10 % di imposta sul reddito, 2,25 % di contributo a carico del datore di lavoro.",
+      "Dividendi al 16 % (dal 2026) più un contributo sanitario con tetto pari al 10 % di 24 salari minimi.",
+      "ETF: 3 % sulle plusvalenze per i titoli detenuti da più di un anno tramite un broker rumeno (6 % sotto l'anno, non considerato nel modello), più il contributo sanitario con tetto se i dividendi non hanno già raggiunto il tetto. Tramite un broker estero l'aliquota è del 16 %."
+    ]
+  } };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
 <script>
 /*
  * Country tax models — SIMPLIFIED ESTIMATES of tax year 2026 rules.
@@ -1346,12 +2755,10 @@
     optimizeSalary: false, kids: 2, living: 50000,
     mode: 'all', monthly: 1500, startCapital: 0, returnPct: 7, years: 20, useWrappers: true, beVvprbis: true,
     beHarvest: true, beOptimize: false, beRoyalty: 0, bePension: 0, beCompanyInvest: 0, adjustLiving: true, livingRef: 'BE' };
-  const byName = [...COUNTRIES].sort((a, b) => a.name.localeCompare(b.name));
   for (const c of COUNTRIES) DEFAULTS['pli_' + c.code] = c.priceLevel;
   const KEY = 'country-compare-v1';
   const $ = id => document.getElementById(id);
   const form = $('form');
-  const eur = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
   const short = v => Math.abs(v) >= 1e6 ? '€' + (v / 1e6).toFixed(Math.abs(v) >= 1e7 ? 1 : 2) + 'M' : '€' + Math.round(v / 1e3) + 'k';
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -1365,9 +2772,48 @@
   let selected = saved.selected || null; // {code: slot}
   let results = [];
 
-  form.elements.livingRef.innerHTML = byName.map(c => `<option value="${c.code}">${c.flag} ${esc(c.name)}</option>`).join('');
-  $('pliList').innerHTML = byName.map(c => `<label class="f"><span>${c.flag} ${esc(c.name)}</span><input type="number" name="pli_${c.code}" min="1" step="1"></label>`).join('');
   if (!COUNTRIES.some(c => c.code === inputs.livingRef)) inputs.livingRef = DEFAULTS.livingRef;
+
+  // ── language ──
+  const FLAGS = { en: '🇬🇧', nl: '🇳🇱', fr: '🇫🇷', de: '🇩🇪', it: '🇮🇹' };
+  const langs = Object.keys(FLAGS).filter(l => LANG[l]);
+  let lang = langs.includes(saved.lang) ? saved.lang
+    : (navigator.languages || [navigator.language || 'en']).map(l => l.slice(0, 2).toLowerCase()).find(l => langs.includes(l)) || 'en';
+  let eur, regionNames;
+  /** Interface text for a key in the current language; {name} parts are filled from v. */
+  const t = (k, v) => {
+    const s = LANG[lang].ui[k] !== undefined ? LANG[lang].ui[k] : LANG.en.ui[k] !== undefined ? LANG.en.ui[k] : k;
+    return v ? s.replace(/\{(\w+)\}/g, (m, n) => v[n] !== undefined ? v[n] : m) : s;
+  };
+  const cname = c => {
+    let n = c.name;
+    try { n = regionNames.of(c.code === 'UK' ? 'GB' : c.code) || c.name; } catch (e) {}
+    return c.code === 'CH' ? `${n} (${t('zurich')})` : n;
+  };
+  const byName = list => [...list].sort((a, b) => cname(a.country || a).localeCompare(cname(b.country || b), lang));
+  const notesOf = c => (LANG[lang].notes && LANG[lang].notes[c.code]) || c.notes;
+
+  function setLang(l) {
+    lang = l;
+    eur = new Intl.NumberFormat(LANG[l].locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    try { regionNames = new Intl.DisplayNames([l], { type: 'region' }); } catch (e) { regionNames = null; }
+    document.documentElement.lang = l;
+    document.title = t('title');
+    for (const el of document.querySelectorAll('[data-i18n]')) el.innerHTML = t(el.dataset.i18n);
+    for (const el of document.querySelectorAll('[data-i18n-title]')) el.title = t(el.dataset.i18nTitle);
+    for (const el of document.querySelectorAll('[data-i18n-aria]')) el.setAttribute('aria-label', t(el.dataset.i18nAria));
+    $('langs').innerHTML = langs.map(x =>
+      `<button type="button" data-lang="${x}" title="${esc(LANG[x].name)}" aria-label="${esc(LANG[x].name)}" aria-pressed="${x === l}">${FLAGS[x]}</button>`).join('');
+    // country lists are sorted by their name in this language
+    form.elements.livingRef.innerHTML = byName(COUNTRIES).map(c => `<option value="${c.code}">${c.flag} ${esc(cname(c))}</option>`).join('');
+    $('pliList').innerHTML = byName(COUNTRIES).map(c => `<label class="f"><span>${c.flag} ${esc(cname(c))}</span><input type="number" name="pli_${c.code}" min="1" step="1"></label>`).join('');
+  }
+  setLang(lang);
+  $('langs').addEventListener('click', e => {
+    const b = e.target.closest('button[data-lang]');
+    if (!b || b.dataset.lang === lang) return;
+    setLang(b.dataset.lang); fillForm(); update();
+  });
 
   function fillForm() {
     for (const el of form.elements) {
@@ -1391,7 +2837,7 @@
     return o;
   }
 
-  function save() { try { localStorage.setItem(KEY, JSON.stringify({ inputs, selected, calcCode, calcCode2 })); } catch (e) {} }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify({ inputs, selected, calcCode, calcCode2, lang })); } catch (e) {} }
 
   function update() {
     inputs = readInputs();
@@ -1402,16 +2848,16 @@
       $('profitRow' + i).hidden = !owner;
       const row = $('salaryRow' + i);
       row.classList.toggle('disabled', owner && inputs.optimizeSalary);
-      row.querySelector('.lbl').textContent = owner ? 'Owner gross salary' : 'Gross salary';
-      row.querySelector('small').textContent = owner ? '€/year; rest is paid as dividend' : '€/year';
+      row.querySelector('.lbl').textContent = t(owner ? 'ownerSalary' : 'grossSalary');
+      row.querySelector('small').textContent = t(owner ? 'ownerSalaryHint' : 'perYear');
     });
     $('monthlyRow').classList.toggle('disabled', inputs.mode === 'all');
     $('pliBox').hidden = !inputs.adjustLiving;
     $('beRoyaltyRow').classList.toggle('disabled', inputs.beOptimize);
     $('beCompanyRow').classList.toggle('disabled', inputs.beOptimize);
-    $('bePensionHint').textContent = inputs.beOptimize ? '€/year, the most your 80% rule allows' : '€/year premium (IPT), locked until retirement';
+    $('bePensionHint').textContent = t(inputs.beOptimize ? 'bePensionHintOpt' : 'bePensionHint');
     const ref = COUNTRIES.find(c => c.code === inputs.livingRef);
-    $('livingHint').textContent = inputs.adjustLiving ? `€/year at ${ref.name} prices` : '€/year, same in every country';
+    $('livingHint').textContent = inputs.adjustLiving ? t('livingHintAdj', { country: cname(ref) }) : t('livingHintSame');
     results = Engine.compare(COUNTRIES, inputs);
     if (!selected) {
       const n = results.length, pick = [0, Math.floor(n / 3), Math.floor(2 * n / 3), n - 1];
@@ -1426,21 +2872,21 @@
     const best = results[0], worst = results[results.length - 1];
     const byIncome = [...results].sort((a, b) => b.hh.net - a.hh.net)[0];
     $('hero').innerHTML =
-      `<div><b>${best.country.flag} ${esc(best.country.name)}</b><span>most wealth after ${inputs.years} years: ${eur.format(best.finalNet)}</span></div>` +
-      `<div><b>${eur.format(best.finalNet - worst.finalNet)}</b><span>gap between best and worst (${worst.country.flag} ${esc(worst.country.name)})</span></div>` +
-      `<div><b>${byIncome.country.flag} ${esc(byIncome.country.name)}</b><span>highest net household income: ${eur.format(byIncome.hh.net)} a year</span></div>`;
+      `<div><b>${best.country.flag} ${esc(cname(best.country))}</b><span>${esc(t('heroBest', { years: inputs.years, amount: eur.format(best.finalNet) }))}</span></div>` +
+      `<div><b>${eur.format(best.finalNet - worst.finalNet)}</b><span>${esc(t('heroGap', { country: worst.country.flag + ' ' + cname(worst.country) }))}</span></div>` +
+      `<div><b>${byIncome.country.flag} ${esc(cname(byIncome.country))}</b><span>${esc(t('heroIncome', { amount: eur.format(byIncome.hh.net) }))}</span></div>`;
   }
 
   function renderRank() {
-    $('rankTitle').textContent = `Wealth after ${inputs.years} years`;
+    $('rankTitle').textContent = t('rankTitle', { years: inputs.years });
     const max = Math.max(1, ...results.map(r => r.finalNet));
     $('rank').innerHTML = results.map(r => {
       const c = r.country, slot = selected[c.code];
       const dot = slot ? `style="background:var(--s${slot});border-color:var(--s${slot})"` : '';
-      const tip = `Invested ${eur.format(r.contributed)} · before exit tax ${eur.format(r.finalGross)} · investment taxes ${eur.format(r.investTax)}`;
-      return `<button type="button" data-code="${c.code}" aria-pressed="${!!slot}" title="Show in chart"><i class="dot" ${dot}></i>${c.flag} ${esc(c.name)}</button>` +
+      const tip = esc(t('rankTip', { invested: eur.format(r.contributed), gross: eur.format(r.finalGross), taxes: eur.format(r.investTax) }));
+      return `<button type="button" data-code="${c.code}" aria-pressed="${!!slot}" title="${esc(t('showInChart'))}"><i class="dot" ${dot}></i>${c.flag} ${esc(cname(c))}</button>` +
         `<div class="track" title="${tip}"><i style="width:${(100 * r.finalNet / max).toFixed(2)}%"></i></div>` +
-        `<div class="val" title="${tip}">${eur.format(r.finalNet)}${r.sim.capped ? ' <small class="warn" title="Cannot afford the full monthly amount here">⚠</small>' : ''}</div>`;
+        `<div class="val" title="${tip}">${eur.format(r.finalNet)}${r.sim.capped ? ` <small class="warn" title="${esc(t('cantAfford'))}">⚠</small>` : ''}</div>`;
     }).join('');
   }
 
@@ -1471,8 +2917,8 @@
     const series = results.filter(r => selected[r.country.code])
       .map(r => ({ r, slot: selected[r.country.code] })).sort((a, b) => a.slot - b.slot);
     $('legend').innerHTML = series.length
-      ? series.map(s => `<span><i style="background:var(--s${s.slot})"></i>${s.r.country.flag} ${esc(s.r.country.name)}</span>`).join('')
-      : '<span>Click a country in the ranking above to plot it.</span>';
+      ? series.map(s => `<span><i style="background:var(--s${s.slot})"></i>${s.r.country.flag} ${esc(cname(s.r.country))}</span>`).join('')
+      : `<span>${esc(t('legendEmpty'))}</span>`;
     const years = inputs.years;
     const maxV = Math.max(1, ...series.flatMap(s => s.r.sim.points.map(p => p.net)));
     const step = niceStep(maxV), top = Math.ceil(maxV / step) * step;
@@ -1482,7 +2928,7 @@
     for (let v = 0; v <= top + 1e-6; v += step)
       svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${yy(v)}" y2="${yy(v)}" stroke="var(--grid)"/><text x="${M.l - 8}" y="${yy(v) + 4}" text-anchor="end">${short(v)}</text>`;
     const xs = years <= 10 ? 1 : years <= 25 ? 5 : 10;
-    for (let y = 0; y <= years; y += xs) svg += `<text x="${x(y)}" y="${H - 8}" text-anchor="middle">${y === 0 ? 'now' : 'yr ' + y}</text>`;
+    for (let y = 0; y <= years; y += xs) svg += `<text x="${x(y)}" y="${H - 8}" text-anchor="middle">${esc(y === 0 ? t('now') : t('yr', { n: y }))}</text>`;
     // end labels, nudged apart
     const labels = series.map(s => ({ s, y: yy(s.r.sim.points[years].net) })).sort((a, b) => a.y - b.y);
     for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 14) labels[i].y = labels[i - 1].y + 14;
@@ -1509,9 +2955,9 @@
     chart.querySelector('#marks').innerHTML = series.map(s =>
       `<circle cx="${x(yr)}" cy="${yy(s.r.sim.points[yr].net)}" r="4" fill="var(--s${s.slot})" stroke="var(--surface)" stroke-width="2"/>`).join('');
     const rows = [...series].sort((a, b) => b.r.sim.points[yr].net - a.r.sim.points[yr].net);
-    tip.innerHTML = `<b>${yr === 0 ? 'Today' : 'After year ' + yr}</b>` +
-      rows.map(s => `<div><i style="background:var(--s${s.slot})"></i>${esc(s.r.country.name)}<span>${eur.format(s.r.sim.points[yr].net)}</span></div>`).join('') +
-      `<div style="color:var(--text-3)">Paid in<span>${eur.format(rows[0].r.sim.points[yr].contributed)}${new Set(rows.map(s => Math.round(s.r.sim.points[yr].contributed))).size > 1 ? ' (varies)' : ''}</span></div>`;
+    tip.innerHTML = `<b>${esc(yr === 0 ? t('today') : t('afterYear', { n: yr }))}</b>` +
+      rows.map(s => `<div><i style="background:var(--s${s.slot})"></i>${esc(cname(s.r.country))}<span>${eur.format(s.r.sim.points[yr].net)}</span></div>`).join('') +
+      `<div style="color:var(--text-3)">${esc(t('paidIn'))}<span>${eur.format(rows[0].r.sim.points[yr].contributed)}${new Set(rows.map(s => Math.round(s.r.sim.points[yr].contributed))).size > 1 ? ' ' + esc(t('varies')) : ''}</span></div>`;
     tip.style.display = 'block';
     const left = x(yr) * box.width / W;
     tip.style.left = (left + 14 + tip.offsetWidth > box.width ? left - tip.offsetWidth - 14 : left + 14) + 'px';
@@ -1526,25 +2972,25 @@
   });
 
   function renderTable() {
-    const n = v => eur.format(Math.round(v)).replace('€', '');
-    const head = ['Country', 'Gross salaries', 'Dividends (gross)', 'Corporate tax', 'Social contributions', 'Income tax', 'Dividend tax', 'Child benefit',
-      'Net household income', 'Kept', 'Living costs', 'Invested / month', 'Unspent / year', 'Investment taxes (total)', `Wealth after ${inputs.years} y`];
+    const n = v => eur.format(Math.round(v)).replace('€', '').trim();
+    const head = ['thCountry', 'thSalaries', 'thDividends', 'thCorpTax', 'thSocial', 'thIncomeTax', 'thDividendTax', 'thChildBenefit',
+      'thNet', 'thKept', 'thLiving', 'thInvested', 'thUnspent', 'thInvestTax', 'thWealth'].map(k => esc(t(k, { years: inputs.years })));
     $('table').innerHTML = '<thead><tr>' + head.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>' + results.map(r => {
       const h = r.hh, c = r.country;
-      return `<tr><td>${c.flag} ${esc(c.name)}</td>` +
-        `<td>${n(h.salaries)}${h.salaryAdjusted ? ' <span class="warn" title="Adjusted to what this country requires or the company can afford">⚠</span>' : ''}</td>` +
+      return `<tr><td>${c.flag} ${esc(cname(c))}</td>` +
+        `<td>${n(h.salaries)}${h.salaryAdjusted ? ' <span class="warn" title="' + esc(t('salaryAdjustedTip')) + '">⚠</span>' : ''}</td>` +
         `<td>${n(h.dividend)}</td><td>${n(h.corpTax)}</td><td>${n(h.social)}</td><td>${n(h.incomeTax)}</td><td>${n(h.dividendTax)}</td><td>${n(h.childBenefit)}</td>` +
         `<td class="strong">${n(h.net)}</td><td>${(h.keptShare * 100).toFixed(0)}%</td><td>${n(h.living)}</td>` +
-        `<td>${n(r.sim.monthly)}${r.sim.capped ? ' <span class="warn" title="Net income minus living costs is less than the planned amount">⚠</span>' : ''}</td>` +
+        `<td>${n(r.sim.monthly)}${r.sim.capped ? ' <span class="warn" title="' + esc(t('cappedTip')) + '">⚠</span>' : ''}</td>` +
         `<td>${n(r.sim.surplusLeft)}</td><td>${n(r.investTax)}</td><td class="strong">${n(r.finalNet)}</td></tr>`;
     }).join('') + '</tbody>';
   }
 
   function renderNotes() {
     const open = new Set([...document.querySelectorAll('#notes details[open]')].map(d => d.dataset.code));
-    $('notes').innerHTML = [...results].sort((a, b) => a.country.name.localeCompare(b.country.name)).map(r => {
+    $('notes').innerHTML = byName(results).map(r => {
       const c = r.country;
-      return `<details data-code="${c.code}" ${open.has(c.code) ? 'open' : ''}><summary>${c.flag} ${esc(c.name)}</summary><ul>${c.notes.map(t => `<li>${esc(t)}</li>`).join('')}</ul></details>`;
+      return `<details data-code="${c.code}" ${open.has(c.code) ? 'open' : ''}><summary>${c.flag} ${esc(cname(c))}</summary><ul>${notesOf(c).map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>`;
     }).join('');
   }
 
@@ -1557,64 +3003,65 @@
   function calcRows(r) {
     const h = r.hh, s = r.sim, last = s.points[s.points.length - 1];
     const pct = (a, b) => b > 0.5 ? (100 * a / b).toFixed(1) + '%' : '';
-    const of = (a, b, what) => pct(a, b) && pct(a, b) + ' of ' + what;
+    const of = (a, b, what) => pct(a, b) && esc(t('of' + what, { p: pct(a, b) }));
     const rows = [];
     const sec = label => rows.push({ sec: true, label });
     const row = (label, v, note, tot) => rows.push({ label, v, note: note || '', tot: !!tot });
     const people = [h.a, h.b].filter(Boolean);
-    const who = i => people.length > 1 ? `Partner ${i + 1} ` : 'Your ';
-    const adjusted = h.salaryAdjusted ? '<span class="warn" title="Salary adjusted to what this country requires or the company can afford">⚠ adjusted</span>' : inputs.optimizeSalary ? 'best mix' : '';
+    const who = (i, what) => esc(people.length > 1 ? t('cPartner' + what, { n: i + 1 }) : t('cYour' + what));
+    const adjusted = h.salaryAdjusted ? `<span class="warn" title="${esc(t('cAdjustedTip'))}">${esc(t('cAdjusted'))}</span>` : inputs.optimizeSalary ? esc(t('cBestMix')) : '';
     const leftover = Math.max(0, h.net - h.living);
     const growth = last.net + last.exitTax + last.taxesSoFar - last.contributed - last.companyExtra;
     const routes = inputs.beOptimize || inputs.beRoyalty > 0 || inputs.bePension > 0 || inputs.beCompanyInvest > 0; // rows shown for every country so the tables line up
-    const beOnly = v => v > 0.5 ? '' : 'Belgium only';
+    const beOnly = v => v > 0.5 ? '' : esc(t('cBeOnly'));
+    const L = (k, v) => esc(t(k, v));
     people.forEach((p, i) => {
       if (p.role !== 'owner') return;
-      sec(`${who(i)}company`.replace('Your c', 'C'));
-      row('Profit before owner pay', p.profit);
-      row('Owner gross salary', -p.salary, adjusted);
-      row('Employer contributions on owner salary', -p.er, of(p.er, p.salary, 'salary'));
+      sec(people.length > 1 ? L('cCompanyN', { n: i + 1 }) : L('cCompany'));
+      row(L('cProfit'), p.profit);
+      row(L('cOwnerSalary'), -p.salary, adjusted);
+      row(L('cEmployerSS'), -p.er, of(p.er, p.salary, 'Salary'));
       if (routes) {
-        row('Copyright royalties paid to owner', -p.royalty, beOnly(p.royalty));
-        row('Company pension premium', -p.pension, beOnly(p.pension));
+        row(L('cRoyaltyPaid'), -p.royalty, beOnly(p.royalty));
+        row(L('cPensionPremium'), -p.pension, beOnly(p.pension));
       }
-      row('Taxable profit', p.taxableProfit, '', true);
-      row('Corporate tax', -p.corpTax, of(p.corpTax, p.taxableProfit, 'profit'));
-      if (routes) row('Kept in the company to invest', -p.retained, beOnly(p.retained));
-      row('Dividend paid to owner', p.dividend, '', true);
+      row(L('cTaxableProfit'), p.taxableProfit, '', true);
+      row(L('cCorpTax'), -p.corpTax, of(p.corpTax, p.taxableProfit, 'Profit'));
+      if (routes) row(L('cRetained'), -p.retained, beOnly(p.retained));
+      row(L('cDividendPaid'), p.dividend, '', true);
     });
-    sec('Household income per year');
+    sec(L('cHousehold'));
     people.forEach((p, i) => {
-      row(who(i) + (p.role === 'owner' ? 'owner salary' : 'gross salary'), p.salary);
-      row(who(i) + 'own social contributions', -p.ee, of(p.ee, p.salary, 'salary'));
+      row(who(i, p.role === 'owner' ? 'OwnerSalary' : 'GrossSalary'), p.salary);
+      row(who(i, 'OwnSS'), -p.ee, of(p.ee, p.salary, 'Salary'));
     });
-    row(people.length > 1 ? 'Income tax on both salaries' : 'Income tax on salary', -h.incomeTax, of(h.incomeTax, h.salaries, 'salaries'));
+    row(L(people.length > 1 ? 'cIncomeTaxBoth' : 'cIncomeTaxOne'), -h.incomeTax, of(h.incomeTax, h.salaries, 'Salaries'));
     if (people.some(p => p.role === 'owner')) {
-      row('Dividends', h.dividend);
-      row('Dividend tax', -h.dividendTax, of(h.dividendTax, h.dividend, 'dividends'));
+      row(L('cDividends'), h.dividend);
+      row(L('cDividendTax'), -h.dividendTax, of(h.dividendTax, h.dividend, 'Dividends'));
       if (routes) {
-        row('Copyright royalties', h.royalty);
-        row('Tax on royalties', -h.royaltyTax, of(h.royaltyTax, h.royalty, 'royalties'));
+        row(L('cRoyalties'), h.royalty);
+        row(L('cRoyaltyTax'), -h.royaltyTax, of(h.royaltyTax, h.royalty, 'Royalties'));
       }
     }
-    row('Child benefit', h.childBenefit);
-    row('Net household income', h.net, (h.keptShare * 100).toFixed(0) + '% kept', true);
-    sec('Saving per year');
-    row('Living costs', -h.living, inputs.adjustLiving ? 'price level ' + Math.round(Engine.priceLevel(r.country, inputs)) : '');
-    row('Left over', leftover, h.net < inputs.living ? '<span class="warn">does not cover living costs</span>' : '', true);
-    row('Invested in the ETF', s.monthly * 12, eur.format(Math.round(s.monthly)) + ' a month' + (s.capped ? ' <span class="warn" title="Less than the planned amount">⚠</span>' : ''));
-    if (routes) row('Given up for pension and company investing', h.routeCost, h.routeCost > 0.5 ? 'net income these routes cost' : '');
-    row('Not invested', s.surplusLeft);
-    sec(`Investing over ${inputs.years} years`);
-    row('Paid in' + (inputs.startCapital > 0 ? ' (including starting capital)' : ''), last.contributed, s.wrapper ? 'uses ' + esc(s.wrapper) : '');
-    if (routes) row('Added by the company from untaxed profit', last.companyExtra, last.companyExtra > 0.5 ? 'taxed later, at payout' : '');
-    row('Investment growth', growth, inputs.returnPct + '% a year');
-    row('Investment taxes along the way', -last.taxesSoFar, of(last.taxesSoFar, growth, 'growth'));
-    row('Tax when everything is sold', -last.exitTax, of(last.exitTax, growth, 'growth'));
-    row(`Wealth after ${inputs.years} years`, last.net, '', true);
+    row(L('cChildBenefit'), h.childBenefit);
+    row(L('cNet'), h.net, L('cKept', { p: (h.keptShare * 100).toFixed(0) }), true);
+    sec(L('cSaving'));
+    row(L('cLiving'), -h.living, inputs.adjustLiving ? L('cPriceLevel', { n: Math.round(Engine.priceLevel(r.country, inputs)) }) : '');
+    row(L('cLeftOver'), leftover, h.net < h.living ? `<span class="warn">${L('cNotCovered')}</span>` : '', true);
+    row(L('cInvestedEtf'), s.monthly * 12, L('cPerMonth', { amount: eur.format(Math.round(s.monthly)) }) + (s.capped ? ` <span class="warn" title="${L('cLessThanPlanned')}">⚠</span>` : ''));
+    if (routes) row(L('cGivenUp'), h.routeCost, h.routeCost > 0.5 ? L('cGivenUpNote') : '');
+    row(L('cNotInvested'), s.surplusLeft);
+    sec(L('cInvesting', { years: inputs.years }));
+    row(L(inputs.startCapital > 0 ? 'cPaidInStart' : 'cPaidIn'), last.contributed, s.wrapper ? L('cUses', { name: s.wrapper }) : '');
+    if (routes) row(L('cCompanyExtra'), last.companyExtra, last.companyExtra > 0.5 ? L('cTaxedLater') : '');
+    row(L('cGrowth'), growth, L('cGrowthNote', { p: inputs.returnPct }));
+    row(L('cTaxesAlong'), -last.taxesSoFar, of(last.taxesSoFar, growth, 'Growth'));
+    row(L('cExitTax'), -last.exitTax, of(last.exitTax, growth, 'Growth'));
+    row(L('cWealth', { years: inputs.years }), last.net, '', true);
     if (routes) {
-      row('of which company pension, after tax', last.pensionNet);
-      row('of which company portfolio, after tax', last.companyNet);
+      row(L('cOfPension'), last.pensionNet);
+      row(L('cOfCompany'), last.companyNet);
     }
     return rows;
   }
@@ -1623,17 +3070,17 @@
     const has = code => results.some(r => r.country.code === code);
     if (!has(calcCode)) calcCode = results[0].country.code;
     if (!has(calcCode2) || calcCode2 === calcCode && !saved.calcCode2) calcCode2 = (results.find(r => r.country.code !== calcCode) || results[0]).country.code;
-    const sorted = [...results].sort((a, b) => a.country.name.localeCompare(b.country.name));
-    const options = sel => sorted.map(r => `<option value="${r.country.code}" ${r.country.code === sel ? 'selected' : ''}>${r.country.flag} ${esc(r.country.name)}</option>`).join('');
+    const sorted = byName(results);
+    const options = sel => sorted.map(r => `<option value="${r.country.code}" ${r.country.code === sel ? 'selected' : ''}>${r.country.flag} ${esc(cname(r.country))}</option>`).join('');
     calcSel.innerHTML = options(calcCode); calcSel2.innerHTML = options(calcCode2);
     const r1 = results.find(x => x.country.code === calcCode), r2 = results.find(x => x.country.code === calcCode2);
     const A = calcRows(r1), B = calcRows(r2);
     const fmt = v => (v < -0.5 ? '−' : '') + eur.format(Math.abs(Math.round(v)));
     const signed = v => Math.abs(v) < 0.5 ? '–' : (v > 0 ? '+' : '−') + eur.format(Math.abs(Math.round(v)));
-    const name = r => `${r.country.flag} ${esc(r.country.name)}`;
+    const name = r => `${r.country.flag} ${esc(cname(r.country))}`;
     let n = 0;
     $('calc').innerHTML =
-      `<thead><tr><th></th><th>${name(r1)}</th><th></th><th>${name(r2)}</th><th></th><th title="Second country minus first country">Difference</th></tr></thead><tbody>` +
+      `<thead><tr><th></th><th>${name(r1)}</th><th></th><th>${name(r2)}</th><th></th><th title="${esc(t('differenceTip'))}">${esc(t('difference'))}</th></tr></thead><tbody>` +
       A.map((a, i) => {
         const b = B[i];
         if (a.sec) return `<tr class="sec"><td colspan="6">${++n}. ${a.label}</td></tr>`;
@@ -1641,7 +3088,7 @@
           `<td>${fmt(b.v)}</td><td class="pct">${b.note}</td><td class="diff">${signed(b.v - a.v)}</td></tr>`;
       }).join('') + '</tbody>';
     $('calcNotes').innerHTML = [r1, r2].filter((r, i) => i === 0 || r !== r1).map(r =>
-      `<div><h3>${name(r)}</h3><ul>${r.country.notes.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('');
+      `<div><h3>${name(r)}</h3><ul>${notesOf(r.country).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('');
   }
 
   form.addEventListener('input', update);

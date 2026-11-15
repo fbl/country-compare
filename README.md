@@ -4,6 +4,8 @@ Where in Europe would your family build the most wealth? This tool takes one hou
 
 **[Open the tool](https://fbl.github.io/country-compare/)** — nothing to install, and your numbers never leave your browser.
 
+Available in English, Nederlands, Français, Deutsch and Italiano: click a flag at the top of the form.
+
 <a href="https://fbl.github.io/country-compare/"><img src="screenshot.png" alt="The tool: household inputs on the left, countries ranked by wealth after 20 years on the right" width="800"></a>
 
 ## How to use it
@@ -49,6 +51,7 @@ No dependencies and no build step for normal use: open [index.html](index.html) 
 |---|---|
 | `index.html` | The page and its interface |
 | `taxdata.js` | The tax model for each country |
+| `lang/` | Interface text and country notes, one file per language |
 | `engine.js` | The household and investment calculation |
 | `check.js` | A command-line sanity check: `node check.js` |
 | `build.js` | Packs everything into `country-compare.html`: `node build.js` |
